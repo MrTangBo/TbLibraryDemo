@@ -1,0 +1,2 @@
+include ':app', ':tblibrary'
+rootProject.name='TbLibraryDemo'
