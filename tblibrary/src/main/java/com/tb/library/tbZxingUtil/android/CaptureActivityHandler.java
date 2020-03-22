@@ -16,6 +16,7 @@
 
 package com.tb.library.tbZxingUtil.android;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;

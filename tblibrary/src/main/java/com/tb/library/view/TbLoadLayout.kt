@@ -103,7 +103,7 @@ class TbLoadLayout @JvmOverloads constructor(
                 addView(mBindEmpty.root)
             }
             ERROR -> {
-                if (mBindEmpty.root in this) return
+                if (mBindError.root in this) return
                 addView(mBindError.root)
             }
             NO_INTERNET -> {

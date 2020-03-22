@@ -40,19 +40,18 @@ import java.util.*
  * @Author: TangBo
  */
 
+
 //常规的加载
-@BindingAdapter(value = ["imgUrl", "imgScaleType", "imgIsCache"], requireAll = false)
+@BindingAdapter("imgUrl", "imgScaleType", "imgIsCache")
 fun ImageView.showImage(
-    imageUrl: String?,
-    scaleType: ImageView.ScaleType? = ImageView.ScaleType.CENTER_CROP,
-    isCache: Boolean? = true//是否启用缓存
+    imageUrl: String,
+    scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_CROP,
+    isCache: Boolean = true//是否启用缓存
 ) {
-    imageUrl?.let {
-        if (isCache!!) {
-            GlideUtil.getInstance().showImage(this.context, imageUrl, this, scaleType!!)
-        } else {
-            GlideUtil.getInstance().showImage(this.context, imageUrl, this, scaleType!!, false)
-        }
+    if (isCache) {
+        GlideUtil.getInstance().showImage(this.context, imageUrl, this, scaleType)
+    } else {
+        GlideUtil.getInstance().showImage(this.context, imageUrl, this, scaleType, false)
     }
 }
 

@@ -1,9 +1,9 @@
 package com.tb.library.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+
 import com.makeramen.roundedimageview.RoundedImageView;
 
 /**
@@ -11,7 +11,6 @@ import com.makeramen.roundedimageview.RoundedImageView;
  * 时间：2018-06-20
  * 描述：android图片宽度充满高度自适应
  */
-@SuppressLint("AppCompatCustomView")
 public class ResizableImageView extends RoundedImageView {
 
     public ResizableImageView(Context context) {
