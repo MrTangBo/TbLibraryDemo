@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--VerticalScroll属性-->
+    <declare-styleable name="VerticalScrollTextView">
+        <attr name="vst_sleepTime" format="integer" />
+        <attr name="vst_animDuration" format="integer" />
+        <attr name="vst_textSize" format="dimension" />
+        <attr name="vst_textColor" format="color" />
+        <attr name="vst_singleLine" format="boolean" />
+        <attr name="vst_scrollOrientation">
+            <enum name="up" value="0" />
+            <enum name="down" value="1" />
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="VerticalScrollLayout">
+        <attr name="vsl_animDuration" format="integer" />
+        <attr name="vsl_sleepTime" format="integer" />
+        <attr name="vsl_isCusDuration" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="TextSwitcherView">
+        <attr name="tsv_textColor" format="color"/>
+        <attr name="tsv_textSize" format="dimension"/>
+    </declare-styleable>
+
+    <!--ArcView,ArcImageView属性-->
+    <attr name="arcHeight" format="dimension" />
+    <attr name="arcOrientation" format="string" />
+    <declare-styleable name="ArcView">
+        <attr name="arcHeight" />
+        <attr name="bgColor" format="color" />
+        <attr name="arcOrientation" />
+    </declare-styleable>
+
+    <declare-styleable name="ArcImageView">
+        <attr name="arcHeight" />
+        <attr name="arcOrientation" />
+    </declare-styleable>
+
+</resources>

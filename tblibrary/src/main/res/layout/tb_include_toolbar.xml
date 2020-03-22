@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tb_toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:minHeight="@dimen/toolbarHeight"
+    app:contentInsetStart="0dp"
+    app:contentInsetStartWithNavigation="0dp"
+    app:layout_collapseMode="pin">
+
+    <FrameLayout
+        android:id="@+id/tb_toolbar_f"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbarHeight"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center_vertical"
+            tools:ignore="UselessParent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/backIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:background="?android:attr/selectableItemBackground"
+                app:srcCompat="@drawable/tb_back_white" />
+
+            <TextView
+                android:id="@+id/tb_toolbar_left_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/x50"
+                android:layout_toEndOf="@+id/backIcon"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/tb_text26" />
+
+            <TextView
+                android:id="@+id/tb_toolbar_center_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:maxWidth="@dimen/x300"
+                android:singleLine="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/toolbarCenterTextSize"
+                tools:ignore="RelativeOverlap" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/right_Linear"
+                android:layout_toEndOf="@+id/backIcon"
+                android:clipChildren="false"
+                android:clipToPadding="false">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/tb_toolbar_searView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/x70"
+                    android:layout_gravity="end"
+                    android:visibility="gone" />
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:id="@+id/right_Linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/x15"
+                android:gravity="center"
+                android:minHeight="@dimen/toolbarHeight"
+                android:orientation="horizontal" />
+
+        </RelativeLayout>
+    </FrameLayout>
+
+
+</androidx.appcompat.widget.Toolbar>

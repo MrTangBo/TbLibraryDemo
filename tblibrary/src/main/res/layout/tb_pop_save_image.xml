@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.flyco.roundview.RoundLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/line_vertical"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="@dimen/x15"
+        android:showDividers="middle"
+        app:rv_strokeColor="@color/line_background"
+        app:rv_strokeWidth="@dimen/x1"
+        app:rv_backgroundColor="@color/white"
+        app:rv_cornerRadius="@dimen/x10">
+
+        <TextView
+            android:id="@+id/saveImage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x88"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/x30"
+            android:paddingEnd="@dimen/x30"
+            android:text="@string/save_img"
+            android:textColor="@color/tb_text_black"
+            android:textSize="@dimen/tb_text28" />
+
+        <TextView
+            android:id="@+id/readRQCode"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x88"
+            android:gravity="center_vertical"
+            android:paddingStart="@dimen/x30"
+            android:paddingEnd="@dimen/x30"
+            android:text="@string/read_QR_code"
+            android:textColor="@color/tb_text_black"
+            android:textSize="@dimen/tb_text28" />
+    </com.flyco.roundview.RoundLinearLayout>
+
+
+</layout>

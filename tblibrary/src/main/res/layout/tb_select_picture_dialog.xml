@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|bottom"
+        android:orientation="vertical">
+
+
+        <com.flyco.roundview.RoundLinearLayout
+            android:layout_width="@dimen/x680"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/line_vertical"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:showDividers="middle"
+            app:rv_backgroundColor="@color/white"
+            app:rv_cornerRadius="@dimen/x20">
+
+            <TextView
+                android:id="@+id/openGallery"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:gravity="center"
+                android:text="@string/tb_gallery"
+                android:textColor="@color/tb_text_black"
+                android:textSize="@dimen/x28" />
+
+            <TextView
+                android:id="@+id/openTakePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/x88"
+                android:gravity="center"
+                android:text="@string/tb_take_photo"
+                android:textColor="@color/tb_text_black"
+                android:textSize="@dimen/x28" />
+
+        </com.flyco.roundview.RoundLinearLayout>
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/cancel"
+            android:layout_width="@dimen/x680"
+            android:layout_height="@dimen/x88"
+            android:layout_marginTop="@dimen/x50"
+            android:layout_marginBottom="@dimen/x50"
+            android:gravity="center"
+            android:text="@string/tb_cancel"
+            android:textColor="@color/tb_text_black"
+            android:textSize="@dimen/x28"
+            app:rv_backgroundColor="@color/white"
+            app:rv_cornerRadius="@dimen/x20" />
+
+    </LinearLayout>
+
+
+</layout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="tb_transparent">#00000000</color>
+    <color name="tb_transparent_half">#50000000</color>
+    <color name="tb_white">#ffffff</color>
+    <color name="tb_black">#000000</color>
+    <color name="tb_text_black">#333333</color>
+    <color name="tb_text_dark">#999999</color>
+    <color name="line_background">#F0F0F0</color>
+    <color name="orange">#FC6701</color>
+
+    <color name="tb_green">#14AB82</color>
+
+
+    <!--zxing-->
+    <color name="contents_text">#000000</color>
+    <color name="encode_view">#ffffff</color>
+    <color name="possible_result_points">#ffbd21</color>
+    <color name="result_minor_text">#c0c0c0</color>
+    <color name="result_points">#99cc00</color>
+    <color name="result_text">#ffffff</color>
+    <color name="result_view">#000000</color>
+    <color name="status_text">#ffffff</color>
+    <color name="viewfinder_mask">#50000000</color>
+    <color name="react">#ffffff</color>
+    <color name="scanLineColor">#ffffff</color>
+    <color name="defaultColor">#ffffff</color>
+
+
+</resources>

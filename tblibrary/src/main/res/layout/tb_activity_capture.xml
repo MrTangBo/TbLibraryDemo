@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- 整体透明画布 -->
+    <SurfaceView
+        android:id="@+id/preview_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbarHeight"
+            android:layout_gravity="top"
+            android:background="#99000000">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/backIv"
+                android:layout_width="@dimen/x98"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:padding="@dimen/x25"
+                app:srcCompat="@drawable/tb_back_white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="扫一扫"
+                android:textColor="@color/tb_white"
+                android:textSize="@dimen/toolbarCenterTextSize" />
+
+
+        </RelativeLayout>
+
+
+        <!-- 扫描取景框 -->
+        <com.tb.mvvm_library.tbZxingUtil.view.ViewfinderView
+            android:id="@+id/viewfinder_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+
+        <LinearLayout
+            android:id="@+id/bottomLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x160"
+            android:layout_gravity="bottom"
+            android:background="#99000000"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/flashLightLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/flashLightIv"
+                    android:layout_width="@dimen/x72"
+                    android:layout_height="@dimen/x72"
+                    app:srcCompat="@drawable/zx_icon_close" />
+
+                <TextView
+                    android:id="@+id/flashLightTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x10"
+                    android:gravity="center"
+                    android:text="打开闪光灯"
+                    android:textColor="#ffffff" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/albumLayout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/albumIv"
+                    android:layout_width="@dimen/x72"
+                    android:layout_height="@dimen/x72"
+                    android:tint="#ffffffff"
+                    app:srcCompat="@drawable/zx_icon_photo" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/x10"
+                    android:gravity="center"
+                    android:text="图库"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>
