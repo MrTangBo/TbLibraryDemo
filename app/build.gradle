@@ -38,6 +38,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    applicationVariants.all {
+        variant ->
+            variant.outputs.all {
+                def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
+                if (variant.buildType.name == 'debug') {
+                    outputFileName = "taka_${date}_${versionName}.apk"
+                }
+                if (variant.buildType.name == 'release') {
+                    outputFileName = "taka_${date}_${versionName}.apk"
+                }
+            }
+    }
 }
 
 dependencies {

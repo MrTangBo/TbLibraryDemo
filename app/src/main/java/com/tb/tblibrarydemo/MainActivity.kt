@@ -2,6 +2,7 @@ package com.tb.tblibrarydemo
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.appbar.AppBarLayout
 import com.tb.library.tbExtend.*
 import com.tb.library.uiActivity.TbTitleBaseActivity
 import com.tb.tblibrarydemo.databinding.ActivityMainBinding
@@ -44,6 +45,27 @@ class MainActivity : TbTitleBaseActivity<TestMode>() {
         mBinding.url=imagList[0]
 
         mBanner.initBanner(imagList, isCanLoop = true)
+
+        mtBN.setTitle(
+            arrayListOf("首页", "论坛", "订单", "消息", "我的"),
+            arrayListOf(
+                R.drawable.icon_close,
+                R.drawable.icon_close,
+                R.drawable.icon_close,
+                R.drawable.icon_close,
+                R.drawable.icon_close
+            ),
+            arrayListOf(
+                R.drawable.ic_delete_photo,
+                R.drawable.def_qq,
+                R.drawable.ic_delete_photo,
+                R.drawable.ic_delete_photo,
+                R.drawable.ic_delete_photo
+            )
+        )
+            .setBadgeNumSingle(3, 20, bgColor = R.color.colorAccent, moveUpListener = { badge, targetView ->
+            })
+
     }
 
     override fun <E> resultData(taskId: Int, info: E) {

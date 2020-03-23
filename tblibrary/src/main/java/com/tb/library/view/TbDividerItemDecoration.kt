@@ -181,9 +181,7 @@ class TbDividerItemDecoration : RecyclerView.ItemDecoration {
                 mDrawable!!.setBounds(x, y, width, height)
                 mDrawable!!.draw(canvas)
             }
-            if (mPaint != null) {
-                canvas.drawRect(x.toFloat(), y.toFloat(), width.toFloat(), height.toFloat(), mPaint)
-            }
+            canvas.drawRect(x.toFloat(), y.toFloat(), width.toFloat(), height.toFloat(), mPaint)
         }
     }
 
@@ -206,15 +204,13 @@ class TbDividerItemDecoration : RecyclerView.ItemDecoration {
                 mDrawable!!.setBounds(left, top, right, bottom)
                 mDrawable!!.draw(canvas)
             }
-            if (mPaint != null) {
-                canvas.drawRect(
-                    left.toFloat(),
-                    top.toFloat(),
-                    right.toFloat(),
-                    bottom.toFloat(),
-                    mPaint
-                )
-            }
+            canvas.drawRect(
+                left.toFloat(),
+                top.toFloat(),
+                right.toFloat(),
+                bottom.toFloat(),
+                mPaint
+            )
         }
     }
 
@@ -278,16 +274,16 @@ class TbDividerItemDecoration : RecyclerView.ItemDecoration {
         parent: RecyclerView, pos: Int, spanCount: Int,
         childCount: Int
     ): Boolean {
-        var childCount = childCount
+        var mChildCount = childCount
         val orientation: Int
         val layoutManager = parent.layoutManager
         if (layoutManager is GridLayoutManager) {
-            childCount -= childCount % spanCount
+            mChildCount -= childCount % spanCount
             orientation = layoutManager
                 .orientation
             if (orientation == StaggeredGridLayoutManager.VERTICAL) {
                 // 如果是最后一行，则不需要绘制底部
-                childCount -= childCount % spanCount
+                mChildCount -= childCount % spanCount
                 if (pos >= childCount)
                     return true
             } else {// StaggeredGridLayoutManager 横向滚动
@@ -300,7 +296,7 @@ class TbDividerItemDecoration : RecyclerView.ItemDecoration {
                 .orientation
             if (orientation == StaggeredGridLayoutManager.VERTICAL) {
                 // 如果是最后一行，则不需要绘制底部
-                childCount -= childCount % spanCount
+                mChildCount -= childCount % spanCount
                 if (pos >= childCount)
                     return true
             } else {// StaggeredGridLayoutManager 横向滚动

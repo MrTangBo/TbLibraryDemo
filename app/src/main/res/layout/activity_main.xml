@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.widget.ImageView.ScaleType" />
 
         <variable
@@ -46,6 +47,12 @@
                         android:orientation="vertical"
                         tools:ignore="UseCompoundDrawables">
 
+
+                        <com.tb.library.view.TbBottomNavigation
+                            android:id="@+id/mtBN"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x98" />
+
                         <TextView
                             android:id="@+id/mTx"
                             android:layout_width="match_parent"
@@ -55,9 +62,7 @@
 
                         <ImageView
                             android:id="@+id/mImg"
-                            app:imgIsCache="@{true}"
-                            app:imgScaleType="@{ScaleType.CENTER_CROP}"
-                            app:imgUrl="@{url}"
+                            url="@{url}"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/x250" />
 

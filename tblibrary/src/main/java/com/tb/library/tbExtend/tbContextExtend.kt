@@ -63,7 +63,6 @@ fun Any.tbStartActivity(
     ).toBundle()
 ) {
     if (this !is Activity && (this !is Fragment)) {
-        tbShowToast("该Context不支持跳转")
         return
     }
     var currentActivity: Activity? = null
@@ -73,7 +72,6 @@ fun Any.tbStartActivity(
         currentActivity = this.activity!!
     }
     if (currentActivity == null) {
-        tbShowToast("该Activity不能为空")
         return
     }
 
@@ -157,19 +155,19 @@ fun Context.tbStatusBarInit(
 }
 
 /*申请权限*/
-fun Activity.tbRequestPermission(
+inline fun Activity.tbRequestPermission(
     permissionList: ArrayList<String>?,
-    permissionSuccess: TbOnClick = null,//获取权限
-    permissionFault: TbOnClick = null
+    crossinline permissionSuccess: TbOnClick = {},//获取权限
+    crossinline permissionFault: TbOnClick = {}
 ): Disposable? {
     if (permissionList == null) return null
     if (permissionList.isEmpty()) return null
     return RxPermissions(this).request(*permissionList.toTypedArray()).subscribe {
         if (it) {
-            permissionSuccess?.invoke()
+            permissionSuccess.invoke()
         } else {
-            tbShowToast("获取权限失败！")
-            permissionFault?.invoke()
+            tbShowToast(resources.getString(R.string.permissionFailed))
+            permissionFault.invoke()
         }
     }
 }
@@ -199,7 +197,7 @@ fun Activity.tbChangeDeskIcon(showActivityName: String, hideActivityName: String
 /*创建Activity桌面快捷图标*/
 fun Activity.tbCreateDeskIcon(name: String, icon: Int, activityClass: Class<*>) {
     if (!ShortcutManagerCompat.isRequestPinShortcutSupported(this)) {
-        tbShowToast("该设备不支持创建快捷方式！")
+        tbShowToast(resources.getString(R.string.noSupportDeskIcon))
         return
     }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -219,10 +217,10 @@ fun Activity.tbCreateDeskIcon(name: String, icon: Int, activityClass: Class<*>) 
             }
         }
         if (isCreate) {
-            tbShowToast("$name 快捷方式已存在！")
+            tbShowToast("$name ${resources.getString(R.string.deskIconExist)}")
         } else {
             if (list.size > 4) {
-                tbShowToast("最多支持4个快捷方式")
+                tbShowToast(resources.getString(R.string.maxIconExist))
                 return
             }
             if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
@@ -245,7 +243,7 @@ fun Activity.tbCreateDeskIcon(name: String, icon: Int, activityClass: Class<*>) 
         }
     } else {
         if (tbCheckShortCutExist(this, name)) {
-            tbShowToast("$name 快捷方式已存在！")
+            tbShowToast("$name ${resources.getString(R.string.deskIconExist)}")
             return
         }
         //创建快捷方式的intent广播

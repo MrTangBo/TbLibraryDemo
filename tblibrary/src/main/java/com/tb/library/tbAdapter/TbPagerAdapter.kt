@@ -17,8 +17,7 @@ import com.tb.library.util.FontUtil
  * @Author: TangBo
  */
 
- class TbPagerAdapter<T>(var dataList: List<T>, var context: Context) :
-    PagerAdapter() {
+ class TbPagerAdapter<T>(var dataList: List<T>, var context: Context) : PagerAdapter() {
 
     // 获取要滑动的控件的数量，在这里我们以滑动的广告栏为例，那么这里就应该是展示的广告图片的ImageView数量
     override fun getCount(): Int {

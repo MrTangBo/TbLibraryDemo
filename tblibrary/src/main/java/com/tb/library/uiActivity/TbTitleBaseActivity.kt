@@ -83,14 +83,14 @@ abstract class TbTitleBaseActivity<T : TbBaseModel> : TbBaseActivity<T>() {
         color: Int = R.color.tb_white,
         size: Int = R.dimen.tb_text28,
         style: Int = Typeface.NORMAL,
-        click: TbOnClick = null
+        click: TbOnClick = {}
     ) {
         mLeftTextView.text = title
         mLeftTextView.setTextColor(ContextCompat.getColor(mContext, color))
         mLeftTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, tbGetDimensValue(size).toFloat())
         mLeftTextView.typeface = Typeface.defaultFromStyle(style)
         mLeftTextView.setOnClickListener {
-            click?.invoke()
+            click.invoke()
         }
     }
 

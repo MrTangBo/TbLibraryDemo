@@ -42,17 +42,21 @@ import java.util.*
 
 
 //常规的加载
-@BindingAdapter("imgUrl", "imgScaleType", "imgIsCache")
+@BindingAdapter("url", "scaleType", "isCache", requireAll = false)
 fun ImageView.showImage(
     imageUrl: String,
-    scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_CROP,
-    isCache: Boolean = true//是否启用缓存
+    scaleType: ImageView.ScaleType? = null,
+    isCache: Boolean? = null//是否启用缓存
 ) {
-    if (isCache) {
-        GlideUtil.getInstance().showImage(this.context, imageUrl, this, scaleType)
-    } else {
-        GlideUtil.getInstance().showImage(this.context, imageUrl, this, scaleType, false)
+    var mScaleType = ImageView.ScaleType.CENTER_CROP
+    var mIsCache = true
+    if (scaleType != null) {
+        mScaleType = scaleType
     }
+    if (isCache != null) {
+        mIsCache = isCache
+    }
+    GlideUtil.getInstance().showImage(this.context, imageUrl, this, mScaleType, mIsCache)
 }
 
 
@@ -97,10 +101,10 @@ fun List<String>?.tbUpLoadImage(
 }
 
 //长按，通过zxing读取图片，判断是否有二维码
-fun ImageView?.tbImageLongPress(
+inline fun ImageView?.tbImageLongPress(
     activity: AppCompatActivity,
-    readQRCode: ((readStr: String) -> Unit)? = null,
-    clickImg: TbOnClick = null,
+    crossinline readQRCode: (readStr: String) -> Unit = { _ -> Unit },
+    crossinline clickImg: TbOnClick = {},
     imageUrl: String = ""
 ) {
     if (this == null) return
@@ -127,7 +131,7 @@ fun ImageView?.tbImageLongPress(
                                         }
                                     }
                                 }.start()
-                                tbShowToast("保存成功！")
+                                tbShowToast(TbApplication.mApplicationContext.resources.getString(R.string.saveSuccess))
                                 pop.dismiss()
                             }
                         )
@@ -140,7 +144,7 @@ fun ImageView?.tbImageLongPress(
                 } else {
                     bind.readRQCode.visibility = View.VISIBLE
                     bind.readRQCode.setOnClickListener {
-                        readQRCode?.invoke(re.text)
+                        readQRCode.invoke(re.text)
                         pop.dismiss()
                     }
                 }
@@ -152,7 +156,7 @@ fun ImageView?.tbImageLongPress(
 
             /*单击*/
             override fun onSingleTapUp(e: MotionEvent?): Boolean {
-                clickImg?.invoke()
+                clickImg.invoke()
                 return super.onSingleTapUp(e)
             }
         })

@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="扫一扫"
+                android:text="@string/zxSaoQRCode"
                 android:textColor="@color/tb_white"
                 android:textSize="@dimen/toolbarCenterTextSize" />
 
@@ -43,7 +43,7 @@
 
 
         <!-- 扫描取景框 -->
-        <com.tb.mvvm_library.tbZxingUtil.view.ViewfinderView
+        <com.tb.library.tbZxingUtil.view.ViewfinderView
             android:id="@+id/viewfinder_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x10"
                     android:gravity="center"
-                    android:text="打开闪光灯"
+                    android:text="@string/zxOpenLight"
                     android:textColor="#ffffff" />
 
             </LinearLayout>
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/x10"
                     android:gravity="center"
-                    android:text="图库"
+                    android:text="@string/zxGallery"
                     android:textColor="@color/white" />
             </LinearLayout>
 

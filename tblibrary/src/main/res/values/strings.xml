@@ -30,5 +30,21 @@
     <string name="save_img">保存图片</string>
     <string name="read_QR_code">识别二维码</string>
 
+    <string name="arrayOut">数组越界了</string>
+    <string name="zxSaoQRCode">扫一扫</string>
+    <string name="zxOpenLight">打开闪光灯</string>
+    <string name="zxGallery">图库</string>
+
+    <string name="skip">跳过</string>
+
+    <string name="permissionFailed">获取权限失败</string>
+
+    <string name="noSupportDeskIcon">该设备不支持创建快捷方式！</string>
+    <string name="deskIconExist">快捷方式已存在！</string>
+    <string name="maxIconExist">最多支持4个快捷方式！</string>
+
+
+    <string name="saveSuccess">保存成功！</string>
+    <string name="search">搜索！</string>
 
 </resources>

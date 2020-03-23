@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/leftIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_close" />
+
+        <TextView
+            android:id="@+id/leftTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/x20"
+            android:layout_marginEnd="@dimen/x50"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="left"
+            android:textColor="@color/tb_text_black"
+            android:textSize="@dimen/tb_text26"
+            app:layout_constraintBottom_toBottomOf="@+id/leftIcon"
+            app:layout_constraintEnd_toStartOf="@+id/rightTx"
+            app:layout_constraintStart_toEndOf="@+id/leftIcon"
+            app:layout_constraintTop_toTopOf="@+id/leftIcon" />
+
+        <TextView
+            android:id="@+id/rightTx"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:paddingEnd="@dimen/x60"
+            android:singleLine="true"
+            android:text="right"
+            android:textColor="@color/tb_text_dark"
+            android:textSize="@dimen/tb_text26"
+            app:layout_constraintBottom_toBottomOf="@+id/leftIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toEndOf="@+id/leftTx"
+            app:layout_constraintTop_toTopOf="@+id/leftIcon" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/rightIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/x20"
+            app:layout_constraintBottom_toBottomOf="@+id/leftIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1"
+            app:layout_constraintStart_toEndOf="@id/rightTx"
+            app:layout_constraintTop_toTopOf="@+id/leftIcon"
+            app:srcCompat="@drawable/icon_next_dark" />
+
+        <View
+            android:id="@+id/bottomLine"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/x1"
+            android:layout_alignParentBottom="true"
+            android:background="@color/line_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+

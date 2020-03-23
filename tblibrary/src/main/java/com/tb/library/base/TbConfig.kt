@@ -102,7 +102,7 @@ class TbConfig {
         loggingInterceptor.level = loggingLevel
         okHttpClientBuilder.addNetworkInterceptor(loggingInterceptor)
         //信任所有服务器地址
-        okHttpClientBuilder.hostnameVerifier { p0, p1 ->
+        okHttpClientBuilder.hostnameVerifier { _, _ ->
             return@hostnameVerifier isHostnameVerifier
         }
         /*添加头部*/

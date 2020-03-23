@@ -26,7 +26,7 @@ class TbPageFragmentAdapter : FragmentPagerAdapter {
         fm: FragmentManager,
         fragmentList: List<Fragment>,
         titles: Array<String>
-    ) : super(fm) {
+    ) : super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
         this.fragmentList = fragmentList
         this.titles = titles
     }

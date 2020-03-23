@@ -26,8 +26,8 @@ class DeleteImageView : RoundRelativeLayout {
         init()
     }
 
-    private var deleteClick: TbOnClick = null
-    private var imgClick: TbOnClick = null
+    private var deleteClick: TbOnClick = {}
+    private var imgClick: TbOnClick = {}
 
     private fun init() {
         val layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
@@ -36,7 +36,7 @@ class DeleteImageView : RoundRelativeLayout {
         image.scaleType = ImageView.ScaleType.CENTER_CROP
         addView(image, layoutParams)
         image.setOnClickListener {
-            imgClick?.invoke()
+            imgClick.invoke()
         }
         val layoutParamsDelete = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
         layoutParamsDelete.addRule(RelativeLayout.ALIGN_PARENT_END)
@@ -44,13 +44,13 @@ class DeleteImageView : RoundRelativeLayout {
         val imageDelete = AppCompatImageView(context)
         imageDelete.setImageResource(R.drawable.icon_close)
         imageDelete.setOnClickListener {
-            deleteClick?.invoke()
+            deleteClick.invoke()
         }
         addView(imageDelete, layoutParamsDelete)
     }
 
 
-    fun setClick(deleteClick: TbOnClick = null, imgClick: TbOnClick = null) {
+    fun setClick(deleteClick: TbOnClick = {}, imgClick: TbOnClick = {}) {
         this.deleteClick = deleteClick
         this.imgClick = imgClick
     }
@@ -81,7 +81,10 @@ class DeleteImageView : RoundRelativeLayout {
         return this
     }
 
-    fun setImgResId(resId: Int, scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_CROP): DeleteImageView {
+    fun setImgResId(
+        resId: Int,
+        scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_CROP
+    ): DeleteImageView {
         val image: RoundedImageView = getChildAt(0) as RoundedImageView
         image.scaleType = scaleType
         image.setImageResource(resId)

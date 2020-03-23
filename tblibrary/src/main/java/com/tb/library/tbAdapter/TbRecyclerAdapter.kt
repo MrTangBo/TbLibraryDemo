@@ -16,10 +16,10 @@ import com.tb.library.util.FontUtil
  * @Author: TangBo
  */
 
-abstract class TbRecyclerAdapter(var listData: ArrayList<*>, @LayoutRes var layoutId: Int ) :
+abstract class TbRecyclerAdapter(var listData: ArrayList<*>, @LayoutRes var layoutId: Int) :
     RecyclerView.Adapter<TbRecyclerAdapter.MyHolder>() {
 
-    var tbItemClick: TbItemClick = null//item点击事件
+    var tbItemClick:  TbItemClick = { _ -> Unit }//item点击事件
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
         val itemBing: ViewDataBinding =

@@ -39,9 +39,5 @@ class ArcImageView @JvmOverloads constructor(context: Context, attrs: AttributeS
         super.onDraw(canvas)
     }
 
-    companion object {
-        private val TAG = "ArcImageView"
-    }
-
 }
 

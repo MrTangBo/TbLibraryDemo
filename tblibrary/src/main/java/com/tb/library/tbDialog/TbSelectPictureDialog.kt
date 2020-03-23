@@ -15,8 +15,8 @@ import com.tb.library.tbExtend.TbOnClick
 open class TbSelectPictureDialog : TbBaseDialog() {
 
     var binding: TbSelectPictureDialogBinding? = null
-    var pictureClick: TbOnClick = null
-    var takePhotoClick: TbOnClick = null
+    var pictureClick: TbOnClick = {}
+    var takePhotoClick: TbOnClick = {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setMyStyle(R.style.tbSelectPictureStyle)
@@ -29,11 +29,11 @@ open class TbSelectPictureDialog : TbBaseDialog() {
         super.onViewCreated(view, savedInstanceState)
         binding = dialogBing as TbSelectPictureDialogBinding
         binding?.openGallery?.setOnClickListener {
-            pictureClick?.invoke()
+            pictureClick.invoke()
             dismiss()
         }
         binding?.openTakePhoto?.setOnClickListener {
-            takePhotoClick?.invoke()
+            takePhotoClick.invoke()
             dismiss()
         }
         binding?.cancel?.setOnClickListener {

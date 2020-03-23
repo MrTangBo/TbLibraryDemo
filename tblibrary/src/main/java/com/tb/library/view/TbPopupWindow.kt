@@ -30,7 +30,7 @@ class TbPopupWindow(
     isFocusable: Boolean = true,
     isTouchable: Boolean = true,
     isOutsideTouchable: Boolean = true,
-    dismissListener: TbOnClick = null,
+    dismissListener: TbOnClick = {},
     animatorStyle: Int = 0
 ) : PopupWindow() {
     private var parms: WindowManager.LayoutParams? = null
@@ -60,9 +60,9 @@ class TbPopupWindow(
         setOnDismissListener {
             parms?.alpha = 1.0f
             mActivity.window.attributes = parms
-            dismissListener?.invoke()
+            dismissListener.invoke()
         }
-        setTouchInterceptor { view, motionEvent ->
+        setTouchInterceptor { _, motionEvent ->
             if (!isOutsideTouchable()) {
                 contentView?.dispatchTouchEvent(motionEvent)
             }

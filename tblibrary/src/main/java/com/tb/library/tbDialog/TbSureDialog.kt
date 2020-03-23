@@ -26,8 +26,8 @@ open class TbSureDialog(
         setWidth(tbGetDimensValue(R.dimen.x600))
     }
 
-    var sureClick: TbOnClick = null
-    var cancelClick: TbOnClick = null
+    var sureClick: TbOnClick = {}
+    var cancelClick: TbOnClick = {}
 
     var binding: TbSureDialogBinding? = null
 
@@ -37,11 +37,11 @@ open class TbSureDialog(
         super.onViewCreated(view, savedInstanceState)
         binding = dialogBing as TbSureDialogBinding
         binding?.sure?.setOnClickListener {
-            sureClick?.invoke()
+            sureClick.invoke()
             dismiss()
         }
         binding?.cancel?.setOnClickListener {
-            cancelClick?.invoke()
+            cancelClick.invoke()
             dismiss()
         }
     }

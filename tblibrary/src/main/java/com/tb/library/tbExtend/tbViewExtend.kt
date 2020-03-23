@@ -52,6 +52,7 @@ import com.tb.library.util.TbLogUtils
 import com.tb.library.view.*
 import q.rorbin.badgeview.Badge
 import q.rorbin.badgeview.QBadgeView
+import kotlin.math.abs
 
 /**
  * @CreateDate: 2020/3/7 5:30
@@ -70,22 +71,27 @@ fun ConvenientBanner<*>.initBanner(
     @DrawableRes indicator: Int = R.drawable.tb_back_white,
     @DrawableRes indicatorFocus: Int = R.drawable.icon_search_dark,
     align: ConvenientBanner.PageIndicatorAlign = ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL,
-    itemClick: TbItemClick = null,
-    onPageSelected: TbItemClick = null,
-    onScrolled: TbOnScrolled = null,
-    onScrollStateChanged: TbOnScrollStateChanged = null,
+    itemClick: TbItemClick = { _ -> Unit },
+    onPageSelected: TbItemClick = { _ -> Unit },
+    onScrolled: TbOnScrolled = { _, _, _ -> Unit },
+    onScrollStateChanged: TbOnScrollStateChanged = { _, _ -> Unit },
     indicatorMarginRect: Rect? = null,//
     itemMarginRect: Rect = Rect(tbGetDimensValue(R.dimen.x20), 0, tbGetDimensValue(R.dimen.x20), 0),
     circleSizeRect: Rect = Rect(0, 0, 0, 0),
-    itemBinding: ((binding: ViewDataBinding, data:Any) -> Unit)? = null
+    itemBinding: ((binding: ViewDataBinding, data: Any) -> Unit)? = null
 ): ConvenientBanner<*> {
 
     var mNewState = -999
 
     (this as ConvenientBanner<Any>).setPages(object : CBViewHolderCreator {
         override fun createHolder(itemView: View?): TbBannerHolderView<Any> {
-            return TbBannerHolderView(itemView, circleSizeRect, itemMarginRect, scaleType){binding, data ->
-                itemBinding?.invoke(binding,data)
+            return TbBannerHolderView(
+                itemView,
+                circleSizeRect,
+                itemMarginRect,
+                scaleType
+            ) { binding, data ->
+                itemBinding?.invoke(binding, data)
             }
         }
 
@@ -98,22 +104,22 @@ fun ConvenientBanner<*>.initBanner(
         .setPageIndicatorAlign(align)
         .setOnPageChangeListener(object : OnPageChangeListener {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                onScrolled?.invoke(recyclerView, dx, dy)
+                onScrolled.invoke(recyclerView, dx, dy)
             }
 
             override fun onPageSelected(index: Int) {
                 if (mNewState == 0) {
-                    onPageSelected?.invoke(index)
+                    onPageSelected.invoke(index)
                 }
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 mNewState = newState
-                onScrollStateChanged?.invoke(recyclerView, newState)
+                onScrollStateChanged.invoke(recyclerView, newState)
             }
         })
         .setOnItemClickListener {
-            itemClick?.invoke(it)
+            itemClick.invoke(it)
         }.startTurning(autoTime).isCanLoop = isCanLoop
 
     /*设置指示器的边距*/
@@ -137,12 +143,12 @@ fun ConvenientBanner<*>.initBanner(
 
 
 /*RecyclerView初始化*/
-fun RecyclerView?.init(
+inline fun RecyclerView?.init(
     adapter: TbRecyclerAdapter?,
     mLayoutManager: Class<*> = LinearLayoutManager::class.java,
     mSpanCount: Int = 2,
-    itemClick: TbItemClick = null,
-    scrollYListener: ((scrollY: Int, isTopDirection: Boolean) -> Unit)? = null,//isTop代表是否上滑
+    noinline itemClick: TbItemClick = { _ -> Unit },
+    crossinline scrollYListener: (scrollY: Int, isTopDirection: Boolean) -> Unit = { _, _ -> Boolean },//isTop代表是否上滑
     reverseLayout: Boolean = false,//是否倒叙
     orientation: Int = RecyclerView.VERTICAL,
     dividerOrientation: Int = TbConfig.HORIZONTAL_LIST,//分割线的样式
@@ -157,7 +163,6 @@ fun RecyclerView?.init(
         return b
     }
     if (adapter == null) {
-        tbShowToast("适配器不能为空！")
         return b
     }
     var scrollY = 0
@@ -165,7 +170,7 @@ fun RecyclerView?.init(
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             scrollY += dy
-            scrollYListener?.invoke(scrollY, dy > 0)
+            scrollYListener.invoke(scrollY, dy > 0)
         }
 
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -245,7 +250,7 @@ fun RecyclerView?.init(
 
 
 /*系统TabLayout*/
-fun TabLayout.init(
+inline fun TabLayout.init(
     context: Context,
     titles: ArrayList<CharSequence>,
     selectColor: Int = R.color.tb_green,
@@ -255,7 +260,7 @@ fun TabLayout.init(
     selectItemBg: Int = R.color.transparent,
     unSelectItemBg: Int = R.color.transparent,
     itemPadding: Rect = Rect(),
-    mOnTabSelected: TbItemClick = null,
+    crossinline mOnTabSelected: TbItemClick = { _ -> Unit },
     icons: ArrayList<Int>? = null,
     mDrawablePadding: Int = R.dimen.x5,
     iconGravity: Int = Gravity.BOTTOM,
@@ -322,7 +327,7 @@ fun TabLayout.init(
         override fun onTabSelected(p0: TabLayout.Tab?) {
             p0?.let {
                 viewPager?.currentItem = it.position
-                mOnTabSelected?.invoke(it.position)
+                mOnTabSelected.invoke(it.position)
                 it.customView.let { view ->
                     view as TextView
                     view.setTextSize(
@@ -339,14 +344,14 @@ fun TabLayout.init(
 }
 
 /*ViewPager监听*/
-fun ViewPager.tbOnPageListener(
-    onPageSelected: TbItemClick = null,
-    onPageScrolled: TbOnPageScrolled = null,
-    onPageScrollStateChanged: TbOnPageScrollStateChanged = null
+inline fun ViewPager.tbOnPageListener(
+    crossinline onPageSelected: TbItemClick = { _ -> Unit },
+    crossinline onPageScrolled: TbOnPageScrolled = { _, _, _ -> Unit },
+    crossinline onPageScrollStateChanged: TbOnPageScrollStateChanged = { _ -> Unit }
 ) {
     this.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
         override fun onPageScrollStateChanged(state: Int) {
-            onPageScrollStateChanged?.invoke(state)
+            onPageScrollStateChanged.invoke(state)
         }
 
         override fun onPageScrolled(
@@ -354,19 +359,31 @@ fun ViewPager.tbOnPageListener(
             positionOffset: Float,
             positionOffsetPixels: Int
         ) {
-            onPageScrolled?.invoke(position, positionOffset, positionOffsetPixels)
+            onPageScrolled.invoke(position, positionOffset, positionOffsetPixels)
         }
 
         override fun onPageSelected(position: Int) {
-            onPageSelected?.invoke(position)
+            onPageSelected.invoke(position)
         }
     })
+}
+
+inline fun ViewPager.doPageSelected(crossinline onPageSelected: TbItemClick) {
+    tbOnPageListener(onPageSelected = onPageSelected)
+}
+
+inline fun ViewPager.doPageScrolled(crossinline PageScrolled: TbOnPageScrolled) {
+    tbOnPageListener(onPageScrolled = PageScrolled)
+}
+
+inline fun ViewPager.doPageScrollStateChanged(crossinline onPageScrollStateChanged: TbOnPageScrollStateChanged) {
+    tbOnPageListener(onPageScrollStateChanged = onPageScrollStateChanged)
 }
 
 /*初始化SearchView*/
 fun SearchView.init(
     textColor: Int = R.color.tb_text_black,
-    textHitStr: CharSequence = "搜索",
+    textHitStr: CharSequence = context.resources.getString(R.string.search),
     textHitColor: Int = R.color.tb_text_dark,
     isExpand: Boolean = true,
     getViews: ((mSearchButton: ImageView, mCloseButton: ImageView, mCollapsedButton: ImageView, mSearchAutoComplete: SearchView.SearchAutoComplete) -> Unit)? = null,
@@ -378,9 +395,9 @@ fun SearchView.init(
     @DrawableRes mCollapsedIcon: Int = R.drawable.icon_search_dark,
     isClick: Boolean = false,
     isFocus: Boolean = false,//是否自动
-    onSearchClick: TbOnClick = null,
-    onExpand: TbOnClick = null,
-    closeListener: TbOnClick = null,
+    onSearchClick: TbOnClick = { },
+    onExpand: TbOnClick = { },
+    closeListener: TbOnClick = { },
     onQueryChange: ((str: String) -> Unit)? = null,//内容变化监听
     onQuerySubmit: ((str: String) -> Unit)? = null//提交监听
 ) {
@@ -429,18 +446,18 @@ fun SearchView.init(
         mSearchAutoComplete.isFocusable = false
         mSearchAutoComplete.isFocusableInTouchMode = false
         mSearchAutoComplete.setOnClickListener {
-            onSearchClick?.invoke()
+            onSearchClick.invoke()
         }
     }
 
     //搜索图标按钮(打开搜索框的按钮)的点击事件
     setOnSearchClickListener {
-        onExpand?.invoke()
+        onExpand.invoke()
     }
 
     /*关闭的监听*/
     setOnCloseListener {
-        closeListener?.invoke()
+        closeListener.invoke()
         return@setOnCloseListener false
     }
 
@@ -523,11 +540,11 @@ fun NotificationManager.tbNotify(
 }
 
 /*设置数字标记*/
-fun View.tbShowBadgeNum(
+inline fun View.tbShowBadgeNum(
     num: Int = 0,
     bgColor: Int = R.color.tb_green,
     txColor: Int = R.color.white,
-    moveUpListener: ((badge: Badge, targetView: View) -> Unit)? = null,
+    crossinline moveUpListener: (badge: Badge, targetView: View) -> Unit = { _, _ -> Unit },
     padding: Int = tbGetDimensValue(R.dimen.x10),
     txSize: Int = tbGetDimensValue(R.dimen.x22),
     gravity: Int = Gravity.END or Gravity.TOP
@@ -539,24 +556,23 @@ fun View.tbShowBadgeNum(
         .setBadgeTextSize(txSize.toFloat(), false)
         .setBadgePadding(padding.toFloat(), false)
     bb.badgeNumber = num
-    if (moveUpListener != null) {
-        bb.setOnDragStateChangedListener { dragState, badge, targetView ->
-            if (dragState == Badge.OnDragStateChangedListener.STATE_SUCCEED) {
-                moveUpListener.invoke(badge, targetView)
-            }
+
+    bb.setOnDragStateChangedListener { dragState, badge, targetView ->
+        if (dragState == Badge.OnDragStateChangedListener.STATE_SUCCEED) {
+            moveUpListener.invoke(badge, targetView)
         }
     }
     return bb
 }
 
 /*AppBarLayout 根据制定的滑动高度得到比例因子,达到透明度的变化*/
-fun AppBarLayout.scrollScale(
+inline fun AppBarLayout.scrollScale(
     targetHeight: Float,
-    scaleValue: ((scaleValue: Float, scrollY: Int) -> Unit)
+    crossinline scaleValue: (scaleValue: Float, scrollY: Int) -> Unit = { _, _ -> Unit }
 ) {
     var scale = 0f
-    this.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { p0, p1 ->
-        scale = Math.abs(p1) / targetHeight
+    this.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, p1 ->
+        scale = abs(p1) / targetHeight
         if (scale > 1) {
             scale = 1f
         } else if (scale < 0) {
@@ -574,7 +590,7 @@ fun WebView.init(
     js2Android: Any? = null,//js调用android类对象
     js2AndroidNames: ArrayList<String> = arrayListOf(),//js调用android的方法名集合
     android2Js: String = "",//android调用Js传参
-    android2JsCallBack: TbOnClickInfo = null,//android调用Js回调
+    android2JsCallBack: TbOnClickInfo = { _ -> Unit },//android调用Js回调
     loadListener: WebViewListener? = null//android调用Js回调
 ) {
     val settings = settings

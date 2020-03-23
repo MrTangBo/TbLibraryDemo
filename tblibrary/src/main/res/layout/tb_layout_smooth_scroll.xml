@@ -7,7 +7,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvNews"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="@dimen/x200"
         android:descendantFocusability="blocksDescendants"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -16,7 +16,7 @@
 
     <View
         android:layout_width="0dp"
-        android:layout_height="10dp"
+        android:layout_height="@dimen/x20"
         android:background="@drawable/shape_gradient_white_top"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -24,7 +24,7 @@
 
     <View
         android:layout_width="0dp"
-        android:layout_height="10dp"
+        android:layout_height="@dimen/x20"
         android:background="@drawable/shape_gradient_white_bottom"
         app:layout_constraintBottom_toBottomOf="@id/rvNews"
         app:layout_constraintLeft_toLeftOf="parent"

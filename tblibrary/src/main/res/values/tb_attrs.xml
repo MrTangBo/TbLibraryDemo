@@ -26,6 +26,14 @@
         <attr name="tsv_textSize" format="dimension"/>
     </declare-styleable>
 
+    <!--LGNineGridView属性-->
+    <declare-styleable name="LGNineGridView">
+        <attr name="space" format="dimension" />
+        <attr name="singleImageRatio" format="float" />
+        <attr name="singleImageWidthRatioToParent" format="float" />
+        <attr name="singleImageRatioMode" format="integer" />
+    </declare-styleable>
+
     <!--ArcView,ArcImageView属性-->
     <attr name="arcHeight" format="dimension" />
     <attr name="arcOrientation" format="string" />
@@ -39,5 +47,54 @@
         <attr name="arcHeight" />
         <attr name="arcOrientation" />
     </declare-styleable>
+
+    <!--TbMenuItem属性-->
+    <declare-styleable name="TbMenuItemLayout">
+
+        <attr name="itemBg" format="color|reference" />
+        <attr name="itemLineBg" format="color|reference" />
+
+        <attr name="leftText" format="string" />
+        <attr name="leftTextColor" format="color|reference" />
+        <attr name="leftTextSize" format="dimension" />
+
+        <attr name="rightText" format="string" />
+        <attr name="rightTextColor" format="color|reference" />
+        <attr name="rightTextSize" format="dimension" />
+        <attr name="rightTxPaddingEnd" format="dimension" />
+
+        <attr name="leftIconSrc" format="reference" />
+        <attr name="leftIconVisible" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+
+        </attr>
+
+        <attr name="rightIconSrc" format="reference" />
+        <attr name="rightIconVisible" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+            <enum name="gone" value="2" />
+
+        </attr>
+
+    </declare-styleable>
+
+    <!--TbBottomNavigation属性-->
+    <declare-styleable name="TbBottomNavigation">
+
+        <attr name="unSelectTxColor" format="color|reference" />
+        <attr name="unSelectTxSize" format="dimension" />
+        <attr name="selectTxColor" format="color|reference" />
+        <attr name="selectTxSize" format="dimension" />
+        <attr name="isCenterBulge" format="boolean" />
+        <attr name="centerHeight" format="dimension" />
+        <attr name="paddingTop" format="dimension" />
+        <attr name="paddingBottom" format="dimension" />
+        <attr name="bg" format="color|reference" />
+
+    </declare-styleable>
+
 
 </resources>
