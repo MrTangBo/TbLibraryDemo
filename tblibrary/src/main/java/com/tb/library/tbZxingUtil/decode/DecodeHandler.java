@@ -28,7 +28,7 @@ import com.google.zxing.ReaderException;
 import com.google.zxing.Result;
 import com.google.zxing.common.HybridBinarizer;
 import com.tb.library.tbZxingUtil.common.Constant;
-import com.tb.mvvm_library.tbZxingUtil.android.TbCaptureActivity;
+import com.tb.library.tbZxingUtil.android.TbCaptureActivity;
 
 
 import java.util.Map;

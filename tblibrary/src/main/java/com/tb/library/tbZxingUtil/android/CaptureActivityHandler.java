@@ -27,7 +27,6 @@ import com.tb.library.tbZxingUtil.camera.CameraManager;
 import com.tb.library.tbZxingUtil.common.Constant;
 import com.tb.library.tbZxingUtil.decode.DecodeThread;
 import com.tb.library.tbZxingUtil.view.ViewfinderResultPointCallback;
-import com.tb.mvvm_library.tbZxingUtil.android.TbCaptureActivity;
 
 
 /**

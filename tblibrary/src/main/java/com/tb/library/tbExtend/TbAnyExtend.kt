@@ -28,8 +28,7 @@ import com.tb.library.base.TbConfig
 import com.tb.library.tbDialog.TbSureDialog
 import com.tb.library.util.ActivityManagerUtil
 import com.tb.library.util.TbLogUtils
-import com.tb.mvvm_library.tbEntity.TbApkInfo
-import com.tencent.mmkv.MMKV
+import com.tb.library.tbEntity.TbApkInfo
 
 
 /**

@@ -1,4 +1,4 @@
-package com.tb.mvvm_library.tbZxingUtil.android
+package com.tb.library.tbZxingUtil.android
 
 
 import android.Manifest
@@ -23,10 +23,6 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.google.zxing.Result
 import com.tb.library.R
 import com.tb.library.tbExtend.tbRequestPermission
-import com.tb.library.tbZxingUtil.android.BeepManager
-import com.tb.library.tbZxingUtil.android.CaptureActivityHandler
-import com.tb.library.tbZxingUtil.android.FinishListener
-import com.tb.library.tbZxingUtil.android.InactivityTimer
 import com.tb.library.tbZxingUtil.bean.ZxingConfig
 import com.tb.library.tbZxingUtil.camera.CameraManager
 import com.tb.library.tbZxingUtil.common.Constant

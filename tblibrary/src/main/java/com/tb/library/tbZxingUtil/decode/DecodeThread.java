@@ -22,7 +22,7 @@ import android.os.Looper;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;
-import com.tb.mvvm_library.tbZxingUtil.android.TbCaptureActivity;
+import com.tb.library.tbZxingUtil.android.TbCaptureActivity;
 
 import java.util.Hashtable;
 import java.util.Vector;

@@ -20,7 +20,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        maven { url 'https://dl.bintray.com/landiao9898/tblibrary/' }
+        maven { url 'https://dl.bintray.com/landiao9898/tblibrary' }
         jcenter()
         maven { url 'https://jitpack.io' }
 //        maven { url 'D:\\repository' }

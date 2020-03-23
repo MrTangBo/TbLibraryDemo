@@ -1,4 +1,4 @@
-package com.tb.mvvm_library.tbEntity
+package com.tb.library.tbEntity
 
 import java.io.Serializable
 
