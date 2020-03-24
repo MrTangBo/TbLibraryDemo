@@ -267,6 +267,18 @@ fun Activity.tbCreateDeskIcon(name: String, icon: Int, activityClass: Class<*>) 
     }
 }
 
+inline fun <reified F : Fragment> Activity.newFragment(vararg args: Pair<String, String>): F {
+    val bundle = Bundle()
+    args.let {
+        for (arg in args) {
+            bundle.putString(arg.first, arg.second)
+        }
+    }
+    val fg = F::class.java.newInstance()
+    fg.arguments = bundle
+    return fg
+}
+
 /*判断快捷方式是否存在*/
 @SuppressLint("ObsoleteSdkInt")
 private fun tbCheckShortCutExist(mContent: Context, name: String): Boolean {
