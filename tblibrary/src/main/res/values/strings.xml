@@ -60,4 +60,7 @@
     <string name="just">刚刚</string>
     <string name="lastupdated">上次更新时间：</string>
 
+    <string name="wait_second">剩余%d秒</string>
+    <string name="getCodeDescribe">获取验证码</string>
+
 </resources>

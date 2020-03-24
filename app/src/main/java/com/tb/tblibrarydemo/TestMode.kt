@@ -9,9 +9,8 @@ class TestMode : TbBaseModel() {
 
     fun getData() {
         val flowable = RetrofitApi.getInstance().getInterface<Api>().getData();
-        startRequest(taskId = Api.firstId, flowables = arrayListOf(flowable))
+        startRequest(taskId = Api.getData, flowables = arrayListOf(flowable))
     }
-
 
     override fun tbOnRefresh() {
         super.tbOnRefresh()

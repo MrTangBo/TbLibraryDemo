@@ -1,10 +1,7 @@
 package com.tb.library.tbExtend
 
 import android.annotation.SuppressLint
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -13,6 +10,7 @@ import android.graphics.Color
 import android.graphics.Rect
 import android.net.http.SslError
 import android.os.Build
+import android.os.Handler
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -41,7 +39,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
 import com.liaoinstan.springview.container.BaseHeader
 import com.liaoinstan.springview.container.DefaultFooter
-import com.liaoinstan.springview.container.DefaultHeader
 import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.R
 import com.tb.library.base.TbApplication
@@ -60,6 +57,44 @@ import kotlin.math.abs
  * @Author: TangBo
  */
 
+/*时间倒计时*/
+fun TextView.tbCountDownTime(
+    mHander: Handler,
+    unableBg: Int = 0,
+    enableBg: Int = 0,
+    unableTxColor: Int = R.color.tb_text_dark,
+    enableTxColor: Int = R.color.tb_text_black
+): TextView {
+    val mContext = this.context
+    var totalTime = 60
+    val view = this
+    view.isEnabled = false
+    view.background = if (unableBg == 0) null else ContextCompat.getDrawable(mContext, unableBg)
+    view.setTextColor(ContextCompat.getColor(mContext, unableTxColor))
+    mHander.post(object : Runnable {
+        override fun run() {
+            view.text = context?.getString(R.string.wait_second, totalTime)
+            if (mContext is Activity) {
+                if (mContext.isDestroyed) {
+                    mHander.removeCallbacksAndMessages(null)
+                    return
+                }
+            }
+            if (totalTime == 0) {
+                mHander.removeCallbacksAndMessages(null)
+                view.isEnabled = true
+                view.background =
+                    if (enableBg == 0) null else ContextCompat.getDrawable(mContext, enableBg)
+                view.setTextColor(ContextCompat.getColor(mContext, enableTxColor))
+                view.text = context?.resources?.getString(R.string.getCodeDescribe)
+                return
+            }
+            totalTime--
+            mHander.postDelayed(this, 1000)
+        }
+    })
+    return this
+}
 
 /*初始化图片轮播设置*/
 fun ConvenientBanner<*>.initBanner(

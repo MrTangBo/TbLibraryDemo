@@ -19,7 +19,7 @@ class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
     override fun getModel() {
         super.getModel()
         mMode = ViewModelProvider(this).get(TestMode::class.java)
-        mMode?.initLiveData(Api.firstId)
+        mMode?.initLiveData(Api.getData)
         mTbLoadLayout = mLoadLayout
         mSpringView = springView
     }
@@ -69,7 +69,9 @@ class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
     override fun <E> resultData(taskId: Int, info: E) {
         super.resultData(taskId, info)
         val mInfo = info as TestBean
+
         mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
+
     }
 
     override fun <M> errorCodeEvent(code: M, msg: String) {
