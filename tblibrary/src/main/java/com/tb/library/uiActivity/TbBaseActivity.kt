@@ -27,10 +27,10 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import kotlin.system.exitProcess
 
-abstract class TbBaseActivity<T : TbBaseModel> : AppCompatActivity() {
+abstract class TbBaseActivity<T : TbBaseModel,G:ViewDataBinding> : AppCompatActivity() {
 
     var mMode: T? = null
-    lateinit var mBaseBinding: ViewDataBinding
+    lateinit var mBinding:G
 
     var mTbLoadLayout: TbLoadLayout? = null
     var mSpringView: SpringView? = null
@@ -49,7 +49,7 @@ abstract class TbBaseActivity<T : TbBaseModel> : AppCompatActivity() {
         window.decorView.background = ContextCompat.getDrawable(this, R.color.tb_white)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION or WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-        mBaseBinding = DataBindingUtil.setContentView(this, mLayoutId)
+        mBinding = DataBindingUtil.setContentView(this, mLayoutId)
         init()
         initLoadingDialog()
         initModel()
@@ -87,7 +87,7 @@ abstract class TbBaseActivity<T : TbBaseModel> : AppCompatActivity() {
             model.mSpringView = mSpringView
             lifecycle.addObserver(model)
             model.mActivity = this
-            model.mBinding = mBaseBinding
+            model.mBinding = mBinding
 
             model.mDialogDismiss = {
                 hideLoadingDialog()

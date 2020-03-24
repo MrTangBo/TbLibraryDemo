@@ -29,10 +29,10 @@ import org.greenrobot.eventbus.ThreadMode
  * @Description: TODO
  * @Author: TangBo
  */
-abstract class TbBaseFragment<T : TbBaseModel> : Fragment() {
+abstract class TbBaseFragment<T : TbBaseModel,G:ViewDataBinding> : Fragment() {
 
     var mMode: T? = null
-    lateinit var mBaseBinding: ViewDataBinding
+    lateinit var mBinding: G
     var mRootView: View? = null
 
     var mTbLoadLayout: TbLoadLayout? = null
@@ -53,8 +53,8 @@ abstract class TbBaseFragment<T : TbBaseModel> : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         if (mRootView == null) {
-            mBaseBinding = DataBindingUtil.inflate(inflater, mLayoutId, container, false)
-            mRootView = mBaseBinding.root
+            mBinding = DataBindingUtil.inflate(inflater, mLayoutId, container, false)
+            mRootView = mBinding.root
             init()
             initData()
         }
@@ -88,7 +88,7 @@ abstract class TbBaseFragment<T : TbBaseModel> : Fragment() {
             model.mSpringView = mSpringView
             lifecycle.addObserver(model)
             model.mFragment = this
-            model.mBinding = mBaseBinding
+            model.mBinding = mBinding
 
             model.mDialogDismiss = {
                 hideLoadingDialog()

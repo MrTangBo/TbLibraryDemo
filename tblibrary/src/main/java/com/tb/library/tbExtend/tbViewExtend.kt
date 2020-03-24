@@ -381,12 +381,12 @@ inline fun ViewPager.doPageScrollStateChanged(crossinline onPageScrollStateChang
 }
 
 /*初始化SearchView*/
-fun SearchView.init(
+inline fun SearchView.init(
     textColor: Int = R.color.tb_text_black,
     textHitStr: CharSequence = context.resources.getString(R.string.search),
     textHitColor: Int = R.color.tb_text_dark,
     isExpand: Boolean = true,
-    getViews: ((mSearchButton: ImageView, mCloseButton: ImageView, mCollapsedButton: ImageView, mSearchAutoComplete: SearchView.SearchAutoComplete) -> Unit)? = null,
+    crossinline getViews: (mSearchButton: ImageView, mCloseButton: ImageView, mCollapsedButton: ImageView, mSearchAutoComplete: SearchView.SearchAutoComplete) -> Unit = { _, _, _, _ -> Unit },
     textSize: Int = tbGetDimensValue(R.dimen.tb_text28),
     searchBg: Int = R.drawable.tb_bg_search,
     searchViewHeight: Int = tbGetDimensValue(R.dimen.x70),
@@ -395,11 +395,11 @@ fun SearchView.init(
     @DrawableRes mCollapsedIcon: Int = R.drawable.icon_search_dark,
     isClick: Boolean = false,
     isFocus: Boolean = false,//是否自动
-    onSearchClick: TbOnClick = { },
-    onExpand: TbOnClick = { },
-    closeListener: TbOnClick = { },
-    onQueryChange: ((str: String) -> Unit)? = null,//内容变化监听
-    onQuerySubmit: ((str: String) -> Unit)? = null//提交监听
+    crossinline onSearchClick: TbOnClick = { },
+    crossinline onExpand: TbOnClick = { },
+    crossinline closeListener: TbOnClick = { },
+    crossinline onQueryChange: (str: String) -> Unit = { _ -> Unit },//内容变化监听
+    crossinline onQuerySubmit: (str: String) -> Unit = { _ -> Unit }//提交监听
 ) {
 
     val p = this.layoutParams
@@ -463,16 +463,16 @@ fun SearchView.init(
 
     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(p0: String?): Boolean {
-            onQuerySubmit?.invoke(p0!!)
+            onQuerySubmit.invoke(p0!!)
             return false
         }
 
         override fun onQueryTextChange(p0: String?): Boolean {
-            onQueryChange?.invoke(p0!!)
+            onQueryChange.invoke(p0!!)
             return false
         }
     })
-    getViews?.invoke(mSearchButton, mCloseButton, mCollapsedButton, mSearchAutoComplete)
+    getViews.invoke(mSearchButton, mCloseButton, mCollapsedButton, mSearchAutoComplete)
 }
 
 
@@ -585,12 +585,12 @@ inline fun AppBarLayout.scrollScale(
 
 /*初始化WebView*/
 @SuppressLint("SetJavaScriptEnabled", "JavascriptInterface")
-fun WebView.init(
+inline fun WebView.init(
     url: String,
     js2Android: Any? = null,//js调用android类对象
     js2AndroidNames: ArrayList<String> = arrayListOf(),//js调用android的方法名集合
     android2Js: String = "",//android调用Js传参
-    android2JsCallBack: TbOnClickInfo = { _ -> Unit },//android调用Js回调
+    crossinline android2JsCallBack: TbOnClickInfo = { _ -> Unit },//android调用Js回调
     loadListener: WebViewListener? = null//android调用Js回调
 ) {
     val settings = settings
@@ -621,7 +621,7 @@ fun WebView.init(
     /*Android调用js*/
     if (android2Js.isNotEmpty()) {
         evaluateJavascript(android2Js) {
-            android2JsCallBack?.invoke(it)
+            android2JsCallBack.invoke(it)
         }
     }
     webViewClient = object : WebViewClient() {
@@ -673,7 +673,7 @@ fun WebView.init(
 /*SpringView初始化*/
 fun SpringView.init(
     listener: SpringView.OnFreshListener,
-    header: BaseHeader? = DefaultHeader(this.context),
+    header: BaseHeader? = TbDefaultHeader(this.context),
     footer: BaseHeader? = DefaultFooter(this.context),
     springType: SpringView.Type = SpringView.Type.OVERLAP,
     springGive: SpringView.Give = SpringView.Give.BOTH

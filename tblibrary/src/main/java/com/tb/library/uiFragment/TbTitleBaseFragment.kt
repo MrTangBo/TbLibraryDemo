@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.databinding.ViewDataBinding
 import com.tb.library.R
 import com.tb.library.base.TbApplication
 import com.tb.library.base.TbConfig
@@ -25,7 +26,7 @@ import kotlinx.android.synthetic.main.tb_include_toolbar.*
  * @Description: TODO
  * @Author: TangBo
  */
-abstract class TbTitleBaseFragment<T : TbBaseModel> : TbBaseFragment<T>() {
+abstract class TbTitleBaseFragment<T : TbBaseModel,G: ViewDataBinding> : TbBaseFragment<T,G>() {
 
 
     open lateinit var mCenterTextView: TextView

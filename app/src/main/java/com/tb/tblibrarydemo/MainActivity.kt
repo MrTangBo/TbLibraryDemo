@@ -8,9 +8,8 @@ import com.tb.library.uiActivity.TbTitleBaseActivity
 import com.tb.tblibrarydemo.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : TbTitleBaseActivity<TestMode>() {
+class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
 
-    lateinit var mBinding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         mLayoutId = R.layout.activity_main
@@ -33,7 +32,6 @@ class MainActivity : TbTitleBaseActivity<TestMode>() {
 //        initMenu(arrayListOf("搜索"))
         mSearchView.init(isExpand = false)
 
-        mBinding = mBaseBinding as ActivityMainBinding
         mBinding.url = "sadsadsa"
 
         val imagList = arrayListOf<String>()

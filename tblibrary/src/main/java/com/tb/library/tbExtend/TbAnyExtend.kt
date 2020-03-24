@@ -189,7 +189,7 @@ fun Any.tbStatusBarHeight(): IntArray {
 /*获取通知栏权限并设置*/
 fun Any.tbNotifyEnabled(
     activity: AppCompatActivity? = null,
-    messageTx: String = "应用需要通知权限，立即去设置？"
+    messageTx: String = TbApplication.mApplicationContext.resources.getString(R.string.notifyMark)
 ): Boolean {
     val appInfo = TbApplication.mApplicationContext.applicationInfo
     val pkg = TbApplication.mApplicationContext.applicationContext.packageName
@@ -212,7 +212,7 @@ fun Any.tbNotifyEnabled(
             }
             sureDialog.show(activity.supportFragmentManager, "notification")
         } else {
-            tbShowToast("应用需要通知权限，请到设置中心设置！")
+            tbShowToast(TbApplication.mApplicationContext.resources.getString(R.string.notifyMark2))
         }
     } else {
         return true
