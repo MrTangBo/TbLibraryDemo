@@ -54,8 +54,7 @@ fun Context.tbKeyboard(isOpen: Boolean = false) {
 }
 
 /*跳转界面*/
-fun Any.tbStartActivity(
-    clazz: Class<*>,
+inline fun <reified T> Any.tbStartActivity(
     params: MutableMap<String, Serializable>? = null,
     requestCode: Int? = null,
     activityOptions: Bundle? = ActivityOptionsCompat.makeCustomAnimation(
@@ -82,25 +81,25 @@ fun Any.tbStartActivity(
         }
         if (requestCode != null) {
             currentActivity.startActivityForResult(
-                Intent(currentActivity, clazz).putExtras(b),
+                Intent(currentActivity, T::class.java).putExtras(b),
                 requestCode,
                 activityOptions
             )
         } else {
             currentActivity.startActivity(
-                Intent(currentActivity, clazz).putExtras(b),
+                Intent(currentActivity, T::class.java).putExtras(b),
                 activityOptions
             )
         }
     } else {
         if (requestCode != null) {
             currentActivity.startActivityForResult(
-                Intent(currentActivity, clazz),
+                Intent(currentActivity, T::class.java),
                 requestCode,
                 activityOptions
             )
         } else {
-            currentActivity.startActivity(Intent(currentActivity, clazz), activityOptions)
+            currentActivity.startActivity(Intent(currentActivity, T::class.java), activityOptions)
         }
     }
 }
