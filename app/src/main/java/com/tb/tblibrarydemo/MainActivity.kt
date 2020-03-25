@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.AppBarLayout
 import com.tb.library.tbExtend.*
+import com.tb.library.tbZxingUtil.android.TbCaptureActivity
 import com.tb.library.uiActivity.TbTitleBaseActivity
 import com.tb.tblibrarydemo.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,9 +27,8 @@ class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
 
     override fun initData() {
         super.initData()
-
-        tbStatusBarInit(isImmersive = true, immersiveBottom = false)
-        initToolBar(paddingTop = tbStatusBarHeight()[0])
+        tbStatusBarInit(isImmersive = true,isFitWindowStatusBar = true)
+        initToolBar()
 //        initMenu(arrayListOf("搜索"))
         mSearchView.init(isExpand = false)
 
@@ -59,7 +59,10 @@ class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo
-            )
+            ),clickPosition = {
+                if (it==2)
+                tbStartActivity<TbCaptureActivity>(requestCode = 3000)
+            }
         )
             .setBadgeNumSingle(3, 20, bgColor = R.color.colorAccent, moveUpListener = { badge, targetView ->
             })
