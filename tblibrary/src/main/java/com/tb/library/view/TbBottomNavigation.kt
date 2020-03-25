@@ -86,7 +86,8 @@ class TbBottomNavigation : RadioGroup {
         selectDrawables: ArrayList<Int>? = null,
         mViewPager: ViewPager? = null,
         mDefaultCheckPosition: Int = 0,//默认选中
-        pageSelect: TbItemClick = { _ -> Unit }
+        pageSelect: TbItemClick = { _ -> Unit },
+        clickPosition: TbItemClick = { _ -> Unit }
     ): TbBottomNavigation {
 
         val unSelectList = arrayListOf<Drawable>()
@@ -124,7 +125,8 @@ class TbBottomNavigation : RadioGroup {
                 }
                 radioButton.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
             }
-            radioButton.setOnClickListener {
+            radioButton.setOnClickListener {_->
+                clickPosition.invoke(index)
                 forEachIndexed { i, it ->
                     if (it is RadioButton) {
                         it.isChecked = false

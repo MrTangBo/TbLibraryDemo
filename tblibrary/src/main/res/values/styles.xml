@@ -20,6 +20,12 @@
         <item name="android:textColorSecondary">@color/white</item>//设置menu中item的图标颜色
     </style>
 
+    <style name="captureActivityThem" parent="tbActivityTheme">
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowTranslucentStatus">false</item>
+    </style>
+
+
     <!-- 类似微信的动画 -->
     <style name="activityAnimation" parent="@android:style/Animation">
         <item name="android:activityOpenEnterAnimation">@anim/slide_right_in</item>
