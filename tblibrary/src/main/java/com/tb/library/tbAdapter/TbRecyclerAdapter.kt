@@ -35,6 +35,9 @@ abstract class TbRecyclerAdapter(var listData: ArrayList<*>, @LayoutRes var layo
     }
 
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
+        holder.itemBinding.root.setOnClickListener {
+            tbItemClick.invoke(position)
+        }
         onBind(holder, position)
         holder.itemBinding.executePendingBindings()
     }
