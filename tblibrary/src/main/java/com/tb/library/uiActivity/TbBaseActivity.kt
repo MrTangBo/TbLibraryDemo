@@ -44,10 +44,9 @@ abstract class TbBaseActivity<T : TbBaseModel,G:ViewDataBinding> : AppCompatActi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tbStatusBarInit()
         requestedOrientation = TbConfig.getInstance().screenOrientation
         window.decorView.background = ContextCompat.getDrawable(this, R.color.tb_white)
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION or WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        tbStatusBarInit()
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         mBinding = DataBindingUtil.setContentView(this, mLayoutId)
         init()
