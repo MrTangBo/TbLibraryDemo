@@ -128,10 +128,20 @@ abstract class TbBaseActivity<T : TbBaseModel,G:ViewDataBinding> : AppCompatActi
     }
 
     open lateinit var eventBundle: Bundle
+    open var mEventFlag: String = ""
+    open var mEventType: String = ""
     /*eventBus回调*/
     @Subscribe(threadMode = ThreadMode.MAIN)
-    open fun onUserEvent(event: TbEventBusInfo) {
-        eventBundle = event.bundle
+    open fun onUserEvent(event: TbEventBusInfo?) {
+        event?.let {
+            eventBundle = it.bundle
+            eventBundle.getString(TbConfig.EVENT_FLAG)?.let { flag ->
+                mEventFlag = flag
+            }
+            eventBundle.getString(TbConfig.EVENT_TYPE)?.let { type ->
+                mEventFlag = type
+            }
+        }
     }
 
     open fun onClick(view: View?) {

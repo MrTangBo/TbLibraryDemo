@@ -48,7 +48,6 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     var mFragment: Fragment? = null
     var mTbLoadLayout: TbLoadLayout? = null
     var mSpringView: SpringView? = null
-    lateinit var eventBundle: Bundle
 
     var mPage = 1
     var mIsShowLoading = true
@@ -188,16 +187,28 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     }
 
 
+    open lateinit var eventBundle: Bundle
+    open var mEventFlag: String = ""
+    open var mEventType: String = ""
     /*eventBus回调*/
     @Subscribe(threadMode = ThreadMode.MAIN)
-    open fun onUserEvent(event: TbEventBusInfo) {
-        eventBundle = event.bundle
-        when (eventBundle.getString("flag")) {
+    open fun onUserEvent(event: TbEventBusInfo?) {
+        event?.let {
+            eventBundle = it.bundle
+            eventBundle.getString(TbConfig.EVENT_FLAG)?.let { flag ->
+                mEventFlag = flag
+            }
+            eventBundle.getString(TbConfig.EVENT_TYPE)?.let { type ->
+                mEventFlag = type
+            }
+        }
+        when (mEventFlag) {
             TbBaseReceiver::class.java.simpleName -> {
                 repeatQuest()
             }
         }
     }
+
 
     override fun onLoadmore() {
         tbLoadMore()

@@ -3,6 +3,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.tb.library.base.TbConfig
 import com.tb.library.base.TbEventBusInfo
 import com.tb.library.tbExtend.tbNetWorkIsConnect
 import com.tb.library.tbExtend.tbNetWorkIsMobile
@@ -21,7 +22,7 @@ class TbBaseReceiver : BroadcastReceiver() {
             TbLogUtils.log("onReceive--->")
             if (!isFirst) {
                 val b = Bundle()
-                b.putString("flag", TbBaseReceiver::class.java.simpleName)
+                b.putString(TbConfig.EVENT_FLAG, TbBaseReceiver::class.java.simpleName)
                 EventBus.getDefault().post(TbEventBusInfo(b))
                 if (tbNetWorkIsMobile()) {
                     tbShowToast("当前正在使用移动网络！")

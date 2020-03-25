@@ -35,6 +35,10 @@ class TbConfig {
         const val VERTICAL_LIST = RecyclerView.VERTICAL
         //水平+垂直
         const val BOTH_SET = 2
+
+        //eventBus 事假类型和标记
+        const val EVENT_FLAG = "event_flag"
+        const val EVENT_TYPE = "event_type"
     }
 
     private object Holder {

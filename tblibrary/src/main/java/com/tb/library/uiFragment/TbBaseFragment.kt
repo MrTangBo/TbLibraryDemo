@@ -29,7 +29,7 @@ import org.greenrobot.eventbus.ThreadMode
  * @Description: TODO
  * @Author: TangBo
  */
-abstract class TbBaseFragment<T : TbBaseModel,G:ViewDataBinding> : Fragment() {
+abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment() {
 
     var mMode: T? = null
     lateinit var mBinding: G
@@ -68,8 +68,8 @@ abstract class TbBaseFragment<T : TbBaseModel,G:ViewDataBinding> : Fragment() {
         initModel()
     }
 
-    open fun initSpringView(){
-        mSpringView?.let{springView->
+    open fun initSpringView() {
+        mSpringView?.let { springView ->
             mMode?.let {
                 springView.init(it)
             }
@@ -145,10 +145,20 @@ abstract class TbBaseFragment<T : TbBaseModel,G:ViewDataBinding> : Fragment() {
     }
 
     open lateinit var eventBundle: Bundle
+    open var mEventFlag: String = ""
+    open var mEventType: String = ""
     /*eventBus回调*/
     @Subscribe(threadMode = ThreadMode.MAIN)
-    open fun onUserEvent(event: TbEventBusInfo) {
-        eventBundle = event.bundle
+    open fun onUserEvent(event: TbEventBusInfo?) {
+        event?.let {
+            eventBundle = it.bundle
+            eventBundle.getString(TbConfig.EVENT_FLAG)?.let { flag ->
+                mEventFlag = flag
+            }
+            eventBundle.getString(TbConfig.EVENT_TYPE)?.let { type ->
+                mEventFlag = type
+            }
+        }
     }
 
     override fun onResume() {
