@@ -1,12 +1,13 @@
 package com.tb.tblibrarydemo
 
+
 data class TestBean(
-    val `data`: List<Data>
+    var `data`: List<Data> = listOf()
 )
 
 data class Data(
-    val content: String,
-    val hashId: String,
-    val unixtime: Int,
-    val updatetime: String
+    var content: String = "",
+    var hashId: String = "",
+    var unixtime: Int = 0,
+    var updatetime: String = ""
 )

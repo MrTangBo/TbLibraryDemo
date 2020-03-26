@@ -13,85 +13,71 @@
 
     </data>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <include layout="@layout/tb_include_toolbar" />
+
+        <com.bigkoo.convenientbanner.ConvenientBanner
+            android:id="@+id/mBanner"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="@dimen/x300" />
 
-            <include layout="@layout/tb_include_toolbar" />
 
-            <com.bigkoo.convenientbanner.ConvenientBanner
-                android:id="@+id/mBanner"
+        <com.tb.library.view.TbLoadLayout
+            android:id="@+id/mLoadLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.liaoinstan.springview.widget.SpringView
+                android:id="@+id/springView"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/x300" />
+                android:layout_height="match_parent">
 
-
-            <com.tb.library.view.TbLoadLayout
-                android:id="@+id/mLoadLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.liaoinstan.springview.widget.SpringView
-                    android:id="@+id/springView"
+                <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content">
 
-                    <androidx.core.widget.NestedScrollView
+
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
 
 
-                        <LinearLayout
+                        <com.tb.library.view.TbBottomNavigation
+                            android:id="@+id/mtBN"
+                            app:selectTxSize="@dimen/tb_text26"
+                            app:unSelectTxSize="@dimen/tb_text26"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            tools:ignore="UseCompoundDrawables">
+                            android:layout_height="@dimen/x98" />
 
-                            <com.tb.library.view.TbMenuItemLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/x88"/>
+                        <TextView
+                            android:id="@+id/mTx"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x700"
+                            android:gravity="center"
+                            android:text="这里是内容！" />
 
+                        <ImageView
+                            android:id="@+id/mImg"
+                            url="@{url}"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x250" />
 
-                            <com.tb.library.view.TbBottomNavigation
-                                android:id="@+id/mtBN"
-                                app:selectTxSize="@dimen/tb_text26"
-                                app:unSelectTxSize="@dimen/tb_text26"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/x98" />
+                    </LinearLayout>
 
-                            <TextView
-                                android:onClick="onClick"
-                                android:id="@+id/mTx"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/x700"
-                                android:gravity="center"
-                                android:text="这里是内容！" />
+                </androidx.core.widget.NestedScrollView>
 
-                            <ImageView
-                                android:id="@+id/mImg"
-                                url="@{url}"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/x250" />
+            </com.liaoinstan.springview.widget.SpringView>
 
-                        </LinearLayout>
-
-                    </androidx.core.widget.NestedScrollView>
-
-                </com.liaoinstan.springview.widget.SpringView>
-
-            </com.tb.library.view.TbLoadLayout>
+        </com.tb.library.view.TbLoadLayout>
 
 
-        </LinearLayout>
-
-
-    </RelativeLayout>
-
-
+    </LinearLayout>
 
 
 </layout>

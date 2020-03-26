@@ -86,7 +86,7 @@ fun TextView.tbCountDownTime(
                 view.background =
                     if (enableBg == 0) null else ContextCompat.getDrawable(mContext, enableBg)
                 view.setTextColor(ContextCompat.getColor(mContext, enableTxColor))
-                view.text = context?.resources?.getString(R.string.getCodeDescribe)
+                view.text = context?.resources?.getString(R.string.reGetCodeDescribe)
                 return
             }
             totalTime--

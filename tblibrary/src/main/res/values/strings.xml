@@ -62,5 +62,6 @@
 
     <string name="wait_second">剩余%d秒</string>
     <string name="getCodeDescribe">获取验证码</string>
+    <string name="reGetCodeDescribe">重新获取</string>
 
 </resources>
