@@ -4,13 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.AppBarLayout
+import com.tb.library.base.TbConfig
+import com.tb.library.base.TbEventBusInfo
 import com.tb.library.tbExtend.*
 import com.tb.library.tbZxingUtil.android.TbCaptureActivity
 import com.tb.library.uiActivity.TbTitleBaseActivity
 import com.tb.tblibrarydemo.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
+import org.greenrobot.eventbus.EventBus
 
-class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
+class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +31,7 @@ class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
 
     override fun initData() {
         super.initData()
-        tbStatusBarInit(isImmersive = true,isFitWindowStatusBar = true)
+        tbStatusBarInit(isImmersive = true, isFitWindowStatusBar = true)
         initToolBar()
 //        initMenu(arrayListOf("搜索"))
         mSearchView.init(isExpand = false)
@@ -41,10 +44,8 @@ class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
         imagList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584776339191&di=8ddbdc51e8ebd48d253f890a2144d4e0&imgtype=0&src=http%3A%2F%2Fa3.att.hudong.com%2F14%2F75%2F01300000164186121366756803686.jpg")
         imagList.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584776339191&di=2f2b0da66fb2f98a2d9a2dcae6a9ab80&imgtype=0&src=http%3A%2F%2Fa4.att.hudong.com%2F21%2F09%2F01200000026352136359091694357.jpg")
 
-        mBinding.url=imagList[0]
+        mBinding.url = imagList[0]
 
-
-        mMode?.getData()
 
         mBanner.initBanner(imagList, isCanLoop = true)
 
@@ -63,13 +64,18 @@ class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo
-            ),clickPosition = {
-                if (it==2)
-                tbStartActivity<TbCaptureActivity>(requestCode = 3000)
+            ), clickPosition = {
+                if (it == 2)
+                    mMode?.getData()
+//                tbStartActivity<TbCaptureActivity>(requestCode = 3000)
             }
         )
-            .setBadgeNumSingle(3, 20, bgColor = R.color.colorAccent, moveUpListener = { badge, targetView ->
-            })
+            .setBadgeNumSingle(
+                3,
+                20,
+                bgColor = R.color.colorAccent,
+                moveUpListener = { badge, targetView ->
+                })
 
     }
 
@@ -93,4 +99,8 @@ class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
     override fun singleClick(view: View) {
         super.singleClick(view)
     }
+}
+
+class myE : TbEventBusInfo() {
+
 }

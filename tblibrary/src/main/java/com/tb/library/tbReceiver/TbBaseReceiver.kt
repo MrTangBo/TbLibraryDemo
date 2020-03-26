@@ -3,6 +3,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import com.tb.library.base.RequestInternetEvent
 import com.tb.library.base.TbConfig
 import com.tb.library.base.TbEventBusInfo
 import com.tb.library.tbExtend.tbNetWorkIsConnect
@@ -21,9 +22,7 @@ class TbBaseReceiver : BroadcastReceiver() {
         if (tbNetWorkIsConnect()) {//判断网络是否可用
             TbLogUtils.log("onReceive--->")
             if (!isFirst) {
-                val b = Bundle()
-                b.putString(TbConfig.EVENT_FLAG, TbBaseReceiver::class.java.simpleName)
-                EventBus.getDefault().post(TbEventBusInfo(b))
+                EventBus.getDefault().post(RequestInternetEvent())
                 if (tbNetWorkIsMobile()) {
                     tbShowToast("当前正在使用移动网络！")
                 }

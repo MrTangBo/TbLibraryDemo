@@ -149,21 +149,12 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     }
 
-    open lateinit var eventBundle: Bundle
-    open var mEventFlag: String = ""
-    open var mEventType: String = ""
+    open lateinit var mEventInfo: TbEventBusInfo
     /*eventBus回调*/
     @Subscribe(threadMode = ThreadMode.MAIN)
-    open fun onUserEvent(event: TbEventBusInfo?) {
-        event?.let {
-            eventBundle = it.bundle
-            eventBundle.getString(TbConfig.EVENT_FLAG)?.let { flag ->
-                mEventFlag = flag
-            }
-            eventBundle.getString(TbConfig.EVENT_TYPE)?.let { type ->
-                mEventFlag = type
-            }
-        }
+    open fun onUserEvent(event: TbEventBusInfo) {
+        mEventInfo = event
+
     }
 
     override fun onResume() {
