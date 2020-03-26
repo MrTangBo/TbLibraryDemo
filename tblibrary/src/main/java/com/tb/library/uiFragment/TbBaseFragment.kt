@@ -10,6 +10,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import com.alibaba.android.arouter.launcher.ARouter
 import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.base.TbConfig
 import com.tb.library.base.TbEventBusInfo
@@ -44,6 +45,8 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     var isLoad = false
 
+    var mIsOpenEventBus = false//是否开启EventBus
+
     @LayoutRes
     var mLayoutId: Int = 0
 
@@ -63,9 +66,11 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     open fun init() {
         fActivity = activity!!
-        EventBus.getDefault().register(this)
         initLoadingDialog()
         initModel()
+        if (mIsOpenEventBus) {
+            EventBus.getDefault().register(this)
+        }
     }
 
     open fun initSpringView() {
@@ -178,8 +183,8 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     override fun onDestroy() {
         super.onDestroy()
         mMode?.dropView()
-        EventBus.getDefault().unregister(this)
+        if (mIsOpenEventBus) {
+            EventBus.getDefault().unregister(this)
+        }
     }
-
-
 }

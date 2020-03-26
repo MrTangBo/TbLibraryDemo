@@ -1,6 +1,7 @@
 package com.tb.tblibrarydemo
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.AppBarLayout
 import com.tb.library.tbExtend.*
@@ -42,6 +43,9 @@ class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
 
         mBinding.url=imagList[0]
 
+
+        mMode?.getData()
+
         mBanner.initBanner(imagList, isCanLoop = true)
 
         mtBN.setTitle(
@@ -79,5 +83,14 @@ class MainActivity : TbTitleBaseActivity<TestMode,ActivityMainBinding>() {
 
     override fun <M> errorCodeEvent(code: M, msg: String) {
         tbShowToast(code.toString() + msg)
+    }
+
+    override fun onClick(view: View?) {
+        super.onClick(view)
+
+    }
+
+    override fun singleClick(view: View) {
+        super.singleClick(view)
     }
 }

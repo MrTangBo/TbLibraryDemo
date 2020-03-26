@@ -27,10 +27,10 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import kotlin.system.exitProcess
 
-abstract class TbBaseActivity<T : TbBaseModel,G:ViewDataBinding> : AppCompatActivity() {
+abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatActivity() {
 
     var mMode: T? = null
-    lateinit var mBinding:G
+    lateinit var mBinding: G
 
     var mTbLoadLayout: TbLoadLayout? = null
     var mSpringView: SpringView? = null
@@ -38,6 +38,9 @@ abstract class TbBaseActivity<T : TbBaseModel,G:ViewDataBinding> : AppCompatActi
     lateinit var mLoadingDialog: TbLoadingDialog
 
     lateinit var mContext: Context
+
+    var mIsOpenARouter = false//是否开启ARouter
+    var mIsOpenEventBus = false//是否开启EventBus
 
     @LayoutRes
     var mLayoutId: Int = 0
@@ -58,8 +61,12 @@ abstract class TbBaseActivity<T : TbBaseModel,G:ViewDataBinding> : AppCompatActi
     open fun init() {
         mContext = this
         tbAddActivity()
-        ARouter.getInstance().inject(this)
-        EventBus.getDefault().register(this)
+        if (mIsOpenARouter) {
+            ARouter.getInstance().inject(this)
+        }
+        if (mIsOpenEventBus) {
+            EventBus.getDefault().register(this)
+        }
     }
 
     open fun initLoadingDialog() {
@@ -166,8 +173,11 @@ abstract class TbBaseActivity<T : TbBaseModel,G:ViewDataBinding> : AppCompatActi
         super.onDestroy()
         mMode?.dropView()
         tbKeyboard(false)
+        if (mIsOpenEventBus) {
+            EventBus.getDefault().unregister(this)
+        }
         ActivityManagerUtil.getInstance().removeActivity(this)
-        EventBus.getDefault().unregister(this)
+
     }
 
     /**

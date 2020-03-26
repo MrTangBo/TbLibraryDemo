@@ -47,6 +47,10 @@
                         android:orientation="vertical"
                         tools:ignore="UseCompoundDrawables">
 
+                        <com.tb.library.view.TbMenuItemLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/x88"/>
+
 
                         <com.tb.library.view.TbBottomNavigation
                             android:id="@+id/mtBN"
@@ -56,6 +60,7 @@
                             android:layout_height="@dimen/x98" />
 
                         <TextView
+                            android:onClick="onClick"
                             android:id="@+id/mTx"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/x700"
