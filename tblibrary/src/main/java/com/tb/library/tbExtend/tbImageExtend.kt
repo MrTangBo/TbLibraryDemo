@@ -62,9 +62,9 @@ fun ImageView.showImage(
 
 /*上传图片到自己的服务器*/
 @SuppressLint("CheckResult")
-fun List<String>?.tbUpLoadImage(
+inline fun List<String>?.tbUpLoadImage(
     name: String = "file",
-    zipListener: ((partMap: HashMap<String, RequestBody>) -> Unit),
+    crossinline zipListener: ((partMap: HashMap<String, RequestBody>) -> Unit) = { _ -> Unit },
     key: Array<String>? = null,
     value: Array<String>? = null,
     showIndex: Boolean = false  //有的后台需要在多图片上传的时候为file0,file1,file2..
