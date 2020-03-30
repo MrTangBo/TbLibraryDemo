@@ -142,6 +142,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
             }
         }
         TbLogUtils.log("commitData--->${mRequestMap.tb2Json()}")
+        mRequestMap.clear()
     }
 
     override fun <T> onNext(t: T, taskId: Int) {
