@@ -94,7 +94,8 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
     }
 
-    override fun <M> errorCodeEvent(code: M, msg: String) {
+    override fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
+        super.errorCodeEvent(code, msg, taskId)
         tbShowToast(code.toString() + msg)
     }
 

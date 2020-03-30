@@ -60,13 +60,14 @@ import kotlin.math.abs
 /*时间倒计时*/
 fun TextView.tbCountDownTime(
     mHander: Handler,
+    mTotalTime: Int = 60,
     unableBg: Int = 0,
     enableBg: Int = 0,
     unableTxColor: Int = R.color.tb_text_dark,
     enableTxColor: Int = R.color.tb_text_black
 ): TextView {
     val mContext = this.context
-    var totalTime = 60
+    var totalTime = mTotalTime
     val view = this
     view.isEnabled = false
     view.background = if (unableBg == 0) null else ContextCompat.getDrawable(mContext, unableBg)
