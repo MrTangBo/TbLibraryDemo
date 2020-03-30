@@ -77,6 +77,7 @@ fun TextView.tbCountDownTime(
             view.text = context?.getString(R.string.wait_second, totalTime)
             if (mContext is Activity) {
                 if (mContext.isDestroyed) {
+
                     mHander.removeCallbacksAndMessages(null)
                     return
                 }
