@@ -45,7 +45,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     var isLoad = false
 
-    var mIsOpenEventBus = false//是否开启EventBus
+    open val mIsOpenEventBus = false//是否开启EventBus
 
     @LayoutRes
     var mLayoutId: Int = 0

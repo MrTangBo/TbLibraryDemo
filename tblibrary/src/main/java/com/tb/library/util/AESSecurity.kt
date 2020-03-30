@@ -1,4 +1,4 @@
-package com.tb.design.library.tbUtil
+package com.tb.library.util
 
 import android.util.Base64
 import com.tb.library.tbExtend.tbString2Md5

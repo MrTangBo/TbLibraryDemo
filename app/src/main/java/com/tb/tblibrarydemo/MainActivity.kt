@@ -9,11 +9,15 @@ import com.tb.library.base.TbEventBusInfo
 import com.tb.library.tbExtend.*
 import com.tb.library.tbZxingUtil.android.TbCaptureActivity
 import com.tb.library.uiActivity.TbTitleBaseActivity
+import com.tb.library.util.TbLogUtils
 import com.tb.tblibrarydemo.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 
 class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
+
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +31,9 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         mMode?.initLiveData(Api.getData)
         mTbLoadLayout = mLoadLayout
         mSpringView = springView
+
+
+        TbLogUtils.log("222--->$mIsOpenARouter")
     }
 
     override fun initData() {
