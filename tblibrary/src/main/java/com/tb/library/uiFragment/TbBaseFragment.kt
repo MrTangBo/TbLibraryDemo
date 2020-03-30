@@ -127,6 +127,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     open fun <E> resultData(taskId: Int, info: E) {
 
+
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
