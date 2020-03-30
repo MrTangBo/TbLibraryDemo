@@ -88,6 +88,7 @@ class TbConfig {
      * sslList:本地证书放在Raw文件下面
      * */
     fun setOkHttpClient(
+        interceptorList: MutableList<Interceptor> = arrayListOf(),
         loggingLevel: HttpLoggingInterceptor.Level = HttpLoggingInterceptor.Level.BODY,
         timeOut: Long = 15,
         isHostnameVerifier: Boolean = false,//是否信任所有服务器地址
@@ -102,6 +103,10 @@ class TbConfig {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = loggingLevel
         okHttpClientBuilder.addNetworkInterceptor(loggingInterceptor)
+        interceptorList.forEach {
+            okHttpClientBuilder.addInterceptor(it)
+        }
+
         //信任所有服务器地址
         okHttpClientBuilder.hostnameVerifier { _, _ ->
             return@hostnameVerifier isHostnameVerifier
