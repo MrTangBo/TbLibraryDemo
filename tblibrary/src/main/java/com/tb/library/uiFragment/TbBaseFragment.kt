@@ -102,8 +102,8 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
                 showLoadingDialog()
             }
 
-            model.mErrorCodeEvent = { code, msg ->
-                errorCodeEvent(code, msg)
+            model.mErrorCodeEvent = { code, msg, taskId ->
+                errorCodeEvent(code, msg, taskId)
             }
             model.mLiveDataMap.forEach { map ->
                 map.value.observe(this, Observer {
@@ -129,7 +129,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     }
 
-    open fun <M> errorCodeEvent(code: M, msg: String) {
+    open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
 
     }
 

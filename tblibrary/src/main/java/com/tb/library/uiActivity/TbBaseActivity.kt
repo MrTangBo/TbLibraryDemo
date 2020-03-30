@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.R
@@ -81,7 +82,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
         }
     }
 
-    open fun getModel() {
+    open  fun getModel() {
 
     }
 
@@ -102,8 +103,8 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
                 showLoadingDialog()
             }
 
-            model.mErrorCodeEvent = { code, msg ->
-                errorCodeEvent(code, msg)
+            model.mErrorCodeEvent = { code, msg ,taskId->
+                errorCodeEvent(code, msg,taskId)
             }
             model.mLiveDataMap.forEach { map ->
                 map.value.observe(this, Observer {
@@ -129,7 +130,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
 
     }
 
-    open fun <M> errorCodeEvent(code: M, msg: String) {
+    open fun <M> errorCodeEvent(code: M, msg: String,taskId:Int) {
 
     }
 

@@ -54,7 +54,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     var mIsShowLoading = true
     var mDialogDismiss: (() -> Unit)? = null
     var mDialogShow: (() -> Unit)? = null
-    var mErrorCodeEvent: ((code: Any, msg: String) -> Unit)? = null
+    var mErrorCodeEvent: ((code: Any, msg: String,taskId:Int) -> Unit)? = null
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     open fun onCreate() {
@@ -150,7 +150,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
             if (code == TbConfig.getInstance().successCode) {
                 mLiveDataMap[taskId]?.postValue(info.data)
             } else {
-                mErrorCodeEvent?.invoke(code, info.message)
+                mErrorCodeEvent?.invoke(code, info.message,taskId)
             }
         }
         TbLogUtils.log("taskId-$taskId--->${info.data.tb2Json()}")
