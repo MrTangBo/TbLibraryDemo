@@ -84,6 +84,7 @@ class TbBottomNavigation : RadioGroup {
         titles: ArrayList<String>,
         unSelectDrawables: ArrayList<Int>? = null,
         selectDrawables: ArrayList<Int>? = null,
+        iconSize: Int = 0,
         mViewPager: ViewPager? = null,
         mDefaultCheckPosition: Int = 0,//默认选中
         pageSelect: TbItemClick = { _ -> Unit },
@@ -96,8 +97,8 @@ class TbBottomNavigation : RadioGroup {
         unSelectDrawables?.forEachIndexed { index, i ->
             val drawable = ContextCompat.getDrawable(context, i)
             val drawable_s = ContextCompat.getDrawable(context, selectDrawables!![index])
-            drawable?.setBounds(0, 0, drawable.minimumWidth, drawable.minimumHeight)
-            drawable_s?.setBounds(0, 0, drawable_s.minimumWidth, drawable_s.minimumHeight)
+            drawable?.setBounds(0, 0, if(iconSize!=0) iconSize else drawable.minimumWidth,if(iconSize!=0) iconSize else drawable.minimumHeight)
+            drawable_s?.setBounds(0, 0,if(iconSize!=0) iconSize else drawable_s.minimumWidth,if(iconSize!=0) iconSize else drawable_s.minimumHeight)
             selectList.add(drawable_s!!)
             unSelectList.add(drawable!!)
         }
@@ -125,7 +126,7 @@ class TbBottomNavigation : RadioGroup {
                 }
                 radioButton.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
             }
-            radioButton.setOnClickListener {_->
+            radioButton.setOnClickListener { _ ->
                 clickPosition.invoke(index)
                 forEachIndexed { i, it ->
                     if (it is RadioButton) {
