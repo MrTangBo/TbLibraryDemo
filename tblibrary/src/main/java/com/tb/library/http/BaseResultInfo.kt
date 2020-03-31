@@ -8,11 +8,11 @@ import java.io.Serializable
  */
 open class BaseResultInfo<T> : Serializable {
 
-    open var code: Any? = null
+    open var mCode: Any? = null
 
-    open var data: T? = null
+    open var mData: T? = null
 
-    open var message: String = ""
+    open var mMessage: String = ""
 
 
 }

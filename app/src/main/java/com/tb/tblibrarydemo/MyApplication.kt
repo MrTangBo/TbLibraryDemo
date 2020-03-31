@@ -15,6 +15,7 @@ class MyApplication : TbApplication() {
         super.onCreate()
         TbConfig.getInstance().baseUrl = "http://v.juhe.cn/"
         TbConfig.getInstance().successCode = 0.0
-        TbConfig.getInstance().statusColor=R.color.colorAccent
+        TbConfig.getInstance().statusColor = R.color.colorAccent
+        TbConfig.getInstance().setOkHttpClient(headers = mutableMapOf("myHeader" to "myHeader"))
     }
 }

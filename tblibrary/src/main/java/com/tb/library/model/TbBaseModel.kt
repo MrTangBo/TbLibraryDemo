@@ -147,17 +147,17 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
 
     override fun <T> onNext(t: T, taskId: Int) {
         val info = t as BaseResultInfo<*>
-        if (info.message.isEmpty()) {
-            tbShowToast(info.message)
+        if (info.mMessage.isNotEmpty()) {
+            tbShowToast(info.mMessage)
         }
-        info.code?.let { code ->
+        info.mCode?.let { code ->
             if (code == TbConfig.getInstance().successCode) {
-                mLiveDataMap[taskId]?.postValue(info.data)
+                mLiveDataMap[taskId]?.postValue(info.mData)
             } else {
-                mErrorCodeEvent?.invoke(code, info.message, taskId)
+                mErrorCodeEvent?.invoke(code, info.mMessage, taskId)
             }
         }
-        TbLogUtils.log("taskId-$taskId--->${info.data.tb2Json()}")
+        TbLogUtils.log("taskId-$taskId--->${info.mData.tb2Json()}")
     }
 
     override fun onComplete(taskId: Int) {

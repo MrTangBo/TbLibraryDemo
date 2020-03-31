@@ -56,6 +56,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
         mBanner.initBanner(imagList, isCanLoop = true)
 
+
         mtBN.setTitle(
             arrayListOf("首页", "论坛", "订单", "消息", "我的"),
             arrayListOf(

@@ -7,13 +7,13 @@ import java.io.Serializable
 class ResultInfo<T> : BaseResultInfo<T>(), Serializable {
 
     @SerializedName("error_code")
-    override var code: Any? = null
+    override var mCode: Any? = null
 
     @SerializedName("result")
-    override var data: T? = null
+    override var mData: T? = null
 
     @SerializedName("reason")
-    override var message: String = ""
+    override var mMessage: String = ""
 
 
 }
