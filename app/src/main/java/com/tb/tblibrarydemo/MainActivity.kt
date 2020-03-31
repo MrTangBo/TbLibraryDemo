@@ -54,6 +54,10 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         mBinding.url = imagList[0]
 
 
+        0.tbSetShared("userId")
+
+        TbLogUtils.log("userId-->${tbGetShared<Int>("userId")}")
+
         mBanner.initBanner(imagList, isCanLoop = true)
 
 
@@ -72,7 +76,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo
-            ), clickPosition = {
+            ),iconSize = tbGetDimensValue(R.dimen.x15), clickPosition = {
                 if (it == 2)
                     mMode?.getData()
 //                tbStartActivity<TbCaptureActivity>(requestCode = 3000)
@@ -91,7 +95,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         super.resultData(taskId, info)
         val mInfo = info as TestBean
 
-        mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
+//        mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
 
     }
 

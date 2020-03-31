@@ -6,7 +6,6 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.tb.library.R
-import com.tb.library.util.TbLogUtils
 import okhttp3.CertificatePinner
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -117,7 +116,6 @@ class TbConfig {
             val headerInterceptor = Interceptor { chain ->
                 val requestHeader = chain.request().newBuilder()
                 /*设置具体的header*/
-
                 headers.forEach {
                     requestHeader.addHeader(it.key, it.value)
                 }

@@ -54,12 +54,12 @@ fun Any?.tbSetShared(key: String, isClean: Boolean = true) {
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T> Any.tbGetShared(key: String, isClean: Boolean = true): T {
     val share = if (isClean) tBMMKV_C else tBMMKV
-    return when (T::class.java) {
-        String::class.java -> share.getString(key, "") as T
-        Int::class.java -> share.getInt(key, 0) as T
-        Float::class.java -> share.getFloat(key, 0f) as T
-        Long::class.java -> share.getLong(key, 0L) as T
-        Boolean::class.java -> share.getBoolean(key, false) as T
+    return when (T::class) {
+        String::class -> share.getString(key, "") as T
+        Int::class -> share.getInt(key, 0) as T
+        Float::class -> share.getFloat(key, 0f) as T
+        Long::class -> share.getLong(key, 0L) as T
+        Boolean::class -> share.getBoolean(key, false) as T
         else -> "" as T
     }
 }

@@ -23,6 +23,6 @@ class MyApplication : TbApplication() {
                 "token" to tbGetShared<String>("token")
             )
         )
-        TbConfig.getInstance().successCode = 200
+        TbConfig.getInstance().successCode = 200.0
     }
 }

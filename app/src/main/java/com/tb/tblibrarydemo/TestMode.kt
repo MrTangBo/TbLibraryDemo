@@ -18,7 +18,7 @@ class TestMode : TbBaseModel() {
         )
         val mLoginApi = RetrofitApi.getInstance()
             .getInterface<Api>()
-            .getEmail(mRequestMap[0])
+            .getUserInfo()
         startRequest(mLoginApi, 200)
     }
 

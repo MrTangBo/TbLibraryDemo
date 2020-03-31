@@ -24,7 +24,7 @@ interface Api {
 
 
     /*获取验证邮箱*/
-    @POST("checkAccount")
-    fun getEmail(@Body map: MutableMap<String, String>): Flowable<ResultInfo<PasswordChangeStepOneInfo>>
+    @POST("user/getUserInfo")
+    fun getUserInfo(): Flowable<ResultInfo<PasswordChangeStepOneInfo>>
 
 }
