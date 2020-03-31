@@ -152,7 +152,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
         }
         info.mCode?.let { code ->
             if (code == TbConfig.getInstance().successCode) {
-                mLiveDataMap[taskId]?.postValue(info.mData)
+                mLiveDataMap[taskId]?.value = info.mData
             } else {
                 mErrorCodeEvent?.invoke(code, info.mMessage, taskId)
             }
