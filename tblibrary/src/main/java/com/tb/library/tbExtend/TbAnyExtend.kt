@@ -9,7 +9,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
-import android.os.Parcelable
 import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.Gravity
@@ -30,7 +29,6 @@ import com.tb.library.tbDialog.TbSureDialog
 import com.tb.library.util.ActivityManagerUtil
 import com.tb.library.util.TbLogUtils
 import com.tb.library.tbEntity.TbApkInfo
-import java.io.Serializable
 
 
 /**
@@ -44,28 +42,25 @@ fun Any?.tbSetShared(key: String, isClean: Boolean = true) {
     if (this == null) return
     val share = if (isClean) tBMMKV_C else tBMMKV
     when (this) {
-        is String -> share.encode(key, this)
-        is Int -> share.encode(key, this)
-        is Float -> share.encode(key, this)
-        is Long -> share.encode(key, this)
-        is Boolean -> share.encode(key, this)
+        is String -> share.putString(key, this)
+        is Int -> share.putInt(key, this)
+        is Float -> share.putFloat(key, this)
+        is Long -> share.putLong(key, this)
+        is Boolean -> share.putBoolean(key, this)
     }
 }
 
 /*获取String缓存MMKV*/
 @Suppress("UNCHECKED_CAST")
-inline fun <reified T> Any.tbGetShared(
-    key: String,
-    isClean: Boolean = true
-): T {
+inline fun <reified T> Any.tbGetShared(key: String, isClean: Boolean = true): T {
     val share = if (isClean) tBMMKV_C else tBMMKV
     return when (T::class) {
-        String::class -> share.decodeString(key, "") as T
-        Int::class -> share.decodeInt(key, 0) as T
-        Float::class -> share.decodeFloat(key, 0f) as T
-        Long::class -> share.decodeLong(key, 0L) as T
-        Boolean::class -> share.decodeBool(key, false) as T
-        else -> (share.decodeString(key, "") as String).tb2Object<T>()!!
+        String::class -> share.getString(key, "") as T
+        Int::class -> share.getInt(key, 0) as T
+        Float::class -> share.getFloat(key, 0f) as T
+        Long::class -> share.getLong(key, 0L) as T
+        Boolean::class -> share.getBoolean(key, false) as T
+        else -> (share.getString(key, "") as String).tb2Object<T>()!!
     }
 }
 

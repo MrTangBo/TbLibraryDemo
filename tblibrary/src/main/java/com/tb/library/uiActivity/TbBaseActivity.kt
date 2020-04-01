@@ -1,6 +1,7 @@
 package com.tb.library.uiActivity
 
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -10,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.R
@@ -28,26 +30,21 @@ import kotlin.system.exitProcess
 
 abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatActivity() {
 
-    open val mMode: T? = null
-
-    open val mModelTaskIds: IntArray? = null
-
+    var mMode: T? = null
     lateinit var mBinding: G
 
-    open val mTbLoadLayout: TbLoadLayout? = null
-    open val mSpringView: SpringView? = null
+    var mTbLoadLayout: TbLoadLayout? = null
+    var mSpringView: SpringView? = null
 
-    open val mLoadingDialog: TbLoadingDialog
-        get() = TbLoadingDialog(this)
+    lateinit var mLoadingDialog: TbLoadingDialog
 
-    open val mContext: Context
-        get() = this
+    lateinit var mContext: Context
 
     open val mIsOpenARouter = false//是否开启ARouter
     open val mIsOpenEventBus = false//是否开启EventBus
 
     @LayoutRes
-    open val mLayoutId: Int = 0
+    var mLayoutId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,11 +54,13 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         mBinding = DataBindingUtil.setContentView(this, mLayoutId)
         init()
+        initLoadingDialog()
         initModel()
         initData()
     }
 
     open fun init() {
+        mContext = this
         tbAddActivity()
         if (mIsOpenARouter) {
             ARouter.getInstance().inject(this)
@@ -69,6 +68,10 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
         if (mIsOpenEventBus) {
             EventBus.getDefault().register(this)
         }
+    }
+
+    open fun initLoadingDialog() {
+        mLoadingDialog = TbLoadingDialog(this)
     }
 
     open fun initSpringView() {
@@ -79,11 +82,13 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
         }
     }
 
+    open  fun getModel() {
+
+    }
+
     open fun initModel() {
+        getModel()
         mMode?.let { model ->
-            mModelTaskIds?.let {
-                model.initLiveData(*it)
-            }
             initSpringView()
             model.mTbLoadLayout = mTbLoadLayout
             model.mSpringView = mSpringView
@@ -98,8 +103,8 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
                 showLoadingDialog()
             }
 
-            model.mErrorCodeEvent = { code, msg, taskId ->
-                errorCodeEvent(code, msg, taskId)
+            model.mErrorCodeEvent = { code, msg ,taskId->
+                errorCodeEvent(code, msg,taskId)
             }
             model.mLiveDataMap.forEach { map ->
                 map.value.observe(this, Observer {
@@ -125,7 +130,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
 
     }
 
-    open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
+    open fun <M> errorCodeEvent(code: M, msg: String,taskId:Int) {
 
     }
 

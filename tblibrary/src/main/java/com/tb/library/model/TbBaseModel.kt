@@ -160,7 +160,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
             }
         }
     }
-
+    
     override fun onComplete(taskId: Int) {
         mIsShowLoading = true
         mDialogDismiss?.invoke()

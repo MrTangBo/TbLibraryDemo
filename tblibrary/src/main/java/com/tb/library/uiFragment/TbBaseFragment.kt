@@ -10,6 +10,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import com.alibaba.android.arouter.launcher.ARouter
 import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.base.TbConfig
 import com.tb.library.base.TbEventBusInfo
@@ -17,7 +18,6 @@ import com.tb.library.model.TbBaseModel
 import com.tb.library.tbDialog.TbLoadingDialog
 import com.tb.library.tbExtend.init
 import com.tb.library.tbExtend.tbIsMultiClick
-import com.tb.library.tbExtend.tbShowToast
 import com.tb.library.util.FontUtil
 import com.tb.library.view.TbLoadLayout
 import org.greenrobot.eventbus.EventBus
@@ -32,17 +32,14 @@ import org.greenrobot.eventbus.ThreadMode
  */
 abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment() {
 
-    open val mMode: T? = null
-    open val mModelTaskIds: IntArray? = null
-
+    var mMode: T? = null
     lateinit var mBinding: G
     var mRootView: View? = null
 
-    open val mTbLoadLayout: TbLoadLayout? = null
-    open val mSpringView: SpringView? = null
+    var mTbLoadLayout: TbLoadLayout? = null
+    var mSpringView: SpringView? = null
 
-    open val mLoadingDialog: TbLoadingDialog
-        get() = TbLoadingDialog(fActivity)
+    lateinit var mLoadingDialog: TbLoadingDialog
 
     lateinit var fActivity: FragmentActivity
 
@@ -51,7 +48,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     open val mIsOpenEventBus = false//是否开启EventBus
 
     @LayoutRes
-    open val mLayoutId: Int = 0
+    var mLayoutId: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,6 +66,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     open fun init() {
         fActivity = activity!!
+        initLoadingDialog()
         initModel()
         if (mIsOpenEventBus) {
             EventBus.getDefault().register(this)
@@ -83,15 +81,13 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
         }
     }
 
+    open fun getModel() {
+
+    }
 
     open fun initModel() {
-        if (mModelTaskIds == null) {
-            tbShowToast("请初始化mModelTaskIds！")
-        }
+        getModel()
         mMode?.let { model ->
-            mModelTaskIds?.let {
-                model.initLiveData(*it)
-            }
             initSpringView()
             model.mTbLoadLayout = mTbLoadLayout
             model.mSpringView = mSpringView
@@ -138,6 +134,9 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     }
 
+    open fun initLoadingDialog() {
+        mLoadingDialog = TbLoadingDialog(fActivity)
+    }
 
     open fun onClick(view: View?) {
         if (tbIsMultiClick()) return
