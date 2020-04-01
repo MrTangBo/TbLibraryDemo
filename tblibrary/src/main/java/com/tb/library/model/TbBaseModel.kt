@@ -147,6 +147,8 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
 
     override fun <T> onNext(t: T, taskId: Int) {
         val info = t as BaseResultInfo<*>
+        TbLogUtils.log("taskId-$taskId--->${info.mData.tb2Json()}")
+        //子类实现
         if (info.mMessage.isNotEmpty()) {
             tbShowToast(info.mMessage)
         }
@@ -157,7 +159,6 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
                 mErrorCodeEvent?.invoke(code, info.mMessage, taskId)
             }
         }
-        TbLogUtils.log("taskId-$taskId--->${info.mData.tb2Json()}")
     }
 
     override fun onComplete(taskId: Int) {
