@@ -77,12 +77,12 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     open fun initSpringView() {
         mSpringView?.let { springView ->
             mMode?.let {
-                springView.init(it)
+                it.mSpringView = springView.init(it)
             }
         }
     }
 
-    open  fun getModel() {
+    open fun getModel() {
 
     }
 
@@ -103,8 +103,8 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
                 showLoadingDialog()
             }
 
-            model.mErrorCodeEvent = { code, msg ,taskId->
-                errorCodeEvent(code, msg,taskId)
+            model.mErrorCodeEvent = { code, msg, taskId ->
+                errorCodeEvent(code, msg, taskId)
             }
             model.mLiveDataMap.forEach { map ->
                 map.value.observe(this, Observer {
@@ -130,7 +130,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
 
     }
 
-    open fun <M> errorCodeEvent(code: M, msg: String,taskId:Int) {
+    open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
 
     }
 

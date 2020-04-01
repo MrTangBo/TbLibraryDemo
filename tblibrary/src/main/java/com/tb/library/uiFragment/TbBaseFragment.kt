@@ -76,7 +76,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     open fun initSpringView() {
         mSpringView?.let { springView ->
             mMode?.let {
-                springView.init(it)
+                it.mSpringView = springView.init(it)
             }
         }
     }
