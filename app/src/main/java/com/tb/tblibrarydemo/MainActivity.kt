@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.AppBarLayout
+import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.base.TbConfig
 import com.tb.library.base.TbEventBusInfo
 import com.tb.library.tbExtend.*
 import com.tb.library.tbZxingUtil.android.TbCaptureActivity
 import com.tb.library.uiActivity.TbTitleBaseActivity
 import com.tb.library.util.TbLogUtils
+import com.tb.library.view.TbLoadLayout
 import com.tb.tblibrarydemo.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
@@ -17,24 +19,26 @@ import org.greenrobot.eventbus.EventBus
 class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
 
+    override val mLayoutId: Int
+        get() = R.layout.activity_main
 
+    override val mTbLoadLayout: TbLoadLayout?
+        get() = mLoadLayout
 
+    override val mSpringView: SpringView?
+        get() = springView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        mLayoutId = R.layout.activity_main
-        super.onCreate(savedInstanceState)
-    }
+    override val mMode: TestMode?
+        get() = ViewModelProvider(this).get(TestMode::class.java)
 
-    override fun getModel() {
-        super.getModel()
-        mMode = ViewModelProvider(this).get(TestMode::class.java)
-        mMode?.initLiveData(Api.getData)
-        mTbLoadLayout = mLoadLayout
-        mSpringView = springView
+    override val mModelTaskIds: IntArray?
+        get() = intArrayOf(Api.getData)
 
-
-        TbLogUtils.log("222--->$mIsOpenARouter")
-    }
+//    override fun getModel() {
+//        super.getModel()
+//        mMode?.initLiveData(Api.getData)
+//        TbLogUtils.log("222--->$mIsOpenARouter")
+//    }
 
     override fun initData() {
         super.initData()
@@ -76,7 +80,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo
-            ),iconSize = tbGetDimensValue(R.dimen.x15), clickPosition = {
+            ), iconSize = tbGetDimensValue(R.dimen.x15), clickPosition = {
                 if (it == 2)
                     mMode?.getData()
 //                tbStartActivity<TbCaptureActivity>(requestCode = 3000)
@@ -95,7 +99,12 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         super.resultData(taskId, info)
         val mInfo = info as TestBean
 
-//        mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
+        mInfo.tb2Json().tbSetShared("info")
+
+
+        val ins=tbGetShared<TestBean>("info")
+
+        mTx.text = "${ins.data[0].content}--->t${tbGetShared<String>("name")}"
 
     }
 

@@ -6,18 +6,16 @@ import java.io.Serializable
 
 class ResultInfo<T> : BaseResultInfo<T>(), Serializable {
 
-    @SerializedName("msgCode")
+    @SerializedName("error_code")
     override var mCode: Any? = 0
 
-    @SerializedName("data")
+    @SerializedName("result")
     override var mData: T? = null
 
-    @SerializedName("msgContent")
+    @SerializedName("reason")
     override var mMessage: String = ""
 
-    var result: String = ""
 
-    var otherCode: Int = 0
 
 
 }

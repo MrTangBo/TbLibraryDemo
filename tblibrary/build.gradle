@@ -38,7 +38,7 @@ android {
             mavenDeployer {
                 pom.groupId = "com.tb.library"
                 pom.artifactId = "library"
-                pom.version = "3.0.1"
+                pom.version = "3.0.2"
                 repository(url: "file://localhost/" + "D:/repository")
 //                   {authentication(userName: "admin", password: "admin123")}
             }
