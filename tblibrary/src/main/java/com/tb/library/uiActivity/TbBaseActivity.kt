@@ -77,7 +77,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     open fun initSpringView() {
         mSpringView?.let { springView ->
             mMode?.let {
-                it.mSpringView = springView.init(it)
+                mSpringView = springView.init(it)
             }
         }
     }

@@ -67,7 +67,6 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     open fun init() {
         fActivity = activity!!
         initLoadingDialog()
-        initModel()
         if (mIsOpenEventBus) {
             EventBus.getDefault().register(this)
         }
@@ -76,7 +75,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     open fun initSpringView() {
         mSpringView?.let { springView ->
             mMode?.let {
-                it.mSpringView = springView.init(it)
+                mSpringView = springView.init(it)
             }
         }
     }
@@ -163,6 +162,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
         if (TbConfig.getInstance().fontType.isNotEmpty()) {
             FontUtil.replaceFont(mRootView, TbConfig.getInstance().fontType)
         }
+        initModel()
         if (!isLoad) {
             loadData()
             isLoad = true
