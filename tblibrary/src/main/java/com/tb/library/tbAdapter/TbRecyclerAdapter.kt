@@ -16,37 +16,38 @@ import com.tb.library.util.FontUtil
  * @Author: TangBo
  */
 
-abstract class TbRecyclerAdapter(var listData: ArrayList<*>, @LayoutRes var layoutId: Int) :
-    RecyclerView.Adapter<TbRecyclerAdapter.MyHolder>() {
+abstract class TbRecyclerAdapter<T, G : ViewDataBinding>(var listData: ArrayList<T>, @LayoutRes var layoutId: Int) :
+    RecyclerView.Adapter<TbRecyclerAdapter.MyHolder<G>>() {
 
-    var tbItemClick:  TbItemClick = { _ -> Unit }//item点击事件
+    var tbItemClick: TbItemClick = { _ -> Unit }//item点击事件
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder<G> {
         val itemBing: ViewDataBinding =
             DataBindingUtil.inflate(LayoutInflater.from(parent.context), layoutId, parent, false)
         if (TbConfig.getInstance().fontType.isNotEmpty()) {
             FontUtil.replaceFont(itemBing.root, TbConfig.getInstance().fontType)
         }
-        return MyHolder(itemBing)
+        return MyHolder(itemBing as G)
     }
 
     override fun getItemCount(): Int {
         return listData.size
     }
 
-    override fun onBindViewHolder(holder: MyHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyHolder<G>, position: Int) {
         holder.itemBinding.root.setOnClickListener {
             tbItemClick.invoke(position)
         }
-        onBind(holder, position)
+        onBind(holder.itemBinding, listData[position], position)
         holder.itemBinding.executePendingBindings()
     }
 
-    abstract fun onBind(holder: MyHolder, position: Int)
+    abstract fun onBind(itemBinding: G, info: T, position: Int)
 
 
-    class MyHolder(mItemBinding: ViewDataBinding) : RecyclerView.ViewHolder(mItemBinding.root) {
-        var itemBinding: ViewDataBinding = mItemBinding
+    class MyHolder<G : ViewDataBinding>(mItemBinding: G) :
+        RecyclerView.ViewHolder(mItemBinding.root) {
+        var itemBinding: G = mItemBinding
     }
 
 

@@ -177,8 +177,8 @@ fun ConvenientBanner<*>.initBanner(
 
 
 /*RecyclerView初始化*/
-inline fun RecyclerView?.init(
-    adapter: TbRecyclerAdapter?,
+inline fun <T, G : ViewDataBinding> RecyclerView?.init(
+    adapter: TbRecyclerAdapter<T, G>?,
     mLayoutManager: Class<*> = LinearLayoutManager::class.java,
     mSpanCount: Int = 2,
     noinline itemClick: TbItemClick = { _ -> Unit },
