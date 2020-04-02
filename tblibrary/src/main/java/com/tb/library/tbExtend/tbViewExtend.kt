@@ -4,10 +4,7 @@ import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.Rect
+import android.graphics.*
 import android.net.http.SslError
 import android.os.Build
 import android.os.Handler
@@ -302,6 +299,8 @@ inline fun TabLayout.init(
     mDrawablePadding: Int = R.dimen.x5,
     iconGravity: Int = Gravity.BOTTOM,
     textGravity: Int = Gravity.CENTER,
+    textStyleSelect: Int = Typeface.NORMAL,
+    textStyleUnSelect: Int = Typeface.NORMAL,
     viewPager: ViewPager? = null
 ) {
     titles.forEachIndexed { index, charSequence ->
@@ -311,8 +310,10 @@ inline fun TabLayout.init(
         item.setTextColor(ContextCompat.getColor(context, unSelectColor))
         item.background = ContextCompat.getDrawable(context, unSelectItemBg)
         item.setPadding(itemPadding.left, itemPadding.top, itemPadding.right, itemPadding.bottom)
+        item.typeface = Typeface.defaultFromStyle(textStyleUnSelect)
         if (index == 0) {
             item.setTextColor(ContextCompat.getColor(context, selectColor))
+            item.typeface = Typeface.defaultFromStyle(textStyleSelect)
             item.background = ContextCompat.getDrawable(context, selectItemBg)
         }
         item.text = charSequence
@@ -351,6 +352,7 @@ inline fun TabLayout.init(
             p0?.let {
                 it.customView.let { view ->
                     view as TextView
+                    view.typeface = Typeface.defaultFromStyle(textStyleUnSelect)
                     view.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
                         tbGetDimensValue(unSelectSize).toFloat()
@@ -367,6 +369,7 @@ inline fun TabLayout.init(
                 mOnTabSelected.invoke(it.position)
                 it.customView.let { view ->
                     view as TextView
+                    view.typeface = Typeface.defaultFromStyle(textStyleSelect)
                     view.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
                         tbGetDimensValue(selectSize).toFloat()

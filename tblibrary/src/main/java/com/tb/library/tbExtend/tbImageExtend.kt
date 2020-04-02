@@ -44,19 +44,23 @@ import java.util.*
 //常规的加载
 @BindingAdapter("url", "scaleType", "isCache", requireAll = false)
 fun ImageView.showImage(
-    imageUrl: String,
+    imageUrl: String? = null,
     scaleType: ImageView.ScaleType? = null,
     isCache: Boolean? = null//是否启用缓存
 ) {
     var mScaleType = ImageView.ScaleType.CENTER_CROP
     var mIsCache = true
+    var mImageUrl = ""
     if (scaleType != null) {
         mScaleType = scaleType
     }
     if (isCache != null) {
         mIsCache = isCache
     }
-    GlideUtil.getInstance().showImage(this.context, imageUrl, this, mScaleType, mIsCache)
+    if (imageUrl!=null){
+        mImageUrl=imageUrl
+    }
+    GlideUtil.getInstance().showImage(this.context, mImageUrl, this, mScaleType, mIsCache)
 }
 
 
