@@ -47,8 +47,8 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     open val mIsOpenEventBus = false//是否开启EventBus
 
-    @LayoutRes
-    var mLayoutId: Int = 0
+
+    abstract val mLayoutId: Int
 
     override fun onCreateView(
         inflater: LayoutInflater,

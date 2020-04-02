@@ -17,10 +17,9 @@ import org.greenrobot.eventbus.EventBus
 class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        mLayoutId = R.layout.activity_main
-        super.onCreate(savedInstanceState)
-    }
+    override val mLayoutId: Int
+        get() = R.layout.activity_main
+
 
     override fun getModel() {
         super.getModel()
@@ -73,7 +72,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo
-            ),iconSize = tbGetDimensValue(R.dimen.x15), clickPosition = {
+            ), iconSize = tbGetDimensValue(R.dimen.x15), clickPosition = {
                 if (it == 2)
                     mMode?.getData()
 //                tbStartActivity<TbCaptureActivity>(requestCode = 3000)

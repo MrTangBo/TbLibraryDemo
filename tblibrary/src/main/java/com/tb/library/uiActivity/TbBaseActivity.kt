@@ -43,8 +43,8 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     open val mIsOpenARouter = false//是否开启ARouter
     open val mIsOpenEventBus = false//是否开启EventBus
 
-    @LayoutRes
-    var mLayoutId: Int = 0
+
+    abstract val mLayoutId: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
