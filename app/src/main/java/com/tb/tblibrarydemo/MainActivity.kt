@@ -25,7 +25,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         super.getModel()
         mMode = ViewModelProvider(this).get(TestMode::class.java)
         mMode?.initLiveData(Api.getData)
-        mTbLoadLayout = mLoadLayout
+//        mTbLoadLayout = mLoadLayout
         mSpringView = springView
 
 

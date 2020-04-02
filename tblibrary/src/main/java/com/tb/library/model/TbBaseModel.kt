@@ -154,13 +154,18 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
         info.mCode?.let { code ->
             if (code == TbConfig.getInstance().successCode) {
                 mLiveDataMap[taskId]?.value = info.mData
+                if (mSpringView != null) {
+                    mPage++
+                } else {
+                    mPage = 1
+                }
             } else {
                 mErrorCodeEvent?.invoke(code, info.mMessage, taskId)
             }
         }
         TbLogUtils.log("taskId-$taskId--->${info.mData.tb2Json()}")
     }
-    
+
     override fun onComplete(taskId: Int) {
         mIsShowLoading = true
         mDialogDismiss?.invoke()
@@ -218,8 +223,8 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     }
 
     open fun tbLoadMore() {
-        mPage++
         mIsShowLoading = false
+        TbLogUtils.log("MPAGE--->$mPage")
     }
 
 }
