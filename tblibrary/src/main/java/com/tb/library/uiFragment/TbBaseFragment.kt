@@ -58,10 +58,14 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
         if (mRootView == null) {
             mBinding = DataBindingUtil.inflate(inflater, mLayoutId, container, false)
             mRootView = mBinding.root
-            init()
-            initData()
         }
         return mRootView
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        init()
+        initData()
     }
 
     open fun init() {

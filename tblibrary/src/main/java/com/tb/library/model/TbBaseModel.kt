@@ -207,24 +207,32 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
         }
     }
 
-
     override fun onLoadmore() {
+        mPage = 1
+        mIsShowLoading = false
+        tbSpringViewJoinRefresh()
         tbLoadMore()
     }
 
     override fun onRefresh() {
+        mIsShowLoading = false
+        tbSpringViewJoinRefresh()
         tbOnRefresh()
     }
 
 
+    @Deprecated("用tbSpringViewJoinRefresh代替")
     open fun tbOnRefresh() {
-        mPage = 1
-        mIsShowLoading = false
+
     }
 
+    @Deprecated("用tbSpringViewJoinRefresh代替")
     open fun tbLoadMore() {
-        mIsShowLoading = false
-        TbLogUtils.log("MPAGE--->$mPage")
+
+    }
+
+    open fun tbSpringViewJoinRefresh() {
+
     }
 
 }

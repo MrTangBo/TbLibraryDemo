@@ -12,7 +12,7 @@ publish {//上传jecenter
     repoName = "tblibrary"//仓库名字
     groupId = 'com.tb.library'//jcenter上的路径Version Controller
     artifactId = 'library'//项目名称
-    publishVersion = '3.0.2'//版本号
+    publishVersion = '3.0.3'//版本号
     desc = 'Android development convenience Library'//描述，不重要
     website = 'https://github.com/MrTangBo/TbLibraryDemo'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
 }
@@ -38,14 +38,14 @@ android {
             mavenDeployer {
                 pom.groupId = "com.tb.library"
                 pom.artifactId = "library"
-                pom.version = "3.0.6"
+                pom.version = "3.1.0"
                 repository(url: "file://localhost/" + "D:/repository")
 //                   {authentication(userName: "admin", password: "admin123")}
             }
         }
     }
 
-    dataBinding.enabled=true
+    dataBinding.enabled = true
 
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -128,5 +128,8 @@ dependencies {
 
     //权限管理
     api 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
+
+    //时间选择器
+    api 'com.contrarywind:Android-PickerView:4.1.9'
 
 }
