@@ -208,13 +208,14 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     }
 
     override fun onLoadmore() {
-        mPage = 1
         mIsShowLoading = false
         tbSpringViewJoinRefresh()
         tbLoadMore()
     }
 
     override fun onRefresh() {
+
+        mPage = 1
         mIsShowLoading = false
         tbSpringViewJoinRefresh()
         tbOnRefresh()

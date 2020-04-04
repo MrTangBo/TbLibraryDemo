@@ -24,7 +24,7 @@ interface Api {
 
 
     /*获取验证邮箱*/
-    @POST("user/getUserInfo")
-    fun getUserInfo(): Flowable<ResultInfo<PasswordChangeStepOneInfo>>
+//    @POST("user/getUserInfo")
+//    fun getUserInfo(): Flowable<ResultInfo<PasswordChangeStepOneInfo>>
 
 }

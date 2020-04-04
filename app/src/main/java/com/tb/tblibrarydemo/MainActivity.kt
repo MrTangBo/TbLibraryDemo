@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.AppBarLayout
 import com.tb.library.base.TbConfig
 import com.tb.library.base.TbEventBusInfo
+import com.tb.library.tbDialog.TbLoadingDialog
 import com.tb.library.tbExtend.*
 import com.tb.library.tbZxingUtil.android.TbCaptureActivity
 import com.tb.library.uiActivity.TbTitleBaseActivity
@@ -19,6 +20,8 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
     override val mLayoutId: Int
         get() = R.layout.activity_main
+
+
 
 
     override fun getModel() {
