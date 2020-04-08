@@ -151,11 +151,6 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
         info.mCode?.let { code ->
             if (code == TbConfig.getInstance().successCode) {
                 mLiveDataMap[taskId]?.value = info.mData
-                if (mSpringView != null) {
-                    mPage++
-                } else {
-                    mPage = 1
-                }
             } else {
                 mErrorCodeEvent?.invoke(code, info.mMessage, taskId)
             }
@@ -176,6 +171,9 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
         mDialogDismiss?.invoke()
         mTbLoadLayout?.showView(TbLoadLayout.ERROR)
         mSpringView?.onFinishFreshAndLoadDelay()
+        if (mPage > 1) {
+            mPage--
+        }
         when (t) {
             is ConnectException, is UnknownHostException -> {
                 tbShowToast(TbApplication.mApplicationContext.resources.getString(R.string.connect_error))
@@ -205,6 +203,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     }
 
     override fun onLoadmore() {
+        mPage++
         mIsShowLoading = false
         tbSpringViewJoinRefresh()
         tbLoadMore()
