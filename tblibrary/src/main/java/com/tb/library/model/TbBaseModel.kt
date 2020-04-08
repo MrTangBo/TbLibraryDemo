@@ -148,9 +148,6 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     override fun <T> onNext(t: T, taskId: Int) {
         val info = t as BaseResultInfo<*>
         //子类实现
-        if (info.mMessage.isNotEmpty()) {
-            tbShowToast(info.mMessage)
-        }
         info.mCode?.let { code ->
             if (code == TbConfig.getInstance().successCode) {
                 mLiveDataMap[taskId]?.value = info.mData
@@ -208,13 +205,13 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     }
 
     override fun onLoadmore() {
-        mPage = 1
         mIsShowLoading = false
         tbSpringViewJoinRefresh()
         tbLoadMore()
     }
 
     override fun onRefresh() {
+        mPage = 1
         mIsShowLoading = false
         tbSpringViewJoinRefresh()
         tbOnRefresh()
