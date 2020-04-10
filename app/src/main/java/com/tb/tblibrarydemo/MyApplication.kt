@@ -15,14 +15,7 @@ class MyApplication : TbApplication() {
         super.onCreate()
 
         TbConfig.getInstance().statusColor = R.color.colorAccent
-        TbConfig.getInstance().baseUrl = "http://192.168.5.199:8070/"//测试服
-        TbConfig.getInstance().setOkHttpClient(
-            headers = mutableMapOf(
-                "Content-Type" to "application/json",
-                "language" to "cn",
-                "token" to tbGetShared<String>("token")
-            )
-        )
-        TbConfig.getInstance().successCode = 200.0
+        TbConfig.getInstance().baseUrl = "http://v.juhe.cn/"//测试服
+        TbConfig.getInstance().successCode ="Success"
     }
 }

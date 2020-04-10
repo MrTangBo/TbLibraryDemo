@@ -10,6 +10,7 @@ import com.tb.library.tbExtend.*
 import com.tb.library.tbZxingUtil.android.TbCaptureActivity
 import com.tb.library.uiActivity.TbTitleBaseActivity
 import com.tb.library.util.TbLogUtils
+import com.tb.library.view.TbLoadLayout
 import com.tb.tblibrarydemo.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
@@ -25,7 +26,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         super.getModel()
         mMode = ViewModelProvider(this).get(TestMode::class.java)
         mMode?.initLiveData(Api.getData)
-//        mTbLoadLayout = mLoadLayout
+        mTbLoadLayout = mLoadLayout
         mSpringView = springView
 
 
@@ -88,10 +89,12 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     }
 
     override fun <E> resultData(taskId: Int, info: E) {
-        super.resultData(taskId, info)
+
         val mInfo = info as TestBean
 
-//        mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
+        mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
+
+        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
 
     }
 

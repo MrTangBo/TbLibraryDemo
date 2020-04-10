@@ -8,18 +8,18 @@ class TestMode : TbBaseModel() {
     var ds: Disposable? = null
 
     fun getData() {
-//        val flowable = RetrofitApi.getInstance().getInterface<Api>().getEmail();
-//        startRequest(taskId = Api.getData, flowables = arrayListOf(flowable,flowable))
+        val flowable = RetrofitApi.getInstance().getInterface<Api>().getData();
+        startRequest(taskId = Api.getData, flowables = arrayListOf(flowable,flowable))
 
-        mRequestMap.add(
-            mutableMapOf(
-                "account" to "e609968039"
-            )
-        )
-        val mLoginApi = RetrofitApi.getInstance()
-            .getInterface<Api>()
-            .getUserInfo()
-        startRequest(mLoginApi, 200)
+//        mRequestMap.add(
+//            mutableMapOf(
+//                "account" to "e609968039"
+//            )
+//        )
+//        val mLoginApi = RetrofitApi.getInstance()
+//            .getInterface<Api>()
+//            .getUserInfo()
+        startRequest(flowable, 200)
     }
 
     override fun tbOnRefresh() {

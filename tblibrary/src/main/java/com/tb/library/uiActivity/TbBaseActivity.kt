@@ -43,7 +43,6 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     open val mIsOpenARouter = false//是否开启ARouter
     open val mIsOpenEventBus = false//是否开启EventBus
 
-
     abstract val mLayoutId: Int
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -127,7 +126,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     }
 
     open fun <E> resultData(taskId: Int, info: E) {
-
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {

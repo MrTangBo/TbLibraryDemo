@@ -1,7 +1,7 @@
 package com.tb.tblibrarydemo
 
 
-data class TestBean(
+ data class TestBean(
     var `data`: List<Data> = listOf()
 )
 

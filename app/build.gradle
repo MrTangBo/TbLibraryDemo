@@ -65,5 +65,5 @@ dependencies {
 
     implementation project(":tblibrary")
 
-//    implementation 'com.tb.library:library:1.0.8'
+//    implementation 'com.tb.library:library:3.0.7'
 }
