@@ -63,6 +63,14 @@
         <attr name="rightTextSize" format="dimension" />
         <attr name="rightTxPaddingEnd" format="dimension" />
 
+        <attr name="textTypeFace" format="enum">
+
+            <enum name="normal" value="0" />
+            <enum name="invisible" value="1" />
+
+        </attr>
+
+
         <attr name="leftIconSrc" format="reference" />
         <attr name="leftIconVisible" format="enum">
             <enum name="visible" value="0" />

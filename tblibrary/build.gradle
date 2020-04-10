@@ -12,7 +12,7 @@ publish {//上传jecenter
     repoName = "tblibrary"//仓库名字
     groupId = 'com.tb.library'//jcenter上的路径Version Controller
     artifactId = 'library'//项目名称
-    publishVersion = '3.0.5'//版本号
+    publishVersion = '3.0.6'//版本号
     desc = 'Android development convenience Library'//描述，不重要
     website = 'https://github.com/MrTangBo/TbLibraryDemo'//网站，不重要；尽量模拟github上的地址，例如我这样的；当然你有地址最好了
 }
@@ -38,7 +38,7 @@ android {
             mavenDeployer {
                 pom.groupId = "com.tb.library"
                 pom.artifactId = "library"
-                pom.version = "3.1.0"
+                pom.version = "4.0.0"
                 repository(url: "file://localhost/" + "D:/repository")
 //                   {authentication(userName: "admin", password: "admin123")}
             }

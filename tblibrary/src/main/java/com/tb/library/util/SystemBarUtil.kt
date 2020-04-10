@@ -6,6 +6,8 @@ import android.view.View
 import android.view.Window
 import android.view.WindowManager
 
+
+
 /**
  * @CreateDate: 2020/3/12 1:12
  * @Description: TODO
@@ -14,29 +16,55 @@ import android.view.WindowManager
 object SystemBarUtil {
 
     /*设置状态栏黑色字体图标，*/
-    fun statusBarLightMode(activity: Activity, isFitWindowStatusBar: Boolean, isDark: Boolean = true): Int {
+    fun statusBarLightMode(
+        activity: Activity,
+        isFitWindowStatusBar: Boolean,
+        isDark: Boolean = true
+    ): Int {
         var result = 0
         when {
-            MIUISetStatusBarLightMode(activity.window, isDark) -> result = 1
-            FlymeSetStatusBarLightMode(activity.window, isDark) -> result = 2
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
                 if (isFitWindowStatusBar) {
-                    if (isDark){
+                    if (isDark) {
                         activity.window.decorView.systemUiVisibility =
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    }else{
+                    } else {
                         activity.window.decorView.systemUiVisibility =
                             View.SYSTEM_UI_FLAG_VISIBLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     }
                 } else {
-                    if (isDark){
+                    if (isDark) {
                         activity.window.decorView.systemUiVisibility =
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR or View.SYSTEM_UI_FLAG_VISIBLE
-                    }else{
+                    } else {
                         activity.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
                     }
                 }
                 result = 3
+            }
+            else -> {
+                if (MIUISetStatusBarLightMode(activity.window, isDark)) {
+                    if (isFitWindowStatusBar) {
+                        activity.window.decorView.systemUiVisibility =
+                            View.SYSTEM_UI_FLAG_VISIBLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+
+                    } else {
+                        activity.window.decorView.systemUiVisibility =
+                            View.SYSTEM_UI_FLAG_VISIBLE
+                    }
+                    result = 1
+                }
+                if (FlymeSetStatusBarLightMode(activity.window, isDark)) {
+                    if (isFitWindowStatusBar) {
+                        activity.window.decorView.systemUiVisibility =
+                            View.SYSTEM_UI_FLAG_VISIBLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+
+                    } else {
+                        activity.window.decorView.systemUiVisibility =
+                            View.SYSTEM_UI_FLAG_VISIBLE
+                    }
+                    result = 2
+                }
             }
         }
         return result
@@ -82,7 +110,11 @@ object SystemBarUtil {
                 val field = layoutParams.getField("EXTRA_FLAG_STATUS_BAR_DARK_MODE")
                 darkModeFlag = field.getInt(layoutParams)
                 val extraFlagField =
-                    clazz.getMethod("setExtraFlags", Int::class.javaPrimitiveType, Int::class.javaPrimitiveType)
+                    clazz.getMethod(
+                        "setExtraFlags",
+                        Int::class.javaPrimitiveType,
+                        Int::class.javaPrimitiveType
+                    )
                 if (dark) {
                     extraFlagField.invoke(window, darkModeFlag, darkModeFlag)//状态栏透明且黑色字体
                 } else {
@@ -96,5 +128,5 @@ object SystemBarUtil {
         }
         return result
     }
-
 }
+
