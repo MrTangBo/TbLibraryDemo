@@ -182,4 +182,12 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
             EventBus.getDefault().unregister(this)
         }
     }
+
+    open fun showContent() {
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+    }
+
+    open fun showEmpty() {
+        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
+    }
 }

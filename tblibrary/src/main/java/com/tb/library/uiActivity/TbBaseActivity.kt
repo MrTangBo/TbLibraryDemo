@@ -171,6 +171,14 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
 
     }
 
+    open fun showContent() {
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+    }
+
+    open fun showEmpty() {
+        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
+    }
+
     /**
      * 退出app处理
      */
