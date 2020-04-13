@@ -7,6 +7,7 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.tb.library.R
 import okhttp3.CertificatePinner
+import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -141,6 +142,15 @@ class TbConfig {
                 )
             )
         }
+
+        /*兼容1.3以下的证书*/
+        okHttpClientBuilder.connectionSpecs(
+            okhttp3.internal.Util.immutableList(
+                ConnectionSpec.MODERN_TLS,
+                ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT
+            )
+        )
+
         this.okHttpClient = okHttpClientBuilder
 
         return this
