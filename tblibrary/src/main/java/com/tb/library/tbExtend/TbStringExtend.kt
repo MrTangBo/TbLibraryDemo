@@ -148,8 +148,8 @@ fun String?.tb2PhoneMsm(msmConten: String?) {
     TbApplication.mApplicationContext.startActivity(intent)
 }
 
-/*验证正则表达式默认判定价格（）正则：正浮点数*/
-fun String?.tbStringCheckRegex(regexStr:String=RegexConfig.REGEX_POSITIVE_FLOAT): Boolean {
+/*验证正则表达式*/
+fun String?.tbStringCheckRegex(regexStr:String=RegexConfig.REGEX_PRICE): Boolean {
     if (this.isNullOrEmpty()) return false
     val pattern = Pattern.compile(regexStr) //将给定的正则表达式编译到模式中。
     val isNum = pattern.matcher(this)//创建匹配给定输入与此模式的匹配器。

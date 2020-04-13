@@ -178,6 +178,10 @@ class RegexConfig private constructor() {
          */
         const val REGEX_NEGATIVE_FLOAT = "^-[1-9]\\d*\\.\\d*|-0\\.\\d*[1-9]\\d*$"
         /**
+         * 正则：价格 price
+         */
+        const val REGEX_PRICE = "\\d\\.\\d*|[1-9]\\d*|\\d*\\.\\d*|\\d"
+        /**
          * 6 到16位包含数字和字母
          */
         const val PASSREGEX = "^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$"

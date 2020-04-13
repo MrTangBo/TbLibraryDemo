@@ -96,6 +96,8 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
         mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
 
+
+//        "123".tbStringCheckRegex()
     }
 
     override fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
