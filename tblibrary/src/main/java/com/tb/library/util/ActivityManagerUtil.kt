@@ -15,7 +15,7 @@ import java.util.*
  */
 class ActivityManagerUtil {
 
-    private var mActivities: Stack<Activity> =Stack()
+    private var mActivities: Stack<Activity> = Stack()
 
     companion object {
         fun getInstance() = Holder.instance
@@ -27,6 +27,7 @@ class ActivityManagerUtil {
 
     //添加activity
     fun addActivity(activity: Activity) {
+        if (mActivities.contains(activity)) return
         mActivities.add(activity)
     }
 
@@ -43,7 +44,7 @@ class ActivityManagerUtil {
     //将activity全部关闭掉
     fun clearAll() {
         for (activity in mActivities) {
-            mActivities.remove(activity)
+            removeActivity(activity)
         }
     }
 
