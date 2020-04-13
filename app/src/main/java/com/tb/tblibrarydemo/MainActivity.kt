@@ -1,6 +1,7 @@
 package com.tb.tblibrarydemo
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.appbar.AppBarLayout
@@ -113,8 +114,23 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     override fun singleClick(view: View) {
         super.singleClick(view)
     }
+
+
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitApp()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
 }
 
-class myE : TbEventBusInfo() {
 
-}
+
+

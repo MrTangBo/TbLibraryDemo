@@ -61,6 +61,17 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
         EventBus.getDefault().register(this)
     }
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    open fun onDestroy() {
+        dropView()
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        dropView()
+    }
+
+
     /**
      * 通过taskId数量来创建数据管理MutableLiveData的个数
      */

@@ -31,6 +31,7 @@ class ActivityManagerUtil {
             mActivities!!.add(activity)
         } else {
             mActivities = Stack()
+            mActivities!!.add(activity)
         }
     }
 
@@ -47,7 +48,7 @@ class ActivityManagerUtil {
     //将activity全部关闭掉
     fun clearAll() {
         for (activity in mActivities!!) {
-            activity.finish()
+            mActivities!!.remove(activity)
         }
     }
 

@@ -58,6 +58,8 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
         initData()
     }
 
+
+
     open fun init() {
         mContext = this
         tbAddActivity()
@@ -163,6 +165,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     override fun onDestroy() {
         super.onDestroy()
         mMode?.dropView()
+
         tbKeyboard(false)
         if (mIsOpenEventBus) {
             EventBus.getDefault().unregister(this)
@@ -191,7 +194,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
             exitTime = System.currentTimeMillis()
 
         } else {
-            tbCleanAllActivity()
+            ActivityManagerUtil.getInstance().clearAll()
             exitProcess(0)
         }
     }
