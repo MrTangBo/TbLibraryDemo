@@ -22,8 +22,8 @@
     </declare-styleable>
 
     <declare-styleable name="TextSwitcherView">
-        <attr name="tsv_textColor" format="color"/>
-        <attr name="tsv_textSize" format="dimension"/>
+        <attr name="tsv_textColor" format="color" />
+        <attr name="tsv_textSize" format="dimension" />
     </declare-styleable>
 
     <!--LGNineGridView属性-->
@@ -63,11 +63,13 @@
         <attr name="rightTextSize" format="dimension" />
         <attr name="rightTxPaddingEnd" format="dimension" />
 
-        <attr name="textTypeFace" format="enum">
-
+        <attr name="rightTypeFace" format="enum">
             <enum name="normal" value="0" />
-            <enum name="invisible" value="1" />
-
+            <enum name="bold" value="1" />
+        </attr>
+        <attr name="leftTypeFace" format="enum">
+            <enum name="normal" value="0" />
+            <enum name="bold" value="1" />
         </attr>
 
 
@@ -78,6 +80,7 @@
             <enum name="gone" value="2" />
 
         </attr>
+
 
         <attr name="rightIconSrc" format="reference" />
         <attr name="rightIconVisible" format="enum">

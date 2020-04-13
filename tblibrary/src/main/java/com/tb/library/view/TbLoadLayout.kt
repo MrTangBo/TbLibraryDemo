@@ -1,8 +1,10 @@
 package com.tb.library.view
 
 import android.content.Context
+import android.opengl.Visibility
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.core.content.ContextCompat
@@ -88,8 +90,9 @@ class TbLoadLayout @JvmOverloads constructor(
 
     fun showView(type: Int) {
         mCurrentShow = type
+        getChildAt(0)?.visibility = View.GONE
         forEachIndexed { index, view ->
-            if (index!=0){
+            if (index != 0) {
                 removeView(view)
             }
         }
@@ -109,6 +112,9 @@ class TbLoadLayout @JvmOverloads constructor(
             NO_INTERNET -> {
                 if (mBindNoInternet.root in this) return
                 addView(mBindNoInternet.root)
+            }
+            else -> {
+                getChildAt(0)?.visibility = View.VISIBLE
             }
 
         }
