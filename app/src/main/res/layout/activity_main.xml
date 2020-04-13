@@ -26,6 +26,12 @@
             android:layout_height="@dimen/x300" />
 
 
+        <com.tb.library.view.TbMenuItemLayout
+            android:layout_width="match_parent"
+            app:leftText="@string/tb_sure"
+            app:leftTypeFace="bold"
+            android:layout_height="@dimen/x88"/>
+
         <com.tb.library.view.TbLoadLayout
             android:id="@+id/mLoadLayout"
             android:layout_width="match_parent"

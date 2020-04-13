@@ -59,6 +59,24 @@ class TbMenuItemLayout : RoundFrameLayout {
             itemClick.invoke()
         }
         val typeArray = context.obtainStyledAttributes(attrs, R.styleable.TbMenuItemLayout)
+
+        when (typeArray.getInt(R.styleable.TbMenuItemLayout_rightTypeFace, 0)) {
+            0 -> {
+                bind.rightTx.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
+            }
+            1 -> {
+                bind.rightTx.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+            }
+        }
+        when (typeArray.getInt(R.styleable.TbMenuItemLayout_leftTypeFace, 0)) {
+            0 -> {
+                bind.leftTx.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
+            }
+            1 -> {
+                bind.leftTx.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+            }
+        }
+
         bind.root.setBackgroundResource(
             typeArray.getResourceId(
                 R.styleable.TbMenuItemLayout_itemBg,
@@ -149,25 +167,6 @@ class TbMenuItemLayout : RoundFrameLayout {
                 defaultRightIconSrc
             )
         )
-        Typeface.BOLD
-
-        when (typeArray.getInt(R.styleable.TbMenuItemLayout_rightTypeFace, 0)) {
-            0 -> {
-                bind.rightTx.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
-            }
-            1 -> {
-                bind.rightTx.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-            }
-        }
-        when (typeArray.getInt(R.styleable.TbMenuItemLayout_leftText, 0)) {
-            0 -> {
-                bind.rightTx.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
-            }
-            1 -> {
-                bind.rightTx.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
-            }
-        }
-
         typeArray.recycle()
     }
 
