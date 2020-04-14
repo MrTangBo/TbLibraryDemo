@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
@@ -270,8 +271,15 @@ fun Any.tbGetApkInfo(): TbApkInfo {
     return apkInfo
 }
 
+/*获取资源字符*/
+fun Any.tbGetResString(resId: Int): String {
+    return TbApplication.mApplicationContext.resources.getString(resId)
+}
 
-
+/*获取资源图片*/
+fun Any.tbGetResDrawable(resId: Int): Drawable? {
+    return ContextCompat.getDrawable(TbApplication.mApplicationContext, resId)
+}
 
 
 
