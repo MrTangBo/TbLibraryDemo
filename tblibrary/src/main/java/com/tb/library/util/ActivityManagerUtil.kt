@@ -15,7 +15,7 @@ import java.util.*
  */
 class ActivityManagerUtil {
 
-    private var mActivities: Stack<Activity>? = null
+    private var mActivities: Stack<Activity> = Stack()
 
     companion object {
         fun getInstance() = Holder.instance
@@ -27,18 +27,15 @@ class ActivityManagerUtil {
 
     //添加activity
     fun addActivity(activity: Activity) {
-        if (mActivities != null) {
-            mActivities!!.add(activity)
-        } else {
-            mActivities = Stack()
-        }
+        if (mActivities.contains(activity)) return
+        mActivities.add(activity)
     }
 
     //关闭栈顶的Activity
     fun removeActivity(activity: Activity?) {
         if (activity != null) {
-            if (mActivities!!.contains(activity)) {
-                mActivities!!.remove(activity)
+            if (mActivities.contains(activity)) {
+                mActivities.remove(activity)
             }
             activity.finish()
         }
@@ -46,14 +43,14 @@ class ActivityManagerUtil {
 
     //将activity全部关闭掉
     fun clearAll() {
-        for (activity in mActivities!!) {
-            activity.finish()
+        for (activity in mActivities) {
+            removeActivity(activity)
         }
     }
 
     //关闭掉指定的activity,activityName
     fun clearOther(activityName: String) {
-        for (activity in mActivities!!) {
+        for (activity in mActivities) {
             if (activity.javaClass.simpleName == activityName) {
                 continue
             }
@@ -63,7 +60,7 @@ class ActivityManagerUtil {
 
     //获取Activity栈
     fun getStack(): Stack<Activity> {
-        return mActivities!!
+        return mActivities
     }
 
     //判断某一个类是否存在任务栈里面
@@ -75,13 +72,12 @@ class ActivityManagerUtil {
 
     /*把某个activity压入栈顶*/
     fun pushActivtyTop(activity: Activity) {
-        mActivities?.push(activity)
+        mActivities.push(activity)
     }
 
     //返回对象在堆栈中的位置
     fun getActivityIndex(activity: Activity): Int {
-        if (mActivities?.search(activity) == null) return 0
-        return mActivities?.search(activity)!!
+        return mActivities.search(activity)
     }
 
 

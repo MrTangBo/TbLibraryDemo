@@ -2,6 +2,7 @@ package com.tb.library.view
 
 import android.content.Context
 import android.graphics.Rect
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -47,6 +48,7 @@ class TbMenuItemLayout : RoundFrameLayout {
 
     private var defaultRightIconSrc = R.drawable.icon_next_dark
 
+
     var itemClick: TbOnClick = {}
 
     var bind: TbMenuItemBinding =
@@ -57,6 +59,24 @@ class TbMenuItemLayout : RoundFrameLayout {
             itemClick.invoke()
         }
         val typeArray = context.obtainStyledAttributes(attrs, R.styleable.TbMenuItemLayout)
+
+        when (typeArray.getInt(R.styleable.TbMenuItemLayout_rightTypeFace, 0)) {
+            0 -> {
+                bind.rightTx.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
+            }
+            1 -> {
+                bind.rightTx.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+            }
+        }
+        when (typeArray.getInt(R.styleable.TbMenuItemLayout_leftTypeFace, 0)) {
+            0 -> {
+                bind.leftTx.typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
+            }
+            1 -> {
+                bind.leftTx.typeface = Typeface.defaultFromStyle(Typeface.BOLD)
+            }
+        }
+
         bind.root.setBackgroundResource(
             typeArray.getResourceId(
                 R.styleable.TbMenuItemLayout_itemBg,
@@ -79,7 +99,10 @@ class TbMenuItemLayout : RoundFrameLayout {
         )
         bind.leftTx.setTextSize(
             TypedValue.COMPLEX_UNIT_PX,
-            typeArray.getDimension(R.styleable.TbMenuItemLayout_leftTextSize, defaultLeftTextSize.toFloat())
+            typeArray.getDimension(
+                R.styleable.TbMenuItemLayout_leftTextSize,
+                defaultLeftTextSize.toFloat()
+            )
         )
 
         when (typeArray.getInt(R.styleable.TbMenuItemLayout_leftIconVisible, 0)) {
@@ -119,7 +142,10 @@ class TbMenuItemLayout : RoundFrameLayout {
         )
         bind.rightTx.setTextSize(
             TypedValue.COMPLEX_UNIT_PX,
-            typeArray.getDimension(R.styleable.TbMenuItemLayout_rightTextSize, defaultRightTextSize.toFloat())
+            typeArray.getDimension(
+                R.styleable.TbMenuItemLayout_rightTextSize,
+                defaultRightTextSize.toFloat()
+            )
         )
 
         when (typeArray.getInt(R.styleable.TbMenuItemLayout_rightIconVisible, 0)) {
@@ -203,9 +229,19 @@ class TbMenuItemLayout : RoundFrameLayout {
     }
 
     fun setLineBottomMargin(margin: Rect) {
-        val lp: ConstraintLayout.LayoutParams = bind.bottomLine.layoutParams as ConstraintLayout.LayoutParams
+        val lp: ConstraintLayout.LayoutParams =
+            bind.bottomLine.layoutParams as ConstraintLayout.LayoutParams
         lp.setMargins(margin.left, margin.top, margin.right, margin.bottom)
         bind.bottomLine.layoutParams = lp
+    }
+
+
+    fun setRightTxStyle(typeFace: Int = Typeface.NORMAL) {
+        bind.rightTx.typeface = Typeface.defaultFromStyle(typeFace)
+    }
+
+    fun setLeftTxStyle(typeFace: Int = Typeface.NORMAL) {
+        bind.leftTx.typeface = Typeface.defaultFromStyle(typeFace)
     }
 
 }

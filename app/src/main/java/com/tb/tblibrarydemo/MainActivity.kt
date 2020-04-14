@@ -1,19 +1,15 @@
 package com.tb.tblibrarydemo
 
-import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.appbar.AppBarLayout
-import com.tb.library.base.TbConfig
-import com.tb.library.base.TbEventBusInfo
-import com.tb.library.tbDialog.TbLoadingDialog
+import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.tbExtend.*
-import com.tb.library.tbZxingUtil.android.TbCaptureActivity
 import com.tb.library.uiActivity.TbTitleBaseActivity
 import com.tb.library.util.TbLogUtils
+import com.tb.library.view.TbLoadLayout
 import com.tb.tblibrarydemo.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
-import org.greenrobot.eventbus.EventBus
 
 class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
@@ -21,15 +17,15 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     override val mLayoutId: Int
         get() = R.layout.activity_main
 
-
-
+    override val mSpringView: SpringView?
+        get() = springView.init(mMode!!)
 
     override fun getModel() {
         super.getModel()
         mMode = ViewModelProvider(this).get(TestMode::class.java)
         mMode?.initLiveData(Api.getData)
-//        mTbLoadLayout = mLoadLayout
-        mSpringView = springView
+        mTbLoadLayout = mLoadLayout
+//        mSpringView = springView
 
 
         TbLogUtils.log("222--->$mIsOpenARouter")
@@ -91,11 +87,15 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     }
 
     override fun <E> resultData(taskId: Int, info: E) {
-        super.resultData(taskId, info)
+
         val mInfo = info as TestBean
 
-//        mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
+        mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
 
+        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
+
+
+//        "123".tbStringCheckRegex()
     }
 
     override fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
@@ -111,8 +111,23 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     override fun singleClick(view: View) {
         super.singleClick(view)
     }
+
+
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exitApp()
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
 }
 
-class myE : TbEventBusInfo() {
 
-}
+
+

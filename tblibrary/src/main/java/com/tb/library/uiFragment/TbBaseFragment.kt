@@ -129,8 +129,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     }
 
     open fun <E> resultData(taskId: Int, info: E) {
-
-
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
@@ -182,5 +181,13 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
         if (mIsOpenEventBus) {
             EventBus.getDefault().unregister(this)
         }
+    }
+
+    open fun showContent() {
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+    }
+
+    open fun showEmpty() {
+        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
     }
 }

@@ -34,7 +34,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     lateinit var mBinding: G
 
     var mTbLoadLayout: TbLoadLayout? = null
-    var mSpringView: SpringView? = null
+    val mSpringView: SpringView? = null
 
     lateinit var mLoadingDialog: TbLoadingDialog
 
@@ -42,7 +42,6 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
 
     open val mIsOpenARouter = false//是否开启ARouter
     open val mIsOpenEventBus = false//是否开启EventBus
-
 
     abstract val mLayoutId: Int
 
@@ -58,6 +57,8 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
         initModel()
         initData()
     }
+
+
 
     open fun init() {
         mContext = this
@@ -127,7 +128,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     }
 
     open fun <E> resultData(taskId: Int, info: E) {
-
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
@@ -164,12 +165,21 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     override fun onDestroy() {
         super.onDestroy()
         mMode?.dropView()
+
         tbKeyboard(false)
         if (mIsOpenEventBus) {
             EventBus.getDefault().unregister(this)
         }
         ActivityManagerUtil.getInstance().removeActivity(this)
 
+    }
+
+    open fun showContent() {
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+    }
+
+    open fun showEmpty() {
+        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
     }
 
     /**
@@ -184,7 +194,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
             exitTime = System.currentTimeMillis()
 
         } else {
-            tbCleanAllActivity()
+            ActivityManagerUtil.getInstance().clearAll()
             exitProcess(0)
         }
     }

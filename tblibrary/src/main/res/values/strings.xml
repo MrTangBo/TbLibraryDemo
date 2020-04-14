@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TbLibrary</string>
-    <string name="loadError">加载失败！</string>
-    <string name="loadEmpty">没有数据！</string>
+    <string name="loadError">加载失败</string>
+    <string name="loadEmpty">没有数据</string>
     <string name="loading">加载中...</string>
 
     <string name="msg_camera_framework_bug">相机被占用或没有相机权限，请检查</string>
@@ -20,12 +20,12 @@
 
     <string name="double_click_exit">再点一次退出应用</string>
 
-    <string name="wifi_no_use">当前wifi网络不可用！</string>
-    <string name="mobile_no_use">当前移动网络不可用！</string>
-    <string name="internet_no_use">当前网络不可用！</string>
-    <string name="connect_error">链接出错！</string>
-    <string name="connect_time_out">链接超时！</string>
-    <string name="json_error">数据解析错误！</string>
+    <string name="wifi_no_use">当前wifi网络不可用</string>
+    <string name="mobile_no_use">当前移动网络不可用</string>
+    <string name="internet_no_use">当前网络不可用</string>
+    <string name="connect_error">链接出错</string>
+    <string name="connect_time_out">链接超时</string>
+    <string name="json_error">数据解析错误</string>
     <string name="no_internet">网络出错了</string>
     <string name="save_img">保存图片</string>
     <string name="read_QR_code">识别二维码</string>
@@ -39,12 +39,12 @@
 
     <string name="permissionFailed">获取权限失败</string>
 
-    <string name="noSupportDeskIcon">该设备不支持创建快捷方式！</string>
-    <string name="deskIconExist">快捷方式已存在！</string>
-    <string name="maxIconExist">最多支持4个快捷方式！</string>
+    <string name="noSupportDeskIcon">该设备不支持创建快捷方式</string>
+    <string name="deskIconExist">快捷方式已存在</string>
+    <string name="maxIconExist">最多支持4个快捷方式</string>
 
 
-    <string name="saveSuccess">保存成功！</string>
+    <string name="saveSuccess">保存成功</string>
     <string name="search">搜索</string>
 
     <string name="notifyMark">应用需要通知权限，立即去设置？</string>

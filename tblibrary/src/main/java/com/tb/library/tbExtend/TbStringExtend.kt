@@ -2,6 +2,7 @@ package com.tb.library.tbExtend
 
 import android.content.Intent
 import android.net.Uri
+import com.tb.library.base.RegexConfig
 import com.tb.library.base.TbApplication
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
@@ -147,10 +148,10 @@ fun String?.tb2PhoneMsm(msmConten: String?) {
     TbApplication.mApplicationContext.startActivity(intent)
 }
 
-/*验证价格格式*/
-fun String?.tbStringCheckPrice(): Boolean {
+/*验证正则表达式*/
+fun String?.tbStringCheckRegex(regexStr:String=RegexConfig.REGEX_PRICE): Boolean {
     if (this.isNullOrEmpty()) return false
-    val pattern = Pattern.compile("\\d\\.\\d*|[1-9]\\d*|\\d*\\.\\d*|\\d") //将给定的正则表达式编译到模式中。
+    val pattern = Pattern.compile(regexStr) //将给定的正则表达式编译到模式中。
     val isNum = pattern.matcher(this)//创建匹配给定输入与此模式的匹配器。
     return isNum.matches() //如果匹配成功，则可以通过 start、end 和 group 方法获取更多信息.
 }
