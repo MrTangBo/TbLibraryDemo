@@ -95,7 +95,10 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     }
 
     /*获取modeTaskIds*/
-    abstract fun getModelTaskIds(): IntArray?
+    open fun getModelTaskIds(): IntArray? {
+
+        return null
+    }
 
     open fun initModel() {
         mMode = getModel()

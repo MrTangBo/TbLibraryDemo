@@ -94,7 +94,9 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     }
 
     /*获取modeTaskIds*/
-    abstract fun getModelTaskIds(): IntArray?
+    open fun getModelTaskIds(): IntArray? {
+        return null
+    }
 
     open fun initModel() {
         getModel()
