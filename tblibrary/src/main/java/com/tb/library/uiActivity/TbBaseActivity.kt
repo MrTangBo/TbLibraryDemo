@@ -33,10 +33,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     var mMode: T? = null
     lateinit var mBinding: G
 
-    var mTbLoadLayout: TbLoadLayout? = null
-    val mSpringView: SpringView? = null
-
-    lateinit var mLoadingDialog: TbLoadingDialog
+    private var mLoadingDialog: TbLoadingDialog? = null
 
     lateinit var mContext: Context
 
@@ -53,11 +50,10 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         mBinding = DataBindingUtil.setContentView(this, mLayoutId)
         init()
-        initLoadingDialog()
+        mLoadingDialog = getTbLoadingDialog()
         initModel()
         initData()
     }
-
 
 
     open fun init() {
@@ -75,24 +71,40 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
         mLoadingDialog = TbLoadingDialog(this)
     }
 
-    open fun initSpringView() {
-        mSpringView?.let { springView ->
-            mMode?.let {
-                mSpringView = springView.init(it)
-            }
-        }
+
+    /*获取刷新控件*/
+    open fun getSpringView(): SpringView? {
+
+        return null
     }
 
-    open fun getModel() {
+    /*获取可加载空布局容器*/
+    open fun getTbLoadLayout(): TbLoadLayout? {
 
+        return null
     }
+
+    /*获取model*/
+    open fun getModel(): T? {
+
+        return null
+    }
+
+    open fun getTbLoadingDialog(): TbLoadingDialog {
+        return TbLoadingDialog(this)
+    }
+
+    /*获取modeTaskIds*/
+    abstract fun getModelTaskIds(): IntArray?
 
     open fun initModel() {
-        getModel()
+        mMode = getModel()
         mMode?.let { model ->
-            initSpringView()
-            model.mTbLoadLayout = mTbLoadLayout
-            model.mSpringView = mSpringView
+            getModelTaskIds()?.let {
+                model.initLiveData(*it)
+            }
+            model.mTbLoadLayout = getTbLoadLayout()
+            model.mSpringView = getSpringView()
             lifecycle.addObserver(model)
             model.mActivity = this
             model.mBinding = mBinding
@@ -120,15 +132,15 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     }
 
     open fun showLoadingDialog() {
-        mLoadingDialog.show()
+        mLoadingDialog?.show()
     }
 
     open fun hideLoadingDialog() {
-        mLoadingDialog.dismiss()
+        mLoadingDialog?.dismiss()
     }
 
     open fun <E> resultData(taskId: Int, info: E) {
-        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
@@ -175,11 +187,11 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     }
 
     open fun showContent() {
-        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun showEmpty() {
-        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
+        mMode?.mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
     }
 
     /**

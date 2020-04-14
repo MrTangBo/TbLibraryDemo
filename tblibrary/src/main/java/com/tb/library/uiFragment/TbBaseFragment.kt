@@ -36,10 +36,8 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     lateinit var mBinding: G
     var mRootView: View? = null
 
-    var mTbLoadLayout: TbLoadLayout? = null
-    var mSpringView: SpringView? = null
 
-    lateinit var mLoadingDialog: TbLoadingDialog
+    private var mLoadingDialog: TbLoadingDialog? = null
 
     lateinit var fActivity: FragmentActivity
 
@@ -70,30 +68,43 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     open fun init() {
         fActivity = activity!!
-        initLoadingDialog()
+        mLoadingDialog = initLoadingDialog()
         if (mIsOpenEventBus) {
             EventBus.getDefault().register(this)
         }
     }
 
-    open fun initSpringView() {
-        mSpringView?.let { springView ->
-            mMode?.let {
-                mSpringView = springView.init(it)
-            }
-        }
+
+    /*获取刷新控件*/
+    open fun getSpringView(): SpringView? {
+
+        return null
     }
 
-    open fun getModel() {
+    /*获取可加载空布局容器*/
+    open fun getTbLoadLayout(): TbLoadLayout? {
 
+        return null
     }
+
+    /*获取model*/
+    open fun getModel(): T? {
+
+        return null
+    }
+
+    /*获取modeTaskIds*/
+    abstract fun getModelTaskIds(): IntArray?
 
     open fun initModel() {
         getModel()
         mMode?.let { model ->
-            initSpringView()
-            model.mTbLoadLayout = mTbLoadLayout
-            model.mSpringView = mSpringView
+
+            getModelTaskIds()?.let {
+                model.initLiveData(*it)
+            }
+            model.mTbLoadLayout = getTbLoadLayout()
+            model.mSpringView = getSpringView()
             lifecycle.addObserver(model)
             model.mFragment = this
             model.mBinding = mBinding
@@ -121,23 +132,23 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     }
 
     open fun showLoadingDialog() {
-        mLoadingDialog.show()
+        mLoadingDialog?.show()
     }
 
     open fun hideLoadingDialog() {
-        mLoadingDialog.dismiss()
+        mLoadingDialog?.dismiss()
     }
 
     open fun <E> resultData(taskId: Int, info: E) {
-        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
 
     }
 
-    open fun initLoadingDialog() {
-        mLoadingDialog = TbLoadingDialog(fActivity)
+    open fun initLoadingDialog(): TbLoadingDialog {
+        return TbLoadingDialog(fActivity)
     }
 
     open fun onClick(view: View?) {
@@ -184,10 +195,10 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     }
 
     open fun showContent() {
-        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun showEmpty() {
-        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
+        mMode?.mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
     }
 }

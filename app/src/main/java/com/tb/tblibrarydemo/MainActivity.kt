@@ -17,18 +17,20 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     override val mLayoutId: Int
         get() = R.layout.activity_main
 
-    override val mSpringView: SpringView?
-        get() = springView.init(mMode!!)
+    override fun getModelTaskIds(): IntArray? {
+        return intArrayOf(Api.getData)
+    }
 
-    override fun getModel() {
-        super.getModel()
-        mMode = ViewModelProvider(this).get(TestMode::class.java)
-        mMode?.initLiveData(Api.getData)
-        mTbLoadLayout = mLoadLayout
-//        mSpringView = springView
+    override fun getModel(): TestMode? {
+        return ViewModelProvider(this).get(TestMode::class.java)
+    }
 
+    override fun getSpringView(): SpringView? {
+        return springView.init(mMode!!)
+    }
 
-        TbLogUtils.log("222--->$mIsOpenARouter")
+    override fun getTbLoadLayout(): TbLoadLayout? {
+        return mLoadLayout
     }
 
     override fun initData() {
@@ -87,12 +89,12 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     }
 
     override fun <E> resultData(taskId: Int, info: E) {
-
+        super.resultData(taskId, info)
         val mInfo = info as TestBean
 
         mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
 
-        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
+//        mMode?.mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
 
 
 //        "123".tbStringCheckRegex()
@@ -113,7 +115,6 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     }
 
 
-
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             exitApp()
@@ -125,6 +126,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     override fun onDestroy() {
         super.onDestroy()
     }
+
 
 }
 
