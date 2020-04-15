@@ -34,7 +34,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     lateinit var mBinding: G
 
     var mTbLoadLayout: TbLoadLayout? = null
-    val mSpringView: SpringView? = null
+    var mSpringView: SpringView? = null
 
     lateinit var mLoadingDialog: TbLoadingDialog
 
