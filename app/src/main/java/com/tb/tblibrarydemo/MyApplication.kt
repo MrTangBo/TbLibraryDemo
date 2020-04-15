@@ -17,5 +17,7 @@ class MyApplication : TbApplication() {
         TbConfig.getInstance().statusColor = R.color.colorAccent
         TbConfig.getInstance().baseUrl = "http://v.juhe.cn/"//测试服
         TbConfig.getInstance().successCode ="Success"
+
+        
     }
 }

@@ -23,6 +23,7 @@ import com.tb.library.view.TbLoadLayout
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.math.RoundingMode
 
 
 /**
@@ -83,7 +84,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     /*获取可加载空布局容器*/
     open fun getTbLoadLayout(): TbLoadLayout? {
-
+        RoundingMode.HALF_DOWN
         return null
     }
 

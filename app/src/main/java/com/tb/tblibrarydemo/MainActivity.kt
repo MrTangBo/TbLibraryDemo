@@ -33,6 +33,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         return mLoadLayout
     }
 
+
     override fun initData() {
         super.initData()
         tbStatusBarInit(isImmersive = true, isFitWindowStatusBar = true)
@@ -57,6 +58,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
         mBanner.initBanner(imagList, isCanLoop = true)
 
+        mMode?.getData()
 
         mtBN.setTitle(
             arrayListOf("首页", "论坛", "订单", "消息", "我的"),
