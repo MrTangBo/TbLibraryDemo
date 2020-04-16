@@ -82,9 +82,6 @@ class TbLoadLayout @JvmOverloads constructor(
             this,
             false
         )
-        if (b.root.background == null) {
-            b.root.background = ContextCompat.getDrawable(context, R.color.tb_white)
-        }
         return b
     }
 

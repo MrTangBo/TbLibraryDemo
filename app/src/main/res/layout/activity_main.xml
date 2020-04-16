@@ -27,6 +27,7 @@
 
 
         <com.tb.library.view.TbMenuItemLayout
+            android:id="@+id/tbMenu"
             android:layout_width="match_parent"
             app:leftText="@string/tb_sure"
             app:leftTypeFace="bold"

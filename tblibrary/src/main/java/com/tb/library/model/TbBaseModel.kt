@@ -61,17 +61,6 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
         EventBus.getDefault().register(this)
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    open fun onDestroy() {
-        dropView()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        dropView()
-    }
-
-
     /**
      * 通过taskId数量来创建数据管理MutableLiveData的个数
      */
@@ -91,7 +80,25 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
         }
         mFlowableMap.clear()
         mFlowableMap[taskId] = flowables
-        HttpUtil.getInstance().startRequest(flowables, this, taskId)
+        if (tbNetWorkIsConnect()) {
+            mTbLoadLayout?.let {
+                if (it.mCurrentShow != TbLoadLayout.CONTENT) {
+                    mIsShowLoading = false
+                    it.showView(TbLoadLayout.LOADING)
+                }
+            }
+            if (mIsShowLoading) {
+                mDialogShow?.invoke()
+            }
+            HttpUtil.getInstance().startRequest(flowables, this, taskId)
+        } else {
+            mTbLoadLayout?.showView(TbLoadLayout.NO_INTERNET)
+            mDialogDismiss?.invoke()
+            mSpringView?.onFinishFreshAndLoadDelay()
+            TbBaseReceiver.isFirst = false
+        }
+        TbLogUtils.log("commitData--->${mRequestMap.tb2Json()}")
+        mRequestMap.clear()
     }
 
     open fun repeatQuest() {
@@ -102,7 +109,6 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
             HttpUtil.getInstance().startRequest(it.value, this, it.key)
         }
     }
-
 
     /*取消所有的操作*/
     open fun dropView() {
@@ -117,43 +123,9 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     }
 
     override fun start(s: Subscription?, taskId: Int) {
-        if (tbNetWorkIsConnect()) {
-            mTbLoadLayout?.let {
-                if (it.mCurrentShow != TbLoadLayout.CONTENT) {
-                    mIsShowLoading = false
-                    it.showView(TbLoadLayout.LOADING)
-                }
-            }
-            if (mIsShowLoading) {
-                mDialogShow?.invoke()
-            }
-            s?.let {
-                mSubscriptions.add(it)
-            }
-        } else {
-            mTbLoadLayout?.showView(TbLoadLayout.NO_INTERNET)
-            mDialogDismiss?.invoke()
-            mSpringView?.onFinishFreshAndLoadDelay()
-            when {
-                tbNetWorkIsWifi() -> {
-                    tbShowToast(TbApplication.mApplicationContext.resources.getString(R.string.wifi_no_use))
-                    TbBaseReceiver.isFirst = false
-                    return
-                }
-                tbNetWorkIsMobile() -> {
-                    TbBaseReceiver.isFirst = false
-                    tbShowToast(TbApplication.mApplicationContext.resources.getString(R.string.mobile_no_use))
-                    return
-                }
-                else -> {
-                    TbBaseReceiver.isFirst = false
-                    tbShowToast(TbApplication.mApplicationContext.resources.getString(R.string.internet_no_use))
-                    return
-                }
-            }
+        s?.let {
+            mSubscriptions.add(it)
         }
-        TbLogUtils.log("commitData--->${mRequestMap.tb2Json()}")
-        mRequestMap.clear()
     }
 
     override fun <T> onNext(t: T, taskId: Int) {
@@ -170,6 +142,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     }
 
     override fun onComplete(taskId: Int) {
+        mFlowableMap.clear()
         mIsShowLoading = true
         mDialogDismiss?.invoke()
         mSpringView?.onFinishFreshAndLoadDelay()
@@ -186,7 +159,6 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
         when (t) {
             is ConnectException, is UnknownHostException -> {
                 tbShowToast(TbApplication.mApplicationContext.resources.getString(R.string.connect_error))
-
             }
             is TimeoutException, is SocketTimeoutException -> {
                 tbShowToast(TbApplication.mApplicationContext.resources.getString(R.string.connect_time_out))
@@ -206,8 +178,14 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     @Subscribe(threadMode = ThreadMode.MAIN)
     open fun onUserEvent(event: TbEventBusInfo) {
         mEventInfo = event
-        if (event is RequestInternetEvent) {
-            repeatQuest()
+        if (mTbLoadLayout != null) {
+            if (event is RequestInternetEvent && mTbLoadLayout!!.mCurrentShow != TbLoadLayout.CONTENT) {
+                repeatQuest()
+            }
+        } else {
+            if (event is RequestInternetEvent && mActivity?.isForeground()!!) {
+                repeatQuest()
+            }
         }
     }
 

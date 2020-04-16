@@ -2,6 +2,7 @@ package com.tb.library.tbExtend
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ActivityManager
 import android.app.PendingIntent
 import android.content.*
 import android.content.pm.PackageManager
@@ -329,4 +330,15 @@ fun Context.tbScanForActivity(): Activity? {
         return this.baseContext.tbScanForActivity()
     }
     return null
+}
+
+/*判断某个Activity是否是前台显示*/
+fun Activity?.isForeground(): Boolean {
+    if (this == null) return false
+    val list = tbActivityManager.getRunningTasks(1)
+    if (list.isEmpty()) return false
+    if (list[0].topActivity?.className==this::class.java.name){
+        return true
+    }
+    return false
 }
