@@ -17,15 +17,13 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     override val mLayoutId: Int
         get() = R.layout.activity_main
 
-    override val mSpringView: SpringView?
-        get() = springView.init(mMode!!)
 
     override fun getModel() {
         super.getModel()
         mMode = ViewModelProvider(this).get(TestMode::class.java)
         mMode?.initLiveData(Api.getData)
         mTbLoadLayout = mLoadLayout
-//        mSpringView = springView
+        mSpringView = springView
 
 
         TbLogUtils.log("222--->$mIsOpenARouter")
@@ -48,13 +46,16 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
         mBinding.url = imagList[0]
 
-
+        mMode?.getData()
         0.tbSetShared("userId")
 
         TbLogUtils.log("userId-->${tbGetShared<Int>("userId")}")
 
         mBanner.initBanner(imagList, isCanLoop = true)
 
+        tbMenu.itemClick = {
+            tbStartActivity<TestActivity>()
+        }
 
         mtBN.setTitle(
             arrayListOf("首页", "论坛", "订单", "消息", "我的"),
@@ -71,11 +72,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo,
                 R.drawable.ic_delete_photo
-            ), iconSize = tbGetDimensValue(R.dimen.x15), clickPosition = {
-                if (it == 2)
-                    mMode?.getData()
-//                tbStartActivity<TbCaptureActivity>(requestCode = 3000)
-            }
+            ), iconSize = tbGetDimensValue(R.dimen.x15)
         )
             .setBadgeNumSingle(
                 3,
@@ -87,13 +84,10 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     }
 
     override fun <E> resultData(taskId: Int, info: E) {
-
+        super.resultData(taskId, info)
         val mInfo = info as TestBean
 
         mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
-
-        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
-
 
 //        "123".tbStringCheckRegex()
     }
@@ -111,7 +105,6 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     override fun singleClick(view: View) {
         super.singleClick(view)
     }
-
 
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {

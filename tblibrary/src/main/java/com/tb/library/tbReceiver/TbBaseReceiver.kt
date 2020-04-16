@@ -1,4 +1,5 @@
 package com.tb.library.tbReceiver
+
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -20,26 +21,24 @@ class TbBaseReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         if (tbNetWorkIsConnect()) {//判断网络是否可用
-            TbLogUtils.log("onReceive--->")
             if (!isFirst) {
+                TbLogUtils.log("onReceive--->")
                 EventBus.getDefault().post(RequestInternetEvent())
                 if (tbNetWorkIsMobile()) {
                     tbShowToast("当前正在使用移动网络！")
                 }
+                isFirst = true
             }
-            isFirst = false
         } else {
+            isFirst = false
             when {
                 tbNetWorkIsWifi() -> {
                     tbShowToast("当前wifi网络不可用！")
-                    isFirst = false
                 }
                 tbNetWorkIsMobile() -> {
-                    isFirst = false
                     tbShowToast("当前移动网络不可用！")
                 }
                 else -> {
-                    isFirst = false
                     tbShowToast("当前网络不可用！")
                 }
             }
