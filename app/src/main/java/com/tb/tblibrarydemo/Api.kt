@@ -23,8 +23,5 @@ interface Api {
     fun uploadBuyImage(@PartMap map: @JvmSuppressWildcards Map<String, RequestBody>): @JvmSuppressWildcards Flowable<*>
 
 
-    /*获取验证邮箱*/
-    @POST("user/getUserInfo")
-    fun getUserInfo(): Flowable<ResultInfo<PasswordChangeStepOneInfo>>
 
 }
