@@ -1,6 +1,7 @@
 package com.tb.library.view
 
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -33,6 +34,9 @@ class TbBottomNavigation : RadioGroup {
     private var mBg: Int = R.drawable.bg_item_ripple
     private var mPaddingTop: Int = tbGetDimensValue(R.dimen.x5)
     private var mPaddingBottom: Int = tbGetDimensValue(R.dimen.x5)
+
+    private var mSelectTypeFace: Int = Typeface.NORMAL
+    private var mUnSelectTypeFace: Int = Typeface.NORMAL
 
     constructor(mContext: Context) : super(mContext, null)
     constructor(mContext: Context, mAttributes: AttributeSet) : super(mContext, mAttributes) {
@@ -73,6 +77,18 @@ class TbBottomNavigation : RadioGroup {
             R.styleable.TbBottomNavigation_paddingBottom,
             mPaddingBottom
         )
+
+        when (typeArray.getInt(R.styleable.TbBottomNavigation_selectTypeFace, 0)) {
+            0 -> mSelectTypeFace = Typeface.NORMAL
+            1 -> mSelectTypeFace = Typeface.BOLD
+
+        }
+
+        when (typeArray.getInt(R.styleable.TbBottomNavigation_unSelectTypeFace, 0)) {
+            0 -> mUnSelectTypeFace = Typeface.NORMAL
+            1 -> mUnSelectTypeFace = Typeface.BOLD
+        }
+
         if (mIsCenterBulge) {
             clipChildren = false
             gravity = Gravity.BOTTOM
@@ -97,8 +113,18 @@ class TbBottomNavigation : RadioGroup {
         unSelectDrawables?.forEachIndexed { index, i ->
             val drawable = ContextCompat.getDrawable(context, i)
             val drawable_s = ContextCompat.getDrawable(context, selectDrawables!![index])
-            drawable?.setBounds(0, 0, if(iconSize!=0) iconSize else drawable.minimumWidth,if(iconSize!=0) iconSize else drawable.minimumHeight)
-            drawable_s?.setBounds(0, 0,if(iconSize!=0) iconSize else drawable_s.minimumWidth,if(iconSize!=0) iconSize else drawable_s.minimumHeight)
+            drawable?.setBounds(
+                0,
+                0,
+                if (iconSize != 0) iconSize else drawable.minimumWidth,
+                if (iconSize != 0) iconSize else drawable.minimumHeight
+            )
+            drawable_s?.setBounds(
+                0,
+                0,
+                if (iconSize != 0) iconSize else drawable_s.minimumWidth,
+                if (iconSize != 0) iconSize else drawable_s.minimumHeight
+            )
             selectList.add(drawable_s!!)
             unSelectList.add(drawable!!)
         }
@@ -117,6 +143,7 @@ class TbBottomNavigation : RadioGroup {
                 params.height = mCenterHeight
             }
             radioButton.text = s
+            radioButton.typeface= Typeface.defaultFromStyle(mUnSelectTypeFace)
             radioButton.setTextColor(ContextCompat.getColor(context, mUnSelectTxColor))
             if (unSelectList.isEmpty() || selectList.isEmpty()) {
                 radioButton.gravity = Gravity.CENTER
@@ -132,6 +159,7 @@ class TbBottomNavigation : RadioGroup {
                     if (it is RadioButton) {
                         it.isChecked = false
                         it.setTextColor(ContextCompat.getColor(context, mUnSelectTxColor))
+                        it.typeface= Typeface.defaultFromStyle(mUnSelectTypeFace)
                         it.setTextSize(TypedValue.COMPLEX_UNIT_PX, mUnSelectTxSize.toFloat())
                         if (unSelectList.isNotEmpty()) {
                             it.setCompoundDrawables(null, unSelectList[i], null, null)
@@ -142,6 +170,7 @@ class TbBottomNavigation : RadioGroup {
                             if (view is RadioButton) {
                                 view.isChecked = false
                                 view.setTextColor(ContextCompat.getColor(context, mUnSelectTxColor))
+                                view.typeface= Typeface.defaultFromStyle(mUnSelectTypeFace)
                                 view.setTextSize(
                                     TypedValue.COMPLEX_UNIT_PX,
                                     mUnSelectTxSize.toFloat()
@@ -155,6 +184,7 @@ class TbBottomNavigation : RadioGroup {
                 }
                 radioButton.isChecked = true
                 radioButton.setTextColor(ContextCompat.getColor(context, mSelectTxColor))
+                radioButton.typeface= Typeface.defaultFromStyle(mUnSelectTypeFace)
                 radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSelectTxSize.toFloat())
                 if (selectList.isNotEmpty()) {
                     radioButton.setCompoundDrawables(null, selectList[index], null, null)
