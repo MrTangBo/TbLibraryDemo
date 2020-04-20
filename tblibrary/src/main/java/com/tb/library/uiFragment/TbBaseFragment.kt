@@ -100,7 +100,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     }
 
     open fun initModel() {
-        getModel()
+        mMode = getModel()
         mMode?.let { model ->
 
             getModelTaskIds()?.let {
