@@ -4,23 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import com.alibaba.android.arouter.launcher.ARouter
 import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.base.TbConfig
 import com.tb.library.base.TbEventBusInfo
 import com.tb.library.model.TbBaseModel
 import com.tb.library.tbDialog.TbLoadingDialog
+import com.tb.library.tbExtend.init
 import com.tb.library.tbExtend.tbIsMultiClick
 import com.tb.library.util.FontUtil
 import com.tb.library.view.TbLoadLayout
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.math.RoundingMode
 
 
 /**
@@ -34,8 +36,10 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     lateinit var mBinding: G
     var mRootView: View? = null
 
+    var mTbLoadLayout: TbLoadLayout? = null
+    var mSpringView: SpringView? = null
 
-    private var mLoadingDialog: TbLoadingDialog? = null
+    lateinit var mLoadingDialog: TbLoadingDialog
 
     lateinit var fActivity: FragmentActivity
 
@@ -66,45 +70,30 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     open fun init() {
         fActivity = activity!!
-        mLoadingDialog = initLoadingDialog()
+        initLoadingDialog()
         if (mIsOpenEventBus) {
             EventBus.getDefault().register(this)
         }
     }
 
-
-    /*获取刷新控件*/
-    open fun getSpringView(): SpringView? {
-
-        return null
+    open fun initSpringView() {
+        mSpringView?.let { springView ->
+            mMode?.let {
+                mSpringView = springView.init(it)
+            }
+        }
     }
 
-    /*获取可加载空布局容器*/
-    open fun getTbLoadLayout(): TbLoadLayout? {
-        RoundingMode.HALF_DOWN
-        return null
-    }
+    open fun getModel() {
 
-    /*获取model*/
-    open fun getModel(): T? {
-
-        return null
-    }
-
-    /*获取modeTaskIds*/
-    open fun getModelTaskIds(): IntArray? {
-        return null
     }
 
     open fun initModel() {
         getModel()
         mMode?.let { model ->
-
-            getModelTaskIds()?.let {
-                model.initLiveData(*it)
-            }
-            model.mTbLoadLayout = getTbLoadLayout()
-            model.mSpringView = getSpringView()
+            initSpringView()
+            model.mTbLoadLayout = mTbLoadLayout
+            model.mSpringView = mSpringView
             lifecycle.addObserver(model)
             model.mFragment = this
             model.mBinding = mBinding
@@ -132,23 +121,23 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     }
 
     open fun showLoadingDialog() {
-        mLoadingDialog?.show()
+        mLoadingDialog.show()
     }
 
     open fun hideLoadingDialog() {
-        mLoadingDialog?.dismiss()
+        mLoadingDialog.dismiss()
     }
 
     open fun <E> resultData(taskId: Int, info: E) {
-        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
 
     }
 
-    open fun initLoadingDialog(): TbLoadingDialog {
-        return TbLoadingDialog(fActivity)
+    open fun initLoadingDialog() {
+        mLoadingDialog = TbLoadingDialog(fActivity)
     }
 
     open fun onClick(view: View?) {
@@ -195,10 +184,10 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     }
 
     open fun showContent() {
-        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun showEmpty() {
-        mMode?.mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
+        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
     }
 }
