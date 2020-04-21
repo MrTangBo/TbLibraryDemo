@@ -4,19 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
-import com.alibaba.android.arouter.launcher.ARouter
 import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.base.TbConfig
 import com.tb.library.base.TbEventBusInfo
 import com.tb.library.model.TbBaseModel
 import com.tb.library.tbDialog.TbLoadingDialog
-import com.tb.library.tbExtend.init
 import com.tb.library.tbExtend.tbIsMultiClick
 import com.tb.library.util.FontUtil
 import com.tb.library.view.TbLoadLayout
@@ -100,7 +97,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     }
 
     open fun initModel() {
-        mMode = getModel()
+        getModel()
         mMode?.let { model ->
 
             getModelTaskIds()?.let {
