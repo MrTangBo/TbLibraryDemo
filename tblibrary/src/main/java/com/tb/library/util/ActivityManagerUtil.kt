@@ -44,8 +44,9 @@ class ActivityManagerUtil {
     //将activity全部关闭掉
     fun clearAll() {
         for (activity in mActivities) {
-            removeActivity(activity)
+            activity.finish()
         }
+        mActivities.clear()
     }
 
     //关闭掉指定的activity,activityName
