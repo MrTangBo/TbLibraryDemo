@@ -9,6 +9,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import com.flyco.roundview.RoundRelativeLayout
 import com.makeramen.roundedimageview.RoundedImageView
 import com.tb.library.R
+import com.tb.library.base.TbConfig
 import com.tb.library.tbExtend.TbOnClick
 import com.tb.library.tbExtend.showImage
 import com.tb.library.tbExtend.tbGetDimensValue
@@ -67,7 +68,9 @@ class DeleteImageView : RoundRelativeLayout {
         url: String,
         scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_CROP,
         radus: Int = tbGetDimensValue(R.dimen.x5),
-        padding: Rect = Rect()
+        padding: Rect = Rect(),
+        placeholder: Int = TbConfig.getInstance().placeholder,
+        error: Int = TbConfig.getInstance().errorHolder
     ): DeleteImageView {
         val image: RoundedImageView = getChildAt(0) as RoundedImageView
         image.setPadding(
@@ -77,7 +80,7 @@ class DeleteImageView : RoundRelativeLayout {
             padding.bottom
         )
         image.cornerRadius = radus.toFloat()
-        image.showImage(url, scaleType)
+        image.showImage(url, placeholder,error,scaleType = scaleType)
         return this
     }
 

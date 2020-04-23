@@ -17,8 +17,8 @@ import com.tb.library.base.TbConfig
 class GlideUtil {
 
     /*可以单独设置默认加载和错误图*/
-    private var placeholder: Int = TbConfig.getInstance().placeholder
-    private var error: Int = TbConfig.getInstance().errorHolder
+    private var mPlaceholder: Int = TbConfig.getInstance().placeholder
+    private var mError: Int = TbConfig.getInstance().errorHolder
 
     companion object {
         fun getInstance() = Holder.instance
@@ -30,13 +30,13 @@ class GlideUtil {
 
     /*设置加载中的图片*/
     fun setPlaceholder(resId: Int): GlideUtil {
-        getInstance().placeholder = resId
+        getInstance().mPlaceholder = resId
         return this
     }
 
     /*加载错误图片*/
     fun setError(resId: Int): GlideUtil {
-        getInstance().error = resId
+        getInstance().mError = resId
         return this
     }
 
@@ -46,17 +46,22 @@ class GlideUtil {
         mContext: Context,
         url: String,
         imageView: ImageView,
+        placeholder: Int = mPlaceholder,
+        error: Int = mError,
         scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_CROP,
         isCacheImage: Boolean = true //是否缓存图片
     ) {
         imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
         Glide.with(mContext)
             .load(url)
-            .apply(getOptions(isCacheImage))
+            .apply(getOptions(isCacheImage, placeholder, error))
             .transition(DrawableTransitionOptions.withCrossFade())
             .thumbnail(0.1f)
             .into(object : DrawableImageViewTarget(imageView) {
-                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                override fun onResourceReady(
+                    resource: Drawable,
+                    transition: Transition<in Drawable>?
+                ) {
                     super.onResourceReady(resource, transition)
                     imageView.scaleType = scaleType
                     imageView.setImageDrawable(resource)
@@ -64,7 +69,10 @@ class GlideUtil {
             })
     }
 
-    private fun getOptions(isCacheImage: Boolean): RequestOptions {
+    private fun getOptions(
+        isCacheImage: Boolean, placeholder: Int,
+        error: Int
+    ): RequestOptions {
         return RequestOptions()
             .placeholder(placeholder)//加载默认图
             .error(error)//加载失败图
