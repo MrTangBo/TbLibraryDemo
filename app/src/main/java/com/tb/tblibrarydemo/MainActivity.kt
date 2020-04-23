@@ -1,5 +1,6 @@
 package com.tb.tblibrarydemo
 
+import android.graphics.Typeface
 import android.view.KeyEvent
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
@@ -56,6 +57,17 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         tbMenu.itemClick = {
             tbStartActivity<TestActivity>()
         }
+
+        mTabLayout.init(
+            arrayListOf(
+                "看见撒旦是", "打赏", "撒丢啊"
+            ),
+            R.color.tb_green,
+            
+            unSelectColor = R.color.tb_text_dark,
+            textStyleSelect = Typeface.BOLD,
+            textStyleUnSelect = Typeface.NORMAL
+        )
 
         mtBN.setTitle(
             arrayListOf("首页", "论坛", "订单", "消息", "我的"),

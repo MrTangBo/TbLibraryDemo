@@ -2,7 +2,6 @@ package com.tb.library.tbExtend
 
 import android.annotation.SuppressLint
 import android.app.*
-import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.net.http.SslError
@@ -22,6 +21,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.forEachIndexed
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
@@ -287,7 +287,6 @@ inline fun <T, G : ViewDataBinding> RecyclerView?.init(
 
 /*系统TabLayout*/
 inline fun TabLayout.init(
-    context: Context,
     titles: ArrayList<CharSequence>,
     selectColor: Int = R.color.tb_green,
     selectSize: Int = R.dimen.tb_text26,
@@ -296,50 +295,44 @@ inline fun TabLayout.init(
     selectItemBg: Int = R.color.transparent,
     unSelectItemBg: Int = R.color.transparent,
     itemPadding: Rect = Rect(),
+    icons: ArrayList<Int> = arrayListOf(),
     crossinline mOnTabSelected: TbItemClick = { _ -> Unit },
-    icons: ArrayList<Int>? = null,
-    mDrawablePadding: Int = R.dimen.x5,
-    iconGravity: Int = Gravity.BOTTOM,
     textGravity: Int = Gravity.CENTER,
     textStyleSelect: Int = Typeface.NORMAL,
     textStyleUnSelect: Int = Typeface.NORMAL,
     viewPager: ViewPager? = null
 ) {
-    titles.forEachIndexed { index, charSequence ->
-        val item = TextView(context)
-        item.gravity = textGravity
-        item.setTextSize(TypedValue.COMPLEX_UNIT_PX, tbGetDimensValue(unSelectSize).toFloat())
-        item.setTextColor(ContextCompat.getColor(context, unSelectColor))
-        item.background = ContextCompat.getDrawable(context, unSelectItemBg)
-        item.setPadding(itemPadding.left, itemPadding.top, itemPadding.right, itemPadding.bottom)
-        item.typeface = Typeface.defaultFromStyle(textStyleUnSelect)
-        if (index == 0) {
-            item.setTextColor(ContextCompat.getColor(context, selectColor))
-            item.typeface = Typeface.defaultFromStyle(textStyleSelect)
-            item.background = ContextCompat.getDrawable(context, selectItemBg)
-        }
-        item.text = charSequence
 
-        icons?.let {
-            val drawable = ContextCompat.getDrawable(context, it[index])!!
-            drawable.setBounds(0, 0, drawable.minimumWidth, drawable.minimumHeight)
-            when (iconGravity) {
-                Gravity.START -> {
-                    item.setCompoundDrawables(drawable, null, null, null)
-                }
-                Gravity.TOP -> {
-                    item.setCompoundDrawables(null, drawable, null, null)
-                }
-                Gravity.END -> {
-                    item.setCompoundDrawables(null, null, drawable, null)
-                }
-                Gravity.BOTTOM -> {
-                    item.setCompoundDrawables(null, null, null, drawable)
+    titles.forEachIndexed { index, charSequence ->
+        val tab = if (icons.isEmpty()) {
+            newTab().setText(charSequence)
+        } else {
+            newTab().setText(charSequence).setIcon(icons[index])
+        }
+        tab.view.forEachIndexed { _, view ->
+            if (view is TextView) {
+                view.gravity = textGravity
+                view.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    tbGetDimensValue(unSelectSize).toFloat()
+                )
+                view.setTextColor(ContextCompat.getColor(context, unSelectColor))
+                view.background = ContextCompat.getDrawable(context, unSelectItemBg)
+                view.setPadding(
+                    itemPadding.left,
+                    itemPadding.top,
+                    itemPadding.right,
+                    itemPadding.bottom
+                )
+                view.typeface = Typeface.defaultFromStyle(textStyleUnSelect)
+                if (index == 0) {
+                    view.setTextColor(ContextCompat.getColor(context, selectColor))
+                    view.typeface = Typeface.defaultFromStyle(textStyleSelect)
+                    view.background = ContextCompat.getDrawable(context, selectItemBg)
                 }
             }
-            item.compoundDrawablePadding = mDrawablePadding
         }
-        addTab(this.newTab().setCustomView(item))
+        addTab(tab)
     }
 
     viewPager?.tbOnPageListener(onPageSelected = {
@@ -351,9 +344,8 @@ inline fun TabLayout.init(
         }
 
         override fun onTabUnselected(p0: TabLayout.Tab?) {
-            p0?.let {
-                it.customView.let { view ->
-                    view as TextView
+            p0?.view?.forEachIndexed { _, view ->
+                if (view is TextView) {
                     view.typeface = Typeface.defaultFromStyle(textStyleUnSelect)
                     view.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
@@ -362,15 +354,15 @@ inline fun TabLayout.init(
                     view.setTextColor(ContextCompat.getColor(context, unSelectColor))
                     view.background = ContextCompat.getDrawable(context, unSelectItemBg)
                 }
+
             }
         }
 
         override fun onTabSelected(p0: TabLayout.Tab?) {
-            p0?.let {
-                viewPager?.currentItem = it.position
-                mOnTabSelected.invoke(it.position)
-                it.customView.let { view ->
-                    view as TextView
+            p0?.view?.forEachIndexed { _, view ->
+                viewPager?.currentItem = p0.position
+                mOnTabSelected.invoke(p0.position)
+                if (view is TextView) {
                     view.typeface = Typeface.defaultFromStyle(textStyleSelect)
                     view.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
