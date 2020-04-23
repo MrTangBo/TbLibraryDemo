@@ -20,6 +20,7 @@ import com.google.zxing.Result
 import com.google.zxing.common.HybridBinarizer
 import com.tb.library.R
 import com.tb.library.base.TbApplication
+import com.tb.library.base.TbConfig
 import com.tb.library.databinding.TbPopSaveImageBinding
 import com.tb.library.tbZxingUtil.TbRGBLuminanceSource
 import com.tb.library.tbZxingUtil.encode.CodeCreator
@@ -42,25 +43,36 @@ import java.util.*
 
 
 //常规的加载
-@BindingAdapter("url", "scaleType", "isCache", requireAll = false)
+@BindingAdapter("url", "placeholder", "error", "scaleType", "isCache", requireAll = false)
 fun ImageView.showImage(
     imageUrl: String? = null,
+    placeholder: Int? = null,
+    error: Int? = null,
     scaleType: ImageView.ScaleType? = null,
     isCache: Boolean? = null//是否启用缓存
 ) {
     var mScaleType = ImageView.ScaleType.CENTER_CROP
     var mIsCache = true
     var mImageUrl = ""
-    if (scaleType != null) {
-        mScaleType = scaleType
+    var mPlaceholder = TbConfig.getInstance().placeholder
+    var mError = TbConfig.getInstance().errorHolder
+    scaleType?.let {
+        mScaleType = it
     }
-    if (isCache != null) {
-        mIsCache = isCache
+    isCache?.let {
+        mIsCache = it
     }
-    if (imageUrl!=null){
-        mImageUrl=imageUrl
+    imageUrl?.let {
+        mImageUrl = it
     }
-    GlideUtil.getInstance().showImage(this.context, mImageUrl, this, mScaleType, mIsCache)
+    placeholder?.let {
+        mPlaceholder = it
+    }
+    error?.let {
+        mError = it
+    }
+    GlideUtil.getInstance()
+        .showImage(this.context, mImageUrl, this, mPlaceholder, mError, mScaleType, mIsCache)
 }
 
 

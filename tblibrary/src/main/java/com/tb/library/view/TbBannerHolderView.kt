@@ -7,6 +7,7 @@ import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.bigkoo.convenientbanner.holder.Holder
+import com.tb.library.base.TbConfig
 import com.tb.library.databinding.TbItemBannerBinding
 import com.tb.library.tbExtend.showImage
 
@@ -21,6 +22,8 @@ open class TbBannerHolderView<T>(
     private var circleSizeRect: Rect,
     private var marginRect: Rect,
     var scaleType: ImageView.ScaleType = ImageView.ScaleType.CENTER_CROP,
+    var placeholder: Int,
+    var error: Int,
     var itemBinding: ((binding: ViewDataBinding, data: T) -> Unit)? = null
 ) : Holder<T>(itemView) {
 
@@ -47,7 +50,7 @@ open class TbBannerHolderView<T>(
                 )
                 when (data) {
                     is String -> {
-                        it.bannerImage.showImage(data, scaleType)
+                        it.bannerImage.showImage(data, placeholder, error, scaleType = scaleType)
                     }
                     is Int -> {
                         it.bannerImage.scaleType = scaleType

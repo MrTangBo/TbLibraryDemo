@@ -112,7 +112,9 @@ fun ConvenientBanner<*>.initBanner(
     indicatorMarginRect: Rect? = null,//
     itemMarginRect: Rect = Rect(tbGetDimensValue(R.dimen.x20), 0, tbGetDimensValue(R.dimen.x20), 0),
     circleSizeRect: Rect = Rect(0, 0, 0, 0),
-    itemBinding: ((binding: ViewDataBinding, data: Any) -> Unit)? = null
+    itemBinding: ((binding: ViewDataBinding, data: Any) -> Unit)? = null,
+    placeholder: Int = TbConfig.getInstance().placeholder,
+    error: Int = TbConfig.getInstance().errorHolder
 ): ConvenientBanner<*> {
 
     var mNewState = -999
@@ -123,7 +125,7 @@ fun ConvenientBanner<*>.initBanner(
                 itemView,
                 circleSizeRect,
                 itemMarginRect,
-                scaleType
+                scaleType, placeholder, error
             ) { binding, data ->
                 itemBinding?.invoke(binding, data)
             }

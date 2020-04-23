@@ -11,6 +11,10 @@
             name="url"
             type="String" />
 
+        <variable
+            name="placeImg"
+            type="Integer" />
+
     </data>
 
     <LinearLayout
