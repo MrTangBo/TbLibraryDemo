@@ -165,8 +165,8 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
         if (TbConfig.getInstance().fontType.isNotEmpty()) {
             FontUtil.replaceFont(mRootView, TbConfig.getInstance().fontType)
         }
-        initModel()
         if (!isLoad) {
+            initModel()
             loadData()
             isLoad = true
         }
