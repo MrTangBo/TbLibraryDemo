@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.annotation.DrawableRes
@@ -302,12 +303,18 @@ inline fun TabLayout.init(
     textStyleUnSelect: Int = Typeface.NORMAL,
     viewPager: ViewPager? = null
 ) {
-
+    val lp = LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams.WRAP_CONTENT,
+        LinearLayout.LayoutParams.WRAP_CONTENT
+    )
     titles.forEachIndexed { index, charSequence ->
+        val tex = TextView(context)
+        tex.text = charSequence
+        tex.layoutParams = lp
         val tab = if (icons.isEmpty()) {
-            newTab().setText(charSequence)
+            newTab().setCustomView(tex)
         } else {
-            newTab().setText(charSequence).setIcon(icons[index])
+            newTab().setCustomView(tex).setIcon(icons[index])
         }
         tab.view.forEachIndexed { _, view ->
             if (view is TextView) {
@@ -326,6 +333,10 @@ inline fun TabLayout.init(
                 )
                 view.typeface = Typeface.defaultFromStyle(textStyleUnSelect)
                 if (index == 0) {
+                    view.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        tbGetDimensValue(selectSize).toFloat()
+                    )
                     view.setTextColor(ContextCompat.getColor(context, selectColor))
                     view.typeface = Typeface.defaultFromStyle(textStyleSelect)
                     view.background = ContextCompat.getDrawable(context, selectItemBg)
