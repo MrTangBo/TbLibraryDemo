@@ -14,6 +14,7 @@ import android.widget.RadioGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEachIndexed
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.tb.library.R
 import com.tb.library.tbExtend.*
 import q.rorbin.badgeview.Badge
@@ -102,6 +103,7 @@ class TbBottomNavigation : RadioGroup {
         selectDrawables: ArrayList<Int>? = null,
         iconSize: Int = 0,
         mViewPager: ViewPager? = null,
+        mViewPager2: ViewPager2? = null,
         mDefaultCheckPosition: Int = 0,//默认选中
         pageSelect: TbItemClick = { _ -> Unit },
         clickPosition: TbItemClick = { _ -> Unit }
@@ -189,17 +191,16 @@ class TbBottomNavigation : RadioGroup {
                 if (selectList.isNotEmpty()) {
                     radioButton.setCompoundDrawables(null, selectList[index], null, null)
                 }
-                if (mViewPager != null) {
-                    mViewPager.currentItem = index
-                }
+                mViewPager?.currentItem = index
+                mViewPager2?.currentItem = index
             }
             addView(radioButton, params)
         }
         /*初始化第一个选中*/
         val firstView: View = getChildAt(mDefaultCheckPosition)
         firstView.performClick()
-        if (mViewPager == null) return this
-        mViewPager.doPageSelected {
+
+        mViewPager?.doPageSelected {
             val view = getChildAt(it)
             if (view is RadioButton) {
                 view.performClick()
@@ -211,6 +212,20 @@ class TbBottomNavigation : RadioGroup {
             }
             pageSelect.invoke(it)
         }
+        mViewPager2?.registerOnPageChangeCallback(object :ViewPager2.OnPageChangeCallback(){
+            override fun onPageSelected(position: Int) {
+                val view = getChildAt(position)
+                if (view is RadioButton) {
+                    view.performClick()
+                } else if (view is ViewGroup) {
+                    if (view.getChildAt(0) != null) {
+                        val view1 = view.getChildAt(0)
+                        view1.performClick()
+                    }
+                }
+                pageSelect.invoke(position)
+            }
+        })
         return this
     }
 
