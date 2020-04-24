@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.bigkoo.convenientbanner.ConvenientBanner
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator
 import com.bigkoo.convenientbanner.listener.OnPageChangeListener
@@ -301,7 +302,8 @@ inline fun TabLayout.init(
     textGravity: Int = Gravity.CENTER,
     textStyleSelect: Int = Typeface.NORMAL,
     textStyleUnSelect: Int = Typeface.NORMAL,
-    viewPager: ViewPager? = null
+    viewPager: ViewPager? = null,
+    viewPager2: ViewPager2? = null
 ) {
     val lp = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -349,7 +351,11 @@ inline fun TabLayout.init(
     viewPager?.tbOnPageListener(onPageSelected = {
         this.getTabAt(it)?.select()
     })
-
+    viewPager2?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            this@init.getTabAt(position)?.select()
+        }
+    })
     addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
         override fun onTabReselected(p0: TabLayout.Tab?) {
         }
@@ -372,6 +378,7 @@ inline fun TabLayout.init(
         override fun onTabSelected(p0: TabLayout.Tab?) {
             p0?.view?.forEachIndexed { _, view ->
                 viewPager?.currentItem = p0.position
+                viewPager2?.currentItem = p0.position
                 mOnTabSelected.invoke(p0.position)
                 if (view is TextView) {
                     view.typeface = Typeface.defaultFromStyle(textStyleSelect)
