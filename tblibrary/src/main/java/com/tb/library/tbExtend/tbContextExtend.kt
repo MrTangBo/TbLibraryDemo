@@ -150,7 +150,16 @@ fun Context.tbStatusBarInit(
             }
         }
 
-        else -> SystemBarUtil.statusBarLightMode(currentActivity, isFitWindowStatusBar, isLightMode)
+        else -> {
+            if (SystemBarUtil.statusBarLightMode(
+                    currentActivity,
+                    isFitWindowStatusBar,
+                    isLightMode
+                ) == 0
+            ) {
+                window.statusBarColor = ContextCompat.getColor(this, R.color.tb_text_black)
+            }
+        }
     }
 }
 
@@ -337,7 +346,7 @@ fun Activity?.isForeground(): Boolean {
     if (this == null) return false
     val list = tbActivityManager.getRunningTasks(1)
     if (list.isEmpty()) return false
-    if (list[0].topActivity?.className==this::class.java.name){
+    if (list[0].topActivity?.className == this::class.java.name) {
         return true
     }
     return false

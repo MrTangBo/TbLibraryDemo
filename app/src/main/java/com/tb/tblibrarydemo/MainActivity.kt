@@ -32,7 +32,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
     override fun initData() {
         super.initData()
-        tbStatusBarInit(isImmersive = true, isFitWindowStatusBar = true)
+        tbStatusBarInit(isLightMode = true)
         initToolBar()
 //        initMenu(arrayListOf("搜索"))
         mSearchView.init(isExpand = false)
@@ -63,7 +63,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
                 "看见撒旦是", "打赏", "撒丢啊"
             ),
             R.color.tb_green,
-            
+            selectSize = R.dimen.x32,
             unSelectColor = R.color.tb_text_dark,
             textStyleSelect = Typeface.BOLD,
             textStyleUnSelect = Typeface.NORMAL

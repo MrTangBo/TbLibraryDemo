@@ -126,7 +126,7 @@ fun String?.tbString2Md5(isUpperCase: Boolean = false): String {
         hex.append(hexDigits[(b.toInt() shr 4) and 0x0F])
         hex.append(hexDigits[(b and 0x0F).toInt()])
     }
-    return if (isUpperCase) hex.toString().toUpperCase() else hex.toString()
+    return if (isUpperCase) hex.toString().toUpperCase(Locale.ROOT) else hex.toString()
 }
 
 /*跳转打电话界面*/
