@@ -65,6 +65,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         init()
+        initModel()
         initData()
     }
 
@@ -166,7 +167,6 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
             FontUtil.replaceFont(mRootView, TbConfig.getInstance().fontType)
         }
         if (!isLoad) {
-            initModel()
             loadData()
             isLoad = true
         }
