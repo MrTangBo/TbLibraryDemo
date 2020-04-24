@@ -56,14 +56,13 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     }
 
 
-
     open fun init() {
         mContext = this
         tbAddActivity()
         if (mIsOpenARouter) {
             ARouter.getInstance().inject(this)
         }
-        if (mIsOpenEventBus) {
+        if (mIsOpenEventBus && !EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
     }
