@@ -61,7 +61,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (!EventBus.getDefault().isRegistered(this)) {
+        if (mMode == null) {
             init()
             initModel()
             initData()
@@ -71,7 +71,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     open fun init() {
         fActivity = activity!!
         initLoadingDialog()
-        if (mIsOpenEventBus) {
+        if (mIsOpenEventBus && !EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
         }
     }
