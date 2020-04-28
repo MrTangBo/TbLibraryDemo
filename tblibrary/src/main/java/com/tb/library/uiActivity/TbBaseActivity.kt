@@ -30,6 +30,9 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     var mMode: T? = null
     lateinit var mBinding: G
 
+    var mTbLoadLayout: TbLoadLayout? = null
+    var mSpringView: SpringView? = null
+
     lateinit var mLoadingDialog: TbLoadingDialog
 
     lateinit var mContext: Context
@@ -68,33 +71,24 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
         mLoadingDialog = TbLoadingDialog(this)
     }
 
-    /*获取mode*/
-    open fun getModel(): T? {
-
-        return null
+    open fun initSpringView() {
+        mSpringView?.let { springView ->
+            mMode?.let {
+                mSpringView = springView.init(it)
+            }
+        }
     }
 
-    /*配置SpringView*/
-    open fun getSpringView(): SpringView? {
-        return null
-    }
+    open fun getModel() {
 
-    /*配置TbLoadLayout*/
-    open fun getTbLoadLayout(): TbLoadLayout? {
-        return null
-    }
-
-    /*配置TaskIds*/
-    open fun initTaskId(): IntArray {
-        return intArrayOf()
     }
 
     open fun initModel() {
-        mMode = getModel()
+        getModel()
         mMode?.let { model ->
-            model.initLiveData(*initTaskId())
-            model.mTbLoadLayout = getTbLoadLayout()
-            model.mSpringView = getSpringView()
+            initSpringView()
+            model.mTbLoadLayout = mTbLoadLayout
+            model.mSpringView = mSpringView
             lifecycle.addObserver(model)
             model.mActivity = this
             model.mBinding = mBinding
@@ -130,7 +124,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     }
 
     open fun <E> resultData(taskId: Int, info: E) {
-        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
@@ -177,11 +171,11 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     }
 
     open fun showContent() {
-        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun showEmpty() {
-        mMode?.mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
+        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
     }
 
     /**
