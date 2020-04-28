@@ -18,16 +18,12 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     override val mLayoutId: Int
         get() = R.layout.activity_main
 
+    override fun getModel(): TestMode? {
+        return  ViewModelProvider(this).get(TestMode::class.java)
+    }
 
-    override fun getModel() {
-        super.getModel()
-        mMode = ViewModelProvider(this).get(TestMode::class.java)
-        mMode?.initLiveData(Api.getData)
-        mTbLoadLayout = mLoadLayout
-        mSpringView = springView
-
-
-        TbLogUtils.log("222--->$mIsOpenARouter")
+    override fun initTaskId(): IntArray {
+        return intArrayOf(Api.getData)
     }
 
     override fun initData() {

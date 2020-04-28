@@ -36,9 +36,6 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     lateinit var mBinding: G
     var mRootView: View? = null
 
-    var mTbLoadLayout: TbLoadLayout? = null
-    var mSpringView: SpringView? = null
-
     lateinit var mLoadingDialog: TbLoadingDialog
 
     lateinit var fActivity: FragmentActivity
@@ -64,11 +61,11 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-       if (!EventBus.getDefault().isRegistered(this)){
-           init()
-           initModel()
-           initData()
-       }
+        if (!EventBus.getDefault().isRegistered(this)) {
+            init()
+            initModel()
+            initData()
+        }
     }
 
     open fun init() {
@@ -79,24 +76,33 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
         }
     }
 
-    open fun initSpringView() {
-        mSpringView?.let { springView ->
-            mMode?.let {
-                mSpringView = springView.init(it)
-            }
-        }
+
+    /*获取mode*/
+    open fun getModel(): T? {
+
+        return null
     }
 
-    open fun getModel() {
+    /*配置SpringView*/
+    open fun getSpringView(): SpringView? {
+        return null
+    }
 
+    /*配置TbLoadLayout*/
+    open fun getTbLoadLayout(): TbLoadLayout? {
+        return null
+    }
+
+    /*配置TaskIds*/
+    open fun initTaskId(): IntArray {
+        return intArrayOf()
     }
 
     open fun initModel() {
-        getModel()
+        mMode = getModel()
         mMode?.let { model ->
-            initSpringView()
-            model.mTbLoadLayout = mTbLoadLayout
-            model.mSpringView = mSpringView
+            model.mTbLoadLayout = getTbLoadLayout()
+            model.mSpringView = getSpringView()
             lifecycle.addObserver(model)
             model.mFragment = this
             model.mBinding = mBinding
@@ -132,7 +138,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     }
 
     open fun <E> resultData(taskId: Int, info: E) {
-        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
@@ -186,10 +192,10 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     }
 
     open fun showContent() {
-        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun showEmpty() {
-        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
+        mMode?.mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
     }
 }
