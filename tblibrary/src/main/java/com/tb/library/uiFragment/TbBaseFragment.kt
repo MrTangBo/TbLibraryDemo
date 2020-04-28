@@ -61,7 +61,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (mMode == null) {
+        if (!this::fActivity.isInitialized) {
             init()
             initModel()
             initData()
