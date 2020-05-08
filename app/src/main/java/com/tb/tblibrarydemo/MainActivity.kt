@@ -4,11 +4,9 @@ import android.graphics.Typeface
 import android.view.KeyEvent
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.tbExtend.*
 import com.tb.library.uiActivity.TbTitleBaseActivity
 import com.tb.library.util.TbLogUtils
-import com.tb.library.view.TbLoadLayout
 import com.tb.tblibrarydemo.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -25,8 +23,6 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         mMode?.initLiveData(Api.getData)
         mTbLoadLayout = mLoadLayout
         mSpringView = springView
-
-
         TbLogUtils.log("222--->$mIsOpenARouter")
     }
 
@@ -102,6 +98,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
 
 //        "123".tbStringCheckRegex()
+
     }
 
     override fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
@@ -132,6 +129,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     }
 
 }
+
 
 
 

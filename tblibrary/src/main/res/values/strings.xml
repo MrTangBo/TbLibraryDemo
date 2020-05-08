@@ -26,6 +26,7 @@
     <string name="connect_error">链接出错</string>
     <string name="connect_time_out">链接超时</string>
     <string name="json_error">数据解析错误</string>
+    <string name="_error">未知错误</string>
     <string name="no_internet">网络出错了</string>
     <string name="save_img">保存图片</string>
     <string name="read_QR_code">识别二维码</string>

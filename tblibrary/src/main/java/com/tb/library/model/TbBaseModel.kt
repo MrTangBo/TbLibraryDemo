@@ -1,12 +1,10 @@
 package com.tb.library.model
 
 import android.app.Activity
-import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import com.google.gson.JsonSyntaxException
-import com.liaoinstan.springview.container.AutoFooter
 import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.R
 import com.tb.library.base.RequestInternetEvent
@@ -16,7 +14,10 @@ import com.tb.library.base.TbEventBusInfo
 import com.tb.library.http.BaseResultInfo
 import com.tb.library.http.HttpUtil
 import com.tb.library.http.RequestListener
-import com.tb.library.tbExtend.*
+import com.tb.library.tbExtend.isForeground
+import com.tb.library.tbExtend.tb2Json
+import com.tb.library.tbExtend.tbNetWorkIsConnect
+import com.tb.library.tbExtend.tbShowToast
 import com.tb.library.tbReceiver.TbBaseReceiver
 import com.tb.library.util.TbLogUtils
 import com.tb.library.view.TbLoadLayout
@@ -174,6 +175,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     }
 
     open lateinit var mEventInfo: TbEventBusInfo
+
     /*eventBus回调*/
     @Subscribe(threadMode = ThreadMode.MAIN)
     open fun onUserEvent(event: TbEventBusInfo) {

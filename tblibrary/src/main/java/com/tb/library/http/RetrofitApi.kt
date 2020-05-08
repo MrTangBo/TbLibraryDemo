@@ -3,9 +3,6 @@ package com.tb.library.http
 
 import com.tb.library.base.TbConfig
 import com.tb.library.util.GsonUtil
-import com.tb.library.util.TbLogUtils
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
