@@ -26,7 +26,7 @@ class TbPopupWindow(
     windowWith: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     windowHeight: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     var windowTransScale: Float = 1.0f,
-    @DrawableRes var drawableId: Int = R.color.transparent,//不给默认的背景，PopupWindow 点击外部和返回键无法消失
+    @DrawableRes var drawableId: Int = R.color.tb_transparent,//不给默认的背景，PopupWindow 点击外部和返回键无法消失
     isFocusable: Boolean = true,
     isTouchable: Boolean = true,
     isOutsideTouchable: Boolean = true,

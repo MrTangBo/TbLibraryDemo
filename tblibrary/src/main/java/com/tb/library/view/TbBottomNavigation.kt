@@ -234,7 +234,7 @@ class TbBottomNavigation : RadioGroup {
         positions: ArrayList<Int>,//哪些位置需要显示数字标记
         nums: ArrayList<Int>,//对应位置需要显示的数字
         bgColor: Int = R.color.tb_green,
-        txColor: Int = R.color.white,
+        txColor: Int = R.color.tb_white,
         crossinline moveUpListener: (badge: Badge, targetView: View) -> Unit = { _, _ -> Unit },
         padding: Int = tbGetDimensValue(R.dimen.x10),
         txSize: Int = tbGetDimensValue(R.dimen.x22),
@@ -267,7 +267,7 @@ class TbBottomNavigation : RadioGroup {
         position: Int,//哪些位置需要显示数字标记
         num: Int,//对应位置需要显示的数字
         bgColor: Int = R.color.tb_green,
-        txColor: Int = R.color.white,
+        txColor: Int = R.color.tb_white,
         crossinline moveUpListener: (badge: Badge, targetView: View) -> Unit = { _, _ -> Unit },
         padding: Int = tbGetDimensValue(R.dimen.x10),
         txSize: Int = tbGetDimensValue(R.dimen.x22),

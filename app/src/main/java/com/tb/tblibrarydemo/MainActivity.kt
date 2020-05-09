@@ -4,7 +4,11 @@ import android.graphics.Typeface
 import android.view.KeyEvent
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.liaoinstan.springview.widget.SpringView
+import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.adapter.PictureImageGridAdapter
+import com.luck.picture.lib.config.PictureMimeType
 import com.tb.library.tbExtend.*
 import com.tb.library.uiActivity.TbTitleBaseActivity
 import com.tb.library.util.TbLogUtils
@@ -52,7 +56,8 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
         tbMenu.itemClick = {
 //            tbStartActivity<TestActivity>()
-            tbShowToast(tbGetClipboardTx())
+//            tbShowToast(tbGetClipboardTx())
+            PictureSelector.create(this).openGallery(PictureMimeType.ofImage()).forResult(300)
         }
 
         mTabLayout.init(

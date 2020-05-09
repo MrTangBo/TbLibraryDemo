@@ -76,7 +76,7 @@ class FloatingItemDecoration : RecyclerView.ItemDecoration {
         this.dividerHeight =dividerHeight
     }
 
-    fun init(mContext: Context, @ColorRes titleBg: Int = R.color.tb_green, titleTxColor: Int = R.color.white) {
+    fun init(mContext: Context, @ColorRes titleBg: Int = R.color.tb_green, titleTxColor: Int = R.color.tb_white) {
         this.mContext = mContext
         mTextPaint = Paint()
         mTextPaint!!.isAntiAlias = true

@@ -112,7 +112,7 @@ abstract class TbTitleBaseActivity<T : TbBaseModel,G:ViewDataBinding> : TbBaseAc
     open fun initMenu(
         menuTitles: ArrayList<*>,
         menuClick: ((position: Int, view: View) -> Unit)? = null,
-        titleColor: Int = R.color.white,
+        titleColor: Int = R.color.tb_white,
         titleSize: Int = tbGetDimensValue(R.dimen.tb_text26),
         clickRipple: Int = R.drawable.bg_tb_ripple
     ) {
