@@ -104,7 +104,7 @@
                     android:layout_marginTop="@dimen/x10"
                     android:gravity="center"
                     android:text="@string/zxGallery"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/tb_white" />
             </LinearLayout>
 
 

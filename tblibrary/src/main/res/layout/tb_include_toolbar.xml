@@ -43,7 +43,7 @@
                 android:layout_marginEnd="@dimen/x50"
                 android:layout_toEndOf="@+id/backIcon"
                 android:singleLine="true"
-                android:textColor="@color/white"
+                android:textColor="@color/tb_white"
                 android:textSize="@dimen/tb_text26" />
 
             <TextView
@@ -53,7 +53,7 @@
                 android:layout_centerInParent="true"
                 android:maxWidth="@dimen/x300"
                 android:singleLine="true"
-                android:textColor="@color/white"
+                android:textColor="@color/tb_white"
                 android:textSize="@dimen/toolbarCenterTextSize"
                 tools:ignore="RelativeOverlap" />
 

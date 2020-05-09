@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/x40"
-        app:rv_backgroundColor="@color/white"
+        app:rv_backgroundColor="@color/tb_white"
         app:rv_cornerRadius="@dimen/x20">
 
         <TextView

@@ -17,7 +17,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:showDividers="middle"
-            app:rv_backgroundColor="@color/white"
+            app:rv_backgroundColor="@color/tb_white"
             app:rv_cornerRadius="@dimen/x20">
 
             <TextView
@@ -50,7 +50,7 @@
             android:text="@string/tb_cancel"
             android:textColor="@color/tb_text_black"
             android:textSize="@dimen/x28"
-            app:rv_backgroundColor="@color/white"
+            app:rv_backgroundColor="@color/tb_white"
             app:rv_cornerRadius="@dimen/x20" />
 
     </LinearLayout>

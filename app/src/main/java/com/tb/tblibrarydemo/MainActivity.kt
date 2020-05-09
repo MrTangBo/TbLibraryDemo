@@ -11,6 +11,7 @@ import com.luck.picture.lib.adapter.PictureImageGridAdapter
 import com.luck.picture.lib.config.PictureMimeType
 import com.tb.library.tbExtend.*
 import com.tb.library.uiActivity.TbTitleBaseActivity
+import com.tb.library.util.GlideEngine
 import com.tb.library.util.TbLogUtils
 import com.tb.library.view.TbLoadLayout
 import com.tb.tblibrarydemo.databinding.ActivityMainBinding
@@ -57,7 +58,8 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         tbMenu.itemClick = {
 //            tbStartActivity<TestActivity>()
 //            tbShowToast(tbGetClipboardTx())
-            PictureSelector.create(this).openGallery(PictureMimeType.ofImage()).forResult(300)
+            PictureSelector.create(this).openGallery(PictureMimeType.ofAll()) .loadImageEngine(
+                GlideEngine.createGlideEngine()).forResult(3000)
         }
 
         mTabLayout.init(

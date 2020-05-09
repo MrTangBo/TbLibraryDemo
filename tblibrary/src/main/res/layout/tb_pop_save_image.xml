@@ -13,7 +13,7 @@
         android:showDividers="middle"
         app:rv_strokeColor="@color/line_background"
         app:rv_strokeWidth="@dimen/x1"
-        app:rv_backgroundColor="@color/white"
+        app:rv_backgroundColor="@color/tb_white"
         app:rv_cornerRadius="@dimen/x10">
 
         <TextView
