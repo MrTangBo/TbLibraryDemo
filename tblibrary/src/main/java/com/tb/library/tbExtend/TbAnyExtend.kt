@@ -2,6 +2,7 @@ package com.tb.library.tbExtend
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
@@ -195,7 +196,9 @@ fun Any.tbNotifyEnabled(
     val appInfo = TbApplication.mApplicationContext.applicationInfo
     val pkg = TbApplication.mApplicationContext.applicationContext.packageName
     val uid = appInfo.uid
-    if (!NotificationManagerCompat.from(TbApplication.mApplicationContext).areNotificationsEnabled()) {
+    if (!NotificationManagerCompat.from(TbApplication.mApplicationContext)
+            .areNotificationsEnabled()
+    ) {
         if (activity != null) {
             val sureDialog = TbSureDialog(messageTx = messageTx)
             sureDialog.sureClick = {
@@ -279,6 +282,19 @@ fun Any.tbGetResString(resId: Int): String {
 /*获取资源图片*/
 fun Any.tbGetResDrawable(resId: Int): Drawable? {
     return ContextCompat.getDrawable(TbApplication.mApplicationContext, resId)
+}
+
+/*复制文本到剪切板*/
+fun TextView.tbCopyTx2Clipboard(label: CharSequence = "tb_label") {
+    setTextIsSelectable(true)//允许复制到剪切板
+    tbClipboardManager.setPrimaryClip(ClipData.newPlainText(label, text.toString()))
+}
+
+/*获取剪切板文本*/
+fun Any.tbGetClipboardTx(): String {
+    val s = tbClipboardManager.primaryClip ?: return "null"
+    if (s.getItemAt(0) == null) return "null"
+    return s.getItemAt(0).text.toString()
 }
 
 

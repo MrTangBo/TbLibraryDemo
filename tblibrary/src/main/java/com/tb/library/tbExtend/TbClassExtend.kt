@@ -2,6 +2,7 @@ package com.tb.library.tbExtend
 
 import android.app.ActivityManager
 import android.app.NotificationManager
+import android.content.ClipboardManager
 import android.content.Context
 import com.tb.library.base.TbApplication
 import com.tencent.mmkv.MMKV
@@ -19,6 +20,9 @@ val Any.tbNotificationManager: NotificationManager
 /*获取ActivityManager*/
 val Any.tbActivityManager: ActivityManager
     get() = TbApplication.mApplicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+
+val Any.tbClipboardManager: ClipboardManager
+    get() = TbApplication.mApplicationContext.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
 /*获取不可清除数据的MMKV对象*/
 val Any.tBMMKV: MMKV

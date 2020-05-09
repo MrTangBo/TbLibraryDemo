@@ -51,7 +51,8 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         mBanner.initBanner(imagList, isCanLoop = true)
 
         tbMenu.itemClick = {
-            tbStartActivity<TestActivity>()
+//            tbStartActivity<TestActivity>()
+            tbShowToast(tbGetClipboardTx())
         }
 
         mTabLayout.init(
@@ -75,11 +76,11 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
                 R.drawable.icon_close
             ),
             arrayListOf(
-                R.drawable.ic_delete_photo,
-                R.drawable.def_qq,
-                R.drawable.ic_delete_photo,
-                R.drawable.ic_delete_photo,
-                R.drawable.ic_delete_photo
+                R.drawable.icon_close,
+                R.drawable.icon_close,
+                R.drawable.icon_close,
+                R.drawable.icon_close,
+                R.drawable.icon_close
             ), iconSize = tbGetDimensValue(R.dimen.x15)
         )
             .setBadgeNumSingle(
@@ -96,6 +97,8 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         val mInfo = info as TestBean
 
         mTx.text = "${mInfo.data[0].content}--->t${tbGetShared<String>("name")}"
+
+        mTx.tbCopyTx2Clipboard()
 
 //        "123".tbStringCheckRegex()
     }
