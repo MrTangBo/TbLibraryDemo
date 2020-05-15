@@ -101,6 +101,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     open fun initModel() {
         mMode = getModel()
         mMode?.let { model ->
+            model.initLiveData(*initTaskId())
             model.mTbLoadLayout = getTbLoadLayout()
             model.mSpringView = getSpringView()
             lifecycle.addObserver(model)
