@@ -1,42 +1,42 @@
 package com.tb.library.model
 
-import android.app.Activity
-import android.os.Bundle
-import androidx.databinding.ViewDataBinding
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.*
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.gson.JsonSyntaxException
-import com.liaoinstan.springview.container.AutoFooter
-import com.liaoinstan.springview.widget.SpringView
 import com.tb.library.R
-import com.tb.library.base.RequestInternetEvent
 import com.tb.library.base.TbApplication
 import com.tb.library.base.TbConfig
-import com.tb.library.base.TbEventBusInfo
 import com.tb.library.http.BaseResultInfo
 import com.tb.library.http.HttpUtil
 import com.tb.library.http.RequestListener
-import com.tb.library.tbExtend.*
+import com.tb.library.tbExtend.tb2Json
+import com.tb.library.tbExtend.tbNetWorkIsConnect
+import com.tb.library.tbExtend.tbShowToast
 import com.tb.library.tbReceiver.TbBaseReceiver
 import com.tb.library.util.TbLogUtils
-import com.tb.library.view.TbLoadLayout
 import io.reactivex.Flowable
 import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import org.reactivestreams.Subscription
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
+import kotlin.collections.ArrayList
+import kotlin.collections.MutableList
+import kotlin.collections.MutableMap
+import kotlin.collections.arrayListOf
+import kotlin.collections.forEach
+import kotlin.collections.mutableListOf
+import kotlin.collections.mutableMapOf
+import kotlin.collections.set
 
 /**
  * @CreateDate: 2020/3/12 1:12
  * @Description: TODO
  * @Author: TangBo
  */
-open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
-    SpringView.OnFreshListener {
+open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener {
 
     var mLiveDataMap: MutableMap<Int, MutableLiveData<Any>> = mutableMapOf()
 
@@ -44,22 +44,14 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     var mSubscriptions: MutableList<Subscription> = mutableListOf()
     var mFlowableMap: MutableMap<Int, MutableList<Flowable<*>>> = mutableMapOf()
 
-    var mBinding: ViewDataBinding? = null
-    var mActivity: Activity? = null
-    var mFragment: Fragment? = null
-    var mTbLoadLayout: TbLoadLayout? = null
-    var mSpringView: SpringView? = null
-
     var mPage = 1
     var mIsShowLoading = true
-    var mDialogDismiss: (() -> Unit)? = null
-    var mDialogShow: (() -> Unit)? = null
-    var mErrorCodeEvent: ((code: Any, msg: String, taskId: Int) -> Unit)? = null
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
-    open fun onCreate() {
-        EventBus.getDefault().register(this)
-    }
+    var mIsShowLayoutLoading = true
+    var mDialogDismiss: (isInternet: Boolean, isError: Boolean, taskId: Int) -> Unit =
+        { _, _, _ -> Unit }
+    var mDialogShow: (isShowLoading: Boolean, isShowLayoutLoading: Boolean) -> Unit =
+        { _, _ -> Unit }
+    var mErrorCodeEvent: (code: Any, msg: String, taskId: Int) -> Unit = { _, _, _ -> Unit }
 
     /**
      * 通过taskId数量来创建数据管理MutableLiveData的个数
@@ -81,20 +73,12 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
         mFlowableMap.clear()
         mFlowableMap[taskId] = flowables
         if (tbNetWorkIsConnect()) {
-            mTbLoadLayout?.let {
-                if (it.mCurrentShow != TbLoadLayout.CONTENT) {
-                    mIsShowLoading = false
-                    it.showView(TbLoadLayout.LOADING)
-                }
-            }
             if (mIsShowLoading) {
-                mDialogShow?.invoke()
+                mDialogShow.invoke(mIsShowLoading, mIsShowLayoutLoading)
             }
             HttpUtil.getInstance().startRequest(flowables, this, taskId)
         } else {
-            mTbLoadLayout?.showView(TbLoadLayout.NO_INTERNET)
-            mDialogDismiss?.invoke()
-            mSpringView?.onFinishFreshAndLoadDelay()
+            mDialogDismiss.invoke(false, false, taskId)
             TbBaseReceiver.isFirst = false
         }
         TbLogUtils.log("commitData--->${mRequestMap.tb2Json()}")
@@ -135,7 +119,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
             if (code == TbConfig.getInstance().successCode) {
                 mLiveDataMap[taskId]?.value = info.mData
             } else {
-                mErrorCodeEvent?.invoke(code, info.mMessage, taskId)
+                mErrorCodeEvent.invoke(code, info.mMessage, taskId)
             }
         }
         TbLogUtils.log("taskId-$taskId--->${info.mData.tb2Json()}")
@@ -144,15 +128,14 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
     override fun onComplete(taskId: Int) {
         mFlowableMap.clear()
         mIsShowLoading = true
-        mDialogDismiss?.invoke()
-        mSpringView?.onFinishFreshAndLoadDelay()
+        mIsShowLayoutLoading = false
+        mDialogDismiss.invoke(true, false, taskId)
     }
 
     override fun onError(t: Throwable?, taskId: Int) {
         mIsShowLoading = true
-        mDialogDismiss?.invoke()
-        mTbLoadLayout?.showView(TbLoadLayout.ERROR)
-        mSpringView?.onFinishFreshAndLoadDelay()
+        mIsShowLayoutLoading = false
+        mDialogDismiss.invoke(true, true, taskId)
         if (mPage > 1) {
             mPage--
         }
@@ -171,36 +154,6 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener,
             else -> tbShowToast(t.tb2Json())
         }
         TbLogUtils.log("error--->${t.tb2Json()}")
-    }
-
-    open lateinit var mEventInfo: TbEventBusInfo
-    /*eventBus回调*/
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    open fun onUserEvent(event: TbEventBusInfo) {
-        mEventInfo = event
-        if (mTbLoadLayout != null) {
-            if (event is RequestInternetEvent && mTbLoadLayout!!.mCurrentShow != TbLoadLayout.CONTENT) {
-                repeatQuest()
-            }
-        } else {
-            if (event is RequestInternetEvent && mActivity?.isForeground()!!) {
-                repeatQuest()
-            }
-        }
-    }
-
-    override fun onLoadmore() {
-        mPage++
-        mIsShowLoading = false
-        tbSpringViewJoinRefresh()
-        tbLoadMore()
-    }
-
-    override fun onRefresh() {
-        mPage = 1
-        mIsShowLoading = false
-        tbSpringViewJoinRefresh()
-        tbOnRefresh()
     }
 
 

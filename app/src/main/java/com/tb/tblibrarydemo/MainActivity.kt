@@ -27,6 +27,10 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         return  ViewModelProvider(this).get(TestMode::class.java)
     }
 
+    override fun getSpringView(): SpringView? {
+        return springView.init(this)
+    }
+
     override fun initTaskId(): IntArray {
         return intArrayOf(Api.getData)
     }

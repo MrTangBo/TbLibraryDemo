@@ -12,11 +12,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
 import com.liaoinstan.springview.widget.SpringView
+import com.tb.library.base.RequestInternetEvent
 import com.tb.library.base.TbConfig
 import com.tb.library.base.TbEventBusInfo
 import com.tb.library.model.TbBaseModel
 import com.tb.library.tbDialog.TbLoadingDialog
 import com.tb.library.tbExtend.init
+import com.tb.library.tbExtend.isForeground
 import com.tb.library.tbExtend.tbIsMultiClick
 import com.tb.library.util.FontUtil
 import com.tb.library.view.TbLoadLayout
@@ -30,7 +32,8 @@ import org.greenrobot.eventbus.ThreadMode
  * @Description: TODO
  * @Author: TangBo
  */
-abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment() {
+abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment(),
+    SpringView.OnFreshListener {
 
     var mMode: T? = null
     lateinit var mBinding: G
@@ -42,10 +45,12 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     var isLoad = false
 
-    open val mIsOpenEventBus = false//是否开启EventBus
-
+    open val mIsOpenEventBus = true//是否开启EventBus
 
     abstract val mLayoutId: Int
+
+    var mTbLoadLayout: TbLoadLayout? = null
+    var mSpringView: SpringView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -102,19 +107,15 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
         mMode = getModel()
         mMode?.let { model ->
             model.initLiveData(*initTaskId())
-            model.mTbLoadLayout = getTbLoadLayout()
-            model.mSpringView = getSpringView()
+            mSpringView = getSpringView()
+            mTbLoadLayout = getTbLoadLayout()
             lifecycle.addObserver(model)
-            model.mFragment = this
-            model.mBinding = mBinding
-
-            model.mDialogDismiss = {
-                hideLoadingDialog()
+            model.mDialogDismiss = { isInternet, isError, taskId ->
+                hideLoadingDialog(isInternet, isError, taskId)
             }
-            model.mDialogShow = {
-                showLoadingDialog()
+            model.mDialogShow = { isShowLoading, isShowLayoutLoading ->
+                showLoadingDialog(isShowLoading, isShowLayoutLoading)
             }
-
             model.mErrorCodeEvent = { code, msg, taskId ->
                 errorCodeEvent(code, msg, taskId)
             }
@@ -130,16 +131,35 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     }
 
-    open fun showLoadingDialog() {
-        mLoadingDialog.show()
+    open fun showLoadingDialog(isShowLoading: Boolean, isShowLayoutLoading: Boolean) {
+        if (isShowLoading) {
+            if (mTbLoadLayout == null) {
+                mLoadingDialog.show()
+            } else {
+                if (mTbLoadLayout?.mCurrentShow != TbLoadLayout.CONTENT && isShowLayoutLoading) {
+                    mTbLoadLayout?.showView(TbLoadLayout.LOADING)
+                } else {
+                    mLoadingDialog.show()
+                }
+            }
+        }
     }
 
-    open fun hideLoadingDialog() {
+    open fun hideLoadingDialog(isInternet: Boolean, isError: Boolean, taskId: Int) {
         mLoadingDialog.dismiss()
+        when {
+            !isInternet -> {
+                mTbLoadLayout?.showView(TbLoadLayout.NO_INTERNET)
+            }
+            isError -> {
+                mTbLoadLayout?.showView(TbLoadLayout.ERROR)
+            }
+        }
+        mSpringView?.onFinishFreshAndLoadDelay()
     }
 
     open fun <E> resultData(taskId: Int, info: E) {
-        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
@@ -162,12 +182,42 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     }
 
-    open lateinit var mEventInfo: TbEventBusInfo
+    override fun onLoadmore() {
+        mMode?.apply {
+            mPage++
+            mIsShowLoading = false
+            mIsShowLayoutLoading = false
+            tbOnRefresh()
+            tbSpringViewJoinRefresh()
+        }
+    }
+
+    override fun onRefresh() {
+        mMode?.apply {
+            mPage = 1
+            mIsShowLoading = false
+            mIsShowLayoutLoading = false
+            tbLoadMore()
+            tbSpringViewJoinRefresh()
+        }
+    }
+
     /*eventBus回调*/
     @Subscribe(threadMode = ThreadMode.MAIN)
     open fun onUserEvent(event: TbEventBusInfo) {
-        mEventInfo = event
-
+        if (mTbLoadLayout != null) {
+            if (event is RequestInternetEvent && mTbLoadLayout!!.mCurrentShow != TbLoadLayout.CONTENT && mTbLoadLayout!!.mCurrentShow != TbLoadLayout.NO_DATA) {
+                mMode?.apply {
+                    repeatQuest()
+                }
+            }
+        } else {
+            if (event is RequestInternetEvent && fActivity.isForeground()) {
+                mMode?.apply {
+                    repeatQuest()
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -193,10 +243,10 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
     }
 
     open fun showContent() {
-        mMode?.mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
+        mTbLoadLayout?.showView(TbLoadLayout.CONTENT)
     }
 
     open fun showEmpty() {
-        mMode?.mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
+        mTbLoadLayout?.showView(TbLoadLayout.NO_DATA)
     }
 }
