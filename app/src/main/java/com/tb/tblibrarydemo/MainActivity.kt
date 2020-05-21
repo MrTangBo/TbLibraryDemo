@@ -75,11 +75,11 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
                 R.drawable.icon_close
             ),
             arrayListOf(
-                R.drawable.ic_delete_photo,
-                R.drawable.def_qq,
-                R.drawable.ic_delete_photo,
-                R.drawable.ic_delete_photo,
-                R.drawable.ic_delete_photo
+                R.drawable.icon_close,
+                R.drawable.icon_close,
+                R.drawable.icon_close,
+                R.drawable.icon_close,
+                R.drawable.icon_close
             ), iconSize = tbGetDimensValue(R.dimen.x15)
         )
             .setBadgeNumSingle(

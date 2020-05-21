@@ -26,7 +26,7 @@ class TbPopupWindow(
     windowWith: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     windowHeight: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
     var windowTransScale: Float = 1.0f,
-    @DrawableRes var drawableId: Int = R.color.transparent,//不给默认的背景，PopupWindow 点击外部和返回键无法消失
+    @DrawableRes var drawableId: Int = R.color.tb_transparent,//不给默认的背景，PopupWindow 点击外部和返回键无法消失
     isFocusable: Boolean = true,
     isTouchable: Boolean = true,
     isOutsideTouchable: Boolean = true,
@@ -38,20 +38,22 @@ class TbPopupWindow(
     private var mHeight = 0
     var popBaseBind: ViewDataBinding? = null
     private var direction: String = ""
+    private lateinit var mLayoutView: View
 
     init {
         parms = mActivity.window.attributes
         setBackgroundDrawable(ContextCompat.getDrawable(mActivity, drawableId))
-        if (animatorStyle!=0){
-            animationStyle=animatorStyle
+        if (animatorStyle != 0) {
+            animationStyle = animatorStyle
         }
         // 设置PopupWindow的大小（宽度和高度）
         width = windowWith
         height = windowHeight
-        popBaseBind = DataBindingUtil.inflate(LayoutInflater.from(mActivity), popLayoutId, null, false)
-        val mLayoutView = popBaseBind?.root
+        popBaseBind =
+            DataBindingUtil.inflate(LayoutInflater.from(mActivity), popLayoutId, null, false)
+        mLayoutView = popBaseBind?.root!!
         mLayoutView?.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-        mWidth = mLayoutView!!.measuredWidth
+        mWidth = mLayoutView.measuredWidth
         mHeight = mLayoutView.measuredHeight
         contentView = mLayoutView
         this.isFocusable = isFocusable // 设置PopupWindow可获得焦点
@@ -74,7 +76,8 @@ class TbPopupWindow(
         var animator: ObjectAnimator
         when (direction) {
             "bottom" -> {
-                animator = ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", 0f, -mHeight * 1.0f)
+                animator =
+                    ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", 0f, -mHeight * 1.0f)
                 animator.duration = 300
                 animator.start()
                 animator.doOnEnd {
@@ -82,7 +85,8 @@ class TbPopupWindow(
                 }
             }
             "top" -> {
-                animator = ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", 0f, mHeight * 1.0f)
+                animator =
+                    ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", 0f, mHeight * 1.0f)
                 animator.duration = 300
                 animator.start()
                 animator.doOnEnd {
@@ -90,7 +94,8 @@ class TbPopupWindow(
                 }
             }
             "left" -> {
-                animator = ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", 0f, mWidth * 1.0f)
+                animator =
+                    ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", 0f, mWidth * 1.0f)
                 animator.duration = 300
                 animator.start()
                 animator.doOnEnd {
@@ -98,7 +103,8 @@ class TbPopupWindow(
                 }
             }
             "right" -> {
-                animator = ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", 0f, -mWidth * 1.0f)
+                animator =
+                    ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", 0f, -mWidth * 1.0f)
                 animator.duration = 300
                 animator.start()
                 animator.doOnEnd {
@@ -124,7 +130,8 @@ class TbPopupWindow(
             (array[0] + view.width / 2) - mWidth.div(2),
             array[1] - mHeight - marginDp
         )
-        ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", mHeight * 1.0f, 0f).setDuration(300).start()
+        ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", mHeight * 1.0f, 0f)
+            .setDuration(300).start()
 
     }
 
@@ -140,7 +147,8 @@ class TbPopupWindow(
             (array[0] + view.width / 2) - mWidth.div(2),
             array[1] + view.height + marginDp
         )
-        ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", -mHeight * 1.0f, 0f).setDuration(300).start()
+        ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", -mHeight * 1.0f, 0f)
+            .setDuration(300).start()
     }
 
     /*显示在控件正左方*/
@@ -155,7 +163,8 @@ class TbPopupWindow(
             array[0] - mWidth - marginDp,
             array[1] + view.height / 2 - mHeight / 2
         )
-        ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", mWidth * 1.0f, 0f).setDuration(300).start()
+        ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", mWidth * 1.0f, 0f)
+            .setDuration(300).start()
     }
 
     /*显示在控件正右方*/
@@ -170,7 +179,8 @@ class TbPopupWindow(
             array[0] + view.width + marginDp,
             array[1] + view.height / 2 - mHeight / 2
         )
-        ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", -mWidth * 1.0f, 0f).setDuration(300).start()
+        ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", -mWidth * 1.0f, 0f)
+            .setDuration(300).start()
     }
 
     override fun showAsDropDown(anchor: View?, xoff: Int, yoff: Int, gravity: Int) {
@@ -179,37 +189,44 @@ class TbPopupWindow(
         super.showAsDropDown(anchor, xoff, yoff, gravity)
     }
 
-        override fun showAtLocation(parent: View?, gravity: Int, x: Int, y: Int) {
+    override fun showAtLocation(parent: View?, gravity: Int, x: Int, y: Int) {
         parms?.alpha = windowTransScale
         mActivity.window.attributes = parms
         when (gravity) {
             Gravity.BOTTOM -> {
                 direction = "top"
                 popBaseBind?.root?.translationY = mHeight * 1.0f
-                ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", mHeight * 1.0f, 0f).setDuration(300).start()
+                ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", mHeight * 1.0f, 0f)
+                    .setDuration(300).start()
                 super.showAtLocation(parent, gravity, x, y)
             }
             Gravity.TOP -> {
                 direction = "bottom"
                 popBaseBind?.root?.translationY = -mHeight * 1.0f
-                ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", -mHeight * 1.0f, 0f).setDuration(300).start()
+                ObjectAnimator.ofFloat(popBaseBind?.root, "translationY", -mHeight * 1.0f, 0f)
+                    .setDuration(300).start()
                 super.showAtLocation(parent, gravity, x, y)
             }
             Gravity.START -> {
                 direction = "right"
                 popBaseBind?.root?.translationX = -mWidth * 1.0f
-                ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", -mWidth * 1.0f, 0f).setDuration(300).start()
+                ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", -mWidth * 1.0f, 0f)
+                    .setDuration(300).start()
                 super.showAtLocation(parent, gravity, x, y)
             }
             Gravity.END -> {
                 direction = "left"
                 popBaseBind?.root?.translationX = mWidth * 1.0f
-                ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", mWidth * 1.0f, 0f).setDuration(300).start()
+                ObjectAnimator.ofFloat(popBaseBind?.root, "translationX", mWidth * 1.0f, 0f)
+                    .setDuration(300).start()
                 super.showAtLocation(parent, gravity, x, y)
             }
             else -> super.showAtLocation(parent, gravity, x, y)
         }
-
+        mLayoutView.post {
+            mWidth = mLayoutView.measuredWidth
+            mHeight = mLayoutView.measuredHeight
+        }
 
     }
 

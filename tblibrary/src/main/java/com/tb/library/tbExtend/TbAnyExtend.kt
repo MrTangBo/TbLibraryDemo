@@ -195,7 +195,9 @@ fun Any.tbNotifyEnabled(
     val appInfo = TbApplication.mApplicationContext.applicationInfo
     val pkg = TbApplication.mApplicationContext.applicationContext.packageName
     val uid = appInfo.uid
-    if (!NotificationManagerCompat.from(TbApplication.mApplicationContext).areNotificationsEnabled()) {
+    if (!NotificationManagerCompat.from(TbApplication.mApplicationContext)
+            .areNotificationsEnabled()
+    ) {
         if (activity != null) {
             val sureDialog = TbSureDialog(messageTx = messageTx)
             sureDialog.sureClick = {
@@ -274,6 +276,10 @@ fun Any.tbGetApkInfo(): TbApkInfo {
 /*获取资源字符*/
 fun Any.tbGetResString(resId: Int): String {
     return TbApplication.mApplicationContext.resources.getString(resId)
+}
+
+fun Any.tbGetResString(resId: Int, vararg formatArgs: Any): String {
+    return TbApplication.mApplicationContext.resources.getString(resId, formatArgs)
 }
 
 /*获取资源图片*/
