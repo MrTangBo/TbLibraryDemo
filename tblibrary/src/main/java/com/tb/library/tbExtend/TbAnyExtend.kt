@@ -278,9 +278,6 @@ fun Any.tbGetApkInfo(): TbApkInfo {
 fun Any.tbGetResString(resId: Int): String {
     return TbApplication.mApplicationContext.resources.getString(resId)
 }
-fun Any.tbGetResString(resId: Int, vararg formatArgs: Any ): String {
-    return TbApplication.mApplicationContext.resources.getString(resId,formatArgs)
-}
 
 /*获取资源图片*/
 fun Any.tbGetResDrawable(resId: Int): Drawable? {
