@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.liaoinstan.springview.widget.SpringView
+            <com.scwang.smartrefresh.layout.SmartRefreshLayout
                 android:id="@+id/springView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -93,7 +93,7 @@
 
                 </androidx.core.widget.NestedScrollView>
 
-            </com.liaoinstan.springview.widget.SpringView>
+            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
         </com.tb.library.view.TbLoadLayout>
 

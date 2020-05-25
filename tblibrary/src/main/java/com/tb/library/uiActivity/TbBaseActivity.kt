@@ -10,11 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.launcher.ARouter
-import com.liaoinstan.springview.widget.SpringView
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.tb.library.R
 import com.tb.library.base.RequestInternetEvent
 import com.tb.library.base.TbConfig
-import com.tb.library.base.TbEnum
 import com.tb.library.base.TbEventBusInfo
 import com.tb.library.model.TbBaseModel
 import com.tb.library.tbDialog.TbLoadingDialog
@@ -28,7 +29,7 @@ import org.greenrobot.eventbus.ThreadMode
 import kotlin.system.exitProcess
 
 abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatActivity(),
-    SpringView.OnFreshListener {
+    OnRefreshLoadMoreListener {
 
     var mMode: T? = null
     lateinit var mBinding: G
@@ -43,7 +44,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     abstract val mLayoutId: Int
 
     var mTbLoadLayout: TbLoadLayout? = null
-    var mSpringView: SpringView? = null
+    var mSpringView: SmartRefreshLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +82,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     }
 
     /*配置SpringView*/
-    open fun getSpringView(): SpringView? {
+    open fun getSpringView(): SmartRefreshLayout? {
         return null
     }
 
@@ -97,9 +98,9 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
 
     open fun initModel() {
         mMode = getModel()
+        mSpringView = getSpringView()
+        mTbLoadLayout = getTbLoadLayout()
         mMode?.let { model ->
-            mSpringView = getSpringView()
-            mTbLoadLayout = getTbLoadLayout()
             model.initLiveData(*initTaskId())
             lifecycle.addObserver(model)
             model.mDialogDismiss = { isInternet, isError, taskId ->
@@ -147,7 +148,8 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
                 mTbLoadLayout?.showView(TbLoadLayout.ERROR)
             }
         }
-        mSpringView?.onFinishFreshAndLoadDelay()
+        mSpringView?.finishRefresh(300)
+        mSpringView?.finishLoadMore(300)
     }
 
     open fun <E> resultData(taskId: Int, info: E) {
@@ -158,7 +160,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
 
     }
 
-    override fun onLoadmore() {
+    override fun onLoadMore(refreshLayout: RefreshLayout) {
         mMode?.apply {
             mPage++
             mIsShowLoading = false
@@ -168,7 +170,8 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
         }
     }
 
-    override fun onRefresh() {
+
+    override fun onRefresh(refreshLayout: RefreshLayout) {
         mMode?.apply {
             mPage = 1
             mIsShowLoading = false

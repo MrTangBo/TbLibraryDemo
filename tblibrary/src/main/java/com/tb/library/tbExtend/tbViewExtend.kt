@@ -36,9 +36,10 @@ import com.bigkoo.convenientbanner.holder.CBViewHolderCreator
 import com.bigkoo.convenientbanner.listener.OnPageChangeListener
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
-import com.liaoinstan.springview.container.BaseHeader
-import com.liaoinstan.springview.container.DefaultFooter
-import com.liaoinstan.springview.widget.SpringView
+import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.scwang.smartrefresh.layout.footer.ClassicsFooter
+import com.scwang.smartrefresh.layout.header.ClassicsHeader
+import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
 import com.tb.library.R
 import com.tb.library.base.TbApplication
 import com.tb.library.base.TbConfig
@@ -723,23 +724,23 @@ inline fun WebView.init(
 }
 
 /*SpringView初始化*/
-fun SpringView.init(
-    listener: SpringView.OnFreshListener,
-    header: BaseHeader? = TbDefaultHeader(this.context),
-    footer: BaseHeader? = DefaultFooter(this.context),
-    springType: SpringView.Type = SpringView.Type.OVERLAP,
-    springGive: SpringView.Give = SpringView.Give.BOTH
-): SpringView {
-    if (header != null) {
-        this.header = header
-    }
-    if (footer != null) {
-        this.footer = footer
-    }
-    this.setListener(listener)
-    this.setGive(springGive)
-    this.type = springType
-    this.setMoveTime(500)
+fun SmartRefreshLayout.init(
+    listener: OnRefreshLoadMoreListener,
+    header: ClassicsHeader = ClassicsHeader(this.context),
+    footer: ClassicsFooter = ClassicsFooter(this.context),
+    isEnableRefresh: Boolean = true,
+    isEnableLoadMore: Boolean = true,
+    isEnableNestedScroll: Boolean = true,
+    isEnableAutoLoadMore:Boolean =false
+
+): SmartRefreshLayout {
+    setOnRefreshLoadMoreListener(listener)
+    setEnableRefresh(isEnableRefresh)
+    setEnableLoadMore(isEnableLoadMore)
+    setEnableNestedScroll(isEnableNestedScroll)
+    setEnableAutoLoadMore(isEnableAutoLoadMore)
+    setRefreshHeader(header)
+    setRefreshFooter(footer)
     return this
 }
 
