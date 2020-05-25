@@ -284,6 +284,11 @@ fun Any.tbGetResDrawable(resId: Int): Drawable? {
     return ContextCompat.getDrawable(TbApplication.mApplicationContext, resId)
 }
 
+/*获取资源颜色*/
+fun Any.tbGetResColor(resId: Int): Int {
+    return ContextCompat.getColor(TbApplication.mApplicationContext, resId)
+}
+
 /*复制文本到剪切板*/
 fun TextView.tbCopyTx2Clipboard(label: CharSequence = "tb_label") {
     setTextIsSelectable(true)//允许复制到剪切板

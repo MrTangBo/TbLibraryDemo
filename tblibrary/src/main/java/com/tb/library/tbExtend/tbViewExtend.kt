@@ -22,6 +22,7 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.view.forEachIndexed
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -728,12 +729,23 @@ fun SmartRefreshLayout.init(
     listener: OnRefreshLoadMoreListener,
     header: ClassicsHeader = ClassicsHeader(this.context),
     footer: ClassicsFooter = ClassicsFooter(this.context),
-    isEnableRefresh: Boolean = true,
-    isEnableLoadMore: Boolean = true,
-    isEnableNestedScroll: Boolean = true,
-    isEnableAutoLoadMore:Boolean =false
+    isEnableRefresh: Boolean = true,//是否启用下拉刷新功能
+    isEnableLoadMore: Boolean = true,//是否启用上拉加载功能
+    isEnableNestedScroll: Boolean = true,//是否启用嵌套滚动
+    isEnableAutoLoadMore: Boolean = false,//是否启用列表惯性滑动到底部时自动加载更多
+    textColor: Int = R.color.tb_text_dark,
+    bgColor: Int = R.color.tb_white,
+    arrowSize:Float =18f
 
 ): SmartRefreshLayout {
+    header.setAccentColor(tbGetResColor(textColor))
+    header.setPrimaryColor(tbGetResColor(bgColor))
+    val dw = tbGetResDrawable(R.drawable.icon_tb_arrow)!!
+    DrawableCompat.setTint(dw,tbGetResColor(textColor))
+    header.setArrowDrawable(dw)
+    header.setDrawableArrowSize(arrowSize)
+    footer.setArrowDrawable(dw)
+    footer.setDrawableArrowSize(arrowSize)
     setOnRefreshLoadMoreListener(listener)
     setEnableRefresh(isEnableRefresh)
     setEnableLoadMore(isEnableLoadMore)
