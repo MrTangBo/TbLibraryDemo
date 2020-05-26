@@ -237,7 +237,7 @@ fun Any.tbGetPhoneSize(): IntArray {
 /*是否连点*/
 var lastClickTime = 0L
 
-fun Any.tbIsMultiClick(spanTime: Long = 1000): Boolean {
+fun Any.tbIsMultiClick(spanTime: Long = TbConfig.getInstance().clickDelayTime): Boolean {
     val currentTime = System.currentTimeMillis()
     return if (currentTime - lastClickTime > spanTime) {
         lastClickTime = currentTime

@@ -80,6 +80,8 @@ class TbConfig {
     var okHttpClient: OkHttpClient.Builder = OkHttpClient.Builder()
 
 
+    var clickDelayTime: Long = 800 //连点间隔
+
     /**
      * 设置OkHttpClient拦截器
      * loggingLevel:打印内容
