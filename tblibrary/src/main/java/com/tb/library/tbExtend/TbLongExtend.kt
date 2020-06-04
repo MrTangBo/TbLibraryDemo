@@ -27,26 +27,27 @@ fun Long?.tbMillis2Date(): Date? {
 
 /**
  * 获取两个时间的时间差
- * precision=1 返回天
- * precision=2 返回天和小时
- * precision=3 返回天、小时和分钟
- * precision=4 返回天、小时、分钟和秒
+ * @receiver Long?
+ * @param millis Long
+ * @param unitLen MutableList<Long>
+ * @param units MutableList<String>
+ * @return String
  */
-fun Long?.tbGetTimeSpan(millis: Long, precision: Int = 4): String {
+fun Long?.tbGetTimeSpan(
+    millis: Long,
+    unitLen: MutableList<Long> = mutableListOf(86400000, 3600000, 60000, 1000, 1),
+    units: MutableList<String> = mutableListOf("天", "小时", "分钟", "秒", "毫秒")
+): String {
     if (this == null) {
         return "0"
     }
     var span = abs(this - millis)
     if (span == 0L) return "0"
     val sb = StringBuilder()
-    val units = arrayOf("天", "小时", "分钟", "秒", "毫秒")
-    val unitLen = intArrayOf(86400000, 3600000, 60000, 1000, 1)
-    for (i in 0 until precision) {
-        if (span >= unitLen[i]) {
-            val mode = span / unitLen[i]
-            span -= mode * unitLen[i]
-            sb.append(mode).append(units[i])
-        }
+    for (i in 0 until unitLen.size) {
+        val mode = span / unitLen[i]
+        span -= mode * unitLen[i]
+        sb.append(mode).append(units[i])
     }
     return sb.toString()
 }
