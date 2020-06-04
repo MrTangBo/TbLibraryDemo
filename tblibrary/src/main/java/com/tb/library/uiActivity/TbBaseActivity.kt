@@ -185,16 +185,23 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
             if (event is RequestInternetEvent && mTbLoadLayout!!.mCurrentShow != TbLoadLayout.CONTENT && mTbLoadLayout!!.mCurrentShow != TbLoadLayout.NO_DATA) {
                 mMode?.apply {
                     repeatQuest()
+                    repeatQuest_()
                 }
             }
         } else {
             if (event is RequestInternetEvent && this.isForeground()) {
                 mMode?.apply {
                     repeatQuest()
+                    repeatQuest_()
                 }
             }
         }
     }
+
+   open fun repeatQuest_(){
+
+   }
+
 
     open fun onClick(view: View?) {
         if (tbIsMultiClick()) return

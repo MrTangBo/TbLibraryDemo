@@ -4,11 +4,13 @@ import android.graphics.Typeface
 import android.view.KeyEvent
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.liaoinstan.springview.widget.SpringView
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.adapter.PictureImageGridAdapter
 import com.luck.picture.lib.config.PictureMimeType
+import com.tb.library.base.TbEventBusInfo
 import com.tb.library.tbExtend.*
 import com.tb.library.uiActivity.TbTitleBaseActivity
 import com.tb.library.util.GlideEngine
@@ -16,6 +18,7 @@ import com.tb.library.util.TbLogUtils
 import com.tb.library.view.TbLoadLayout
 import com.tb.tblibrarydemo.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.launch
 
 class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
 
@@ -24,12 +27,17 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         get() = R.layout.activity_main
 
     override fun getModel(): TestMode? {
-        return  ViewModelProvider(this).get(TestMode::class.java)
+        return ViewModelProvider(this).get(TestMode::class.java)
     }
 
     override fun getSpringView(): SpringView? {
         return springView.init(this)
     }
+
+    override fun getTbLoadLayout(): TbLoadLayout? {
+        return mLoadLayout
+    }
+
 
     override fun initTaskId(): IntArray {
         return intArrayOf(Api.getData)
@@ -53,7 +61,9 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         mBinding.url = imagList[0]
 
         mMode?.getData()
+
         0.tbSetShared("userId")
+
 
         TbLogUtils.log("userId-->${tbGetShared<Int>("userId")}")
 
@@ -62,8 +72,9 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         tbMenu.itemClick = {
 //            tbStartActivity<TestActivity>()
 //            tbShowToast(tbGetClipboardTx())
-            PictureSelector.create(this).openGallery(PictureMimeType.ofAll()) .loadImageEngine(
-                GlideEngine.createGlideEngine()).forResult(3000)
+            PictureSelector.create(this).openGallery(PictureMimeType.ofAll()).loadImageEngine(
+                GlideEngine.createGlideEngine()
+            ).forResult(3000)
         }
 
         mTabLayout.init(
@@ -141,6 +152,11 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         super.onDestroy()
     }
 
+
+    override fun repeatQuest_() {
+        super.repeatQuest_()
+        mMode?.repeatCoroutine<Api>()
+    }
 }
 
 
