@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.luck.picture.lib.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
+import com.tb.library.model.TbCoroutineModel
 import com.tb.library.tbExtend.*
 import com.tb.library.uiActivity.TbTitleBaseActivity
 import com.tb.library.util.GlideEngine
@@ -21,7 +22,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         get() = R.layout.activity_main
 
     override fun getModel(): TestMode? {
-        return  ViewModelProvider(this).get(TestMode::class.java)
+        return ViewModelProvider(this).get(TestMode::class.java)
     }
 
     override fun getSpringView(): SmartRefreshLayout? {
@@ -59,8 +60,9 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         tbMenu.itemClick = {
 //            tbStartActivity<TestActivity>()
 //            tbShowToast(tbGetClipboardTx())
-            PictureSelector.create(this).openGallery(PictureMimeType.ofAll()) .loadImageEngine(
-                GlideEngine.createGlideEngine()).forResult(3000)
+            PictureSelector.create(this).openGallery(PictureMimeType.ofAll()).loadImageEngine(
+                GlideEngine.createGlideEngine()
+            ).forResult(3000)
         }
 
         mTabLayout.init(
@@ -138,6 +140,12 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
         super.onDestroy()
     }
 
+    override fun repeatCoroutine() {
+        super.repeatCoroutine()
+        if (mMode is TbCoroutineModel) {
+            (mMode as TbCoroutineModel).repeatCoroutine<Api>()
+        }
+    }
 }
 
 

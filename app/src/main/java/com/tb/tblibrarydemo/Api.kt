@@ -12,9 +12,19 @@ interface Api {
         const val getData = 0
     }
 
+
+    @GET("/joke/content/list.php")
+    suspend fun getDataCoroutine(
+        @Query("@Query") sort: String = "asc",
+        @Query("time") time: String = "1418745237",
+        @Query("key") key: String = "c9784b2d8e15eaae0798d3696de1cbd2"
+    ): ResultInfo<TestBean>
+
     @GET("/joke/content/list.php")
     fun getData(
-        @Query("@Query") sort: String = "asc", @Query("time") time: String = "1418745237", @Query("key") key: String = "c9784b2d8e15eaae0798d3696de1cbd2"
+        @Query("@Query") sort: String = "asc",
+        @Query("time") time: String = "1418745237",
+        @Query("key") key: String = "c9784b2d8e15eaae0798d3696de1cbd2"
     ): Flowable<ResultInfo<TestBean>>
 
 

@@ -188,15 +188,24 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
             if (event is RequestInternetEvent && mTbLoadLayout!!.mCurrentShow != TbLoadLayout.CONTENT && mTbLoadLayout!!.mCurrentShow != TbLoadLayout.NO_DATA) {
                 mMode?.apply {
                     repeatQuest()
+                    repeatCoroutine()
                 }
             }
         } else {
             if (event is RequestInternetEvent && this.isForeground()) {
                 mMode?.apply {
                     repeatQuest()
+                    repeatCoroutine()
                 }
             }
         }
+    }
+
+    /**
+     * 使用kotlin协程请求需要联网重连必须子类实现
+     */
+    open fun repeatCoroutine(){
+
     }
 
     open fun onClick(view: View?) {
