@@ -1,6 +1,7 @@
 package com.tb.tblibrarydemo
 
 import androidx.lifecycle.viewModelScope
+import com.tb.library.model.TbCoroutineModel
 import kotlinx.coroutines.launch
 
 class TestMode : TbCoroutineModel() {
@@ -8,7 +9,7 @@ class TestMode : TbCoroutineModel() {
     fun getData() {
         viewModelScope.launch {
             startRequestCoroutine<Api>(Api.getData) {
-                mutableListOf(getData(), getData())
+                mutableListOf(getData())
             }
         }
 

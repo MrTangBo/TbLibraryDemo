@@ -1,4 +1,4 @@
-package com.tb.tblibrarydemo
+package com.tb.library.model
 
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonSyntaxException
@@ -6,13 +6,14 @@ import com.tb.library.R
 import com.tb.library.base.TbApplication
 import com.tb.library.base.TbConfig
 import com.tb.library.http.BaseResultInfo
-import com.tb.library.model.TbBaseModel
+import com.tb.library.http.RetrofitApi
 import com.tb.library.tbExtend.tb2Json
 import com.tb.library.tbExtend.tbNetWorkIsConnect
 import com.tb.library.tbExtend.tbShowToast
 import com.tb.library.tbReceiver.TbBaseReceiver
 import com.tb.library.util.TbLogUtils
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -21,9 +22,10 @@ import java.util.concurrent.TimeoutException
 
 /**
  * Created by Tb on 2020/6/2.
- * describe:
+ * describe:协程网络请求
  */
 open class TbCoroutineModel : TbBaseModel() {
+
     var mm = mutableMapOf<Int, suspend Any.() -> MutableList<BaseResultInfo<*>>>()
 
     @Suppress("UNCHECKED_CAST")
@@ -33,13 +35,14 @@ open class TbCoroutineModel : TbBaseModel() {
     ) {
         try {
             run {
+                mm.clear()
                 mm[taskId] = api as suspend Any.() -> MutableList<BaseResultInfo<*>>
             }
             if (tbNetWorkIsConnect()) {
                 if (mIsShowLoading) {
                     mDialogShow.invoke(mIsShowLoading, mIsShowLayoutLoading)
                 }
-                val infos = api(CoroutineRetrofitApi.getInstance().getInterface())
+                val infos = api(RetrofitApi.getInstance().getInterface())
                 infos.forEach { info ->
                     info.mCode?.let { code ->
                         if (code == TbConfig.getInstance().successCode) {
@@ -48,9 +51,10 @@ open class TbCoroutineModel : TbBaseModel() {
                             mErrorCodeEvent.invoke(code, info.mMessage, taskId)
                         }
                     }
-                    mm.clear()
                     TbLogUtils.log("taskId-$taskId--->${info.mData.tb2Json()}")
                 }
+                mm.clear()
+                viewModelScope.cancel()
                 mIsShowLoading = true
                 mIsShowLayoutLoading = false
                 mDialogDismiss.invoke(true, false, taskId)
@@ -62,6 +66,7 @@ open class TbCoroutineModel : TbBaseModel() {
             if (mPage > 1) {
                 mPage--
             }
+            viewModelScope.cancel()
             mIsShowLoading = true
             mIsShowLayoutLoading = false
             mDialogDismiss.invoke(true, true, taskId)

@@ -153,8 +153,8 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     }
 
 
-    override fun repeatQuest_() {
-        super.repeatQuest_()
+    override fun repeatCoroutine() {
+        super.repeatCoroutine()
         mMode?.repeatCoroutine<Api>()
     }
 }
