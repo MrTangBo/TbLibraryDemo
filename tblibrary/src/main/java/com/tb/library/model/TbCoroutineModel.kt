@@ -54,7 +54,6 @@ open class TbCoroutineModel : TbBaseModel() {
                     TbLogUtils.log("taskId-$taskId--->${info.mData.tb2Json()}")
                 }
                 mm.clear()
-                viewModelScope.cancel()
                 mIsShowLoading = true
                 mIsShowLayoutLoading = false
                 mDialogDismiss.invoke(true, false, taskId)
@@ -66,7 +65,6 @@ open class TbCoroutineModel : TbBaseModel() {
             if (mPage > 1) {
                 mPage--
             }
-            viewModelScope.cancel()
             mIsShowLoading = true
             mIsShowLayoutLoading = false
             mDialogDismiss.invoke(true, true, taskId)
