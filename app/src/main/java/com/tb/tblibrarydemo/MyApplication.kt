@@ -15,7 +15,7 @@ class MyApplication : TbApplication() {
         super.onCreate()
 
         TbConfig.getInstance().statusColor = R.color.colorAccent
-        TbConfig.getInstance().baseUrl = "http://v.juhe.cn/"//测试服
+        TbConfig.getInstance().baseUrl = "http://192.168.5.38:8070/"//测试服
         TbConfig.getInstance().successCode ="Success"
 
         

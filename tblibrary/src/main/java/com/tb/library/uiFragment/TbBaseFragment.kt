@@ -63,8 +63,8 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
         return mRootView
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         if (!this::fActivity.isInitialized) {
             init()
             initModel()
@@ -74,6 +74,7 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
     open fun init() {
         fActivity = activity!!
+        mBinding.lifecycleOwner =this// //databing的生命周期也是与Activity一致
         initLoadingDialog()
         if (mIsOpenEventBus && !EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)

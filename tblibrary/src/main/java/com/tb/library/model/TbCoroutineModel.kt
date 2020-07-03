@@ -8,6 +8,7 @@ import com.tb.library.base.TbConfig
 import com.tb.library.http.BaseResultInfo
 import com.tb.library.http.RetrofitApi
 import com.tb.library.tbExtend.tb2Json
+import com.tb.library.tbExtend.tbGetResString
 import com.tb.library.tbExtend.tbNetWorkIsConnect
 import com.tb.library.tbExtend.tbShowToast
 import com.tb.library.tbReceiver.TbBaseReceiver
@@ -62,6 +63,7 @@ open class TbCoroutineModel : TbBaseModel() {
                 TbBaseReceiver.isFirst = false
             }
         } catch (e: Exception) {
+            if (!viewModelScope.isActive) return
             if (mPage > 1) {
                 mPage--
             }
@@ -70,19 +72,21 @@ open class TbCoroutineModel : TbBaseModel() {
             mDialogDismiss.invoke(true, true, taskId)
             when (e) {
                 is ConnectException, is UnknownHostException -> {
-                    tbShowToast(TbApplication.mApplicationContext.resources.getString(R.string.connect_error))
+                    tbShowToast("${tbGetResString(R.string.connect_error)}:${e.message}")
                 }
                 is TimeoutException, is SocketTimeoutException -> {
-                    tbShowToast(TbApplication.mApplicationContext.resources.getString(R.string.connect_time_out))
-
+                    tbShowToast("${tbGetResString(R.string.connect_time_out)}:${e.message}")
                 }
                 is JsonSyntaxException -> {
-                    tbShowToast(TbApplication.mApplicationContext.resources.getString(R.string.json_error))
+                    tbShowToast(tbGetResString(R.string.json_error))
                 }
-                else -> tbShowToast(e.tb2Json())
+                else -> {
+                    tbShowToast("${tbGetResString(R.string.other_error)}:${e.message}")
+                }
             }
-            TbLogUtils.log("error--->${e.tb2Json()}")
+            TbLogUtils.log("error---->${e.tb2Json()}")
         }
+
     }
 
     override fun dropView() {

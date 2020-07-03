@@ -53,6 +53,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
         tbStatusBarInit()
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         mBinding = DataBindingUtil.setContentView(this, mLayoutId)
+        mBinding.lifecycleOwner = this// //databing的生命周期也是与Activity一致
         init()
         initLoadingDialog()
         initModel()
@@ -204,7 +205,7 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     /**
      * 使用kotlin协程请求需要联网重连必须子类实现
      */
-    open fun repeatCoroutine(){
+    open fun repeatCoroutine() {
 
     }
 

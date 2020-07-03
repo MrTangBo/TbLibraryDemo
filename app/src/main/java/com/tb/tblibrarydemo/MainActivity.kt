@@ -128,13 +128,7 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     }
 
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            exitApp()
-            return true
-        }
-        return super.onKeyDown(keyCode, event)
-    }
+
 
     override fun onDestroy() {
         super.onDestroy()

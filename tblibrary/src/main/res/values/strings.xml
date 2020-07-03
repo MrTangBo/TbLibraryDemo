@@ -25,6 +25,7 @@
     <string name="internet_no_use">当前网络不可用</string>
     <string name="connect_error">链接出错</string>
     <string name="connect_time_out">链接超时</string>
+    <string name="other_error">未知错误</string>
     <string name="json_error">数据解析错误</string>
     <string name="no_internet">网络出错了</string>
     <string name="save_img">保存图片</string>

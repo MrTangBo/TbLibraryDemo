@@ -378,10 +378,12 @@ inline fun TabLayout.init(
         }
 
         override fun onTabSelected(p0: TabLayout.Tab?) {
+            p0?.let {
+                viewPager?.currentItem = it.position
+                viewPager2?.currentItem = it.position
+                mOnTabSelected.invoke(it.position)
+            }
             p0?.view?.forEachIndexed { _, view ->
-                viewPager?.currentItem = p0.position
-                viewPager2?.currentItem = p0.position
-                mOnTabSelected.invoke(p0.position)
                 if (view is TextView) {
                     view.typeface = Typeface.defaultFromStyle(textStyleSelect)
                     view.setTextSize(
@@ -452,8 +454,8 @@ inline fun SearchView.init(
     crossinline onSearchClick: TbOnClick = { },
     crossinline onExpand: TbOnClick = { },
     crossinline closeListener: TbOnClick = { },
-    crossinline onQueryChange: (str: String) -> Unit = { _ -> Unit },//内容变化监听
-    crossinline onQuerySubmit: (str: String) -> Unit = { _ -> Unit }//提交监听
+    crossinline onQueryChange: (str: String?) -> Unit = { _ -> Unit },//内容变化监听
+    crossinline onQuerySubmit: (str: String?) -> Unit = { _ -> Unit }//提交监听
 ) {
 
     val p = this.layoutParams
@@ -517,12 +519,12 @@ inline fun SearchView.init(
 
     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(p0: String?): Boolean {
-            onQuerySubmit.invoke(p0!!)
+            onQuerySubmit.invoke(p0)
             return false
         }
 
         override fun onQueryTextChange(p0: String?): Boolean {
-            onQueryChange.invoke(p0!!)
+            onQueryChange.invoke(p0)
             return false
         }
     })
