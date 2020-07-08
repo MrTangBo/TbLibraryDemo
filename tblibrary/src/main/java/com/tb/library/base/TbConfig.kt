@@ -6,6 +6,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.tb.library.R
+import com.tb.library.tbExtend.tbShowToast
 import okhttp3.CertificatePinner
 import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
@@ -165,6 +166,7 @@ class TbConfig {
         if (!isDebug) {
             okHttpClientBuilder.proxy(Proxy.NO_PROXY)
         }
+
         this.okHttpClient = okHttpClientBuilder
 
         return this
