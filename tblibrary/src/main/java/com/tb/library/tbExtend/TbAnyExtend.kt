@@ -62,7 +62,7 @@ inline fun <reified T> Any.tbGetShared(key: String, isClean: Boolean = true): T 
         Float::class -> share.getFloat(key, 0f) as T
         Long::class -> share.getLong(key, 0L) as T
         Boolean::class -> share.getBoolean(key, false) as T
-        else -> (share.getString(key, "") as String).tb2Object<T>()!!
+        else -> (share.getString(key, "") as String).tb2Object<T>() ?: T::class.java.newInstance()
     }
 }
 

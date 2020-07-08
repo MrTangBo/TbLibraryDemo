@@ -376,10 +376,12 @@ inline fun TabLayout.init(
         }
 
         override fun onTabSelected(p0: TabLayout.Tab?) {
+            p0?.let {
+                viewPager?.currentItem = it.position
+                viewPager2?.currentItem = it.position
+                mOnTabSelected.invoke(it.position)
+            }
             p0?.view?.forEachIndexed { _, view ->
-                viewPager?.currentItem = p0.position
-                viewPager2?.currentItem = p0.position
-                mOnTabSelected.invoke(p0.position)
                 if (view is TextView) {
                     view.typeface = Typeface.defaultFromStyle(textStyleSelect)
                     view.setTextSize(
