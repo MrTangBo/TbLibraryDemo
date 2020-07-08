@@ -11,6 +11,7 @@ import okhttp3.ConnectionSpec
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import java.net.Proxy
 import java.security.KeyStore
 import java.security.SecureRandom
 import java.security.cert.CertificateFactory
@@ -29,11 +30,14 @@ class TbConfig {
     /*创建单例模式*/
     companion object {
         fun getInstance() = Holder.instance
+
         //RecyclerView分割线样式
         //水平
         const val HORIZONTAL_LIST = RecyclerView.HORIZONTAL
+
         //垂直
         const val VERTICAL_LIST = RecyclerView.VERTICAL
+
         //水平+垂直
         const val BOTH_SET = 2
 
@@ -47,8 +51,10 @@ class TbConfig {
     var isDebug: Boolean = true//配置调试模式
     var logTag: String = "tb_log--->"//打印日志头
     lateinit var successCode: Any
+
     @LayoutRes
     var toastLayoutId: Int = R.layout.tb_toast_style//toast 布局
+
     @DrawableRes
     var toastBg: Int = R.drawable.tb_bg_toast//toast 背景
     var fontType: String = ""//字体样式设置（文件位于assets/fonts/my_font.ttf）
@@ -57,12 +63,16 @@ class TbConfig {
     var titleBackIcon: Int = R.drawable.tb_back_white//初始化title返回键
     var placeholder: Int = 0
     var errorHolder: Int = 0
+
     @LayoutRes
     var emptyLayoutId: Int = R.layout.tb_load_empty//空 布局
+
     @LayoutRes
     var errorLayoutId: Int = R.layout.tb_load_error//加载错误 布局
+
     @LayoutRes
     var loadingLayoutId: Int = R.layout.tb_loading//加载中 布局
+
     @LayoutRes
     var noInternetLayoutId: Int = R.layout.tb_no_internet//无网络 布局
 
@@ -152,7 +162,9 @@ class TbConfig {
                 ConnectionSpec.COMPATIBLE_TLS, ConnectionSpec.CLEARTEXT
             )
         )
-
+        if (!isDebug) {
+            okHttpClientBuilder.proxy(Proxy.NO_PROXY)
+        }
         this.okHttpClient = okHttpClientBuilder
 
         return this
