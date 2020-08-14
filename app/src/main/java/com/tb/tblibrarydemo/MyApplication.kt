@@ -2,7 +2,12 @@ package com.tb.tblibrarydemo
 
 import com.tb.library.base.TbApplication
 import com.tb.library.base.TbConfig
-import com.tb.library.tbExtend.tbGetShared
+import com.tb.tblibrarydemo.koin.*
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidFileProperties
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+
 
 /**
  * @CreateDate: 2020/3/14 13:15
@@ -21,6 +26,11 @@ class MyApplication : TbApplication() {
         TbConfig.getInstance().isDebug = false
         TbConfig.getInstance().setOkHttpClient()
 
-
+        startKoin {
+            androidLogger()
+            androidContext(this@MyApplication)
+            androidFileProperties()
+            modules(testModule)
+        }
     }
 }
