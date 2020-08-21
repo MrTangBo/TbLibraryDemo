@@ -737,17 +737,30 @@ fun SmartRefreshLayout.init(
     isEnableAutoLoadMore: Boolean = false,//是否启用列表惯性滑动到底部时自动加载更多
     textColor: Int = R.color.tb_text_dark,
     bgColor: Int = R.color.tb_white,
-    arrowSize:Float =18f
+    arrowSize: Float = 18f,
+    headerSelf: ClassicsHeader.() -> Unit = {},
+    footerSelf: ClassicsFooter.() -> Unit = {}
 
 ): SmartRefreshLayout {
-    header.setAccentColor(tbGetResColor(textColor))
-    header.setPrimaryColor(tbGetResColor(bgColor))
+
     val dw = tbGetResDrawable(R.drawable.icon_tb_arrow)!!
-    DrawableCompat.setTint(dw,tbGetResColor(textColor))
-    header.setArrowDrawable(dw)
-    header.setDrawableArrowSize(arrowSize)
-    footer.setArrowDrawable(dw)
-    footer.setDrawableArrowSize(arrowSize)
+    DrawableCompat.setTint(dw, tbGetResColor(textColor))
+    header.apply {
+        setAccentColor(tbGetResColor(textColor))
+        setPrimaryColor(tbGetResColor(bgColor))
+        setArrowDrawable(dw)
+        setDrawableArrowSize(arrowSize)
+        setTextSizeTime(10f)
+        setTextSizeTitle(13f)
+        headerSelf.invoke(this)
+
+    }
+    footer.apply {
+        setArrowDrawable(dw)
+        setDrawableArrowSize(arrowSize)
+        setTextSizeTitle(13f)
+        footerSelf.invoke(this)
+    }
     setOnRefreshLoadMoreListener(listener)
     setEnableRefresh(isEnableRefresh)
     setEnableLoadMore(isEnableLoadMore)

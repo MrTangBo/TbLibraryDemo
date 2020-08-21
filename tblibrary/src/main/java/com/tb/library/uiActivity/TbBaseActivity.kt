@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
@@ -28,11 +29,11 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import kotlin.system.exitProcess
 
-abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatActivity(),
+abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatActivity(),
     OnRefreshLoadMoreListener {
 
-    var mMode: T? = null
-    lateinit var mBinding: G
+    var mMode: M?=null
+    lateinit var mBinding: V
 
     lateinit var mLoadingDialog: TbLoadingDialog
 
@@ -77,9 +78,9 @@ abstract class TbBaseActivity<T : TbBaseModel, G : ViewDataBinding> : AppCompatA
     }
 
     /*获取mode*/
-    open fun getModel(): T? {
+    open fun getModel(): M? {
 
-        return null
+        return ViewModelProvider(this)[this::class.java.genericSuperclass!!.getType() as Class<M>]
     }
 
     /*配置SpringView*/

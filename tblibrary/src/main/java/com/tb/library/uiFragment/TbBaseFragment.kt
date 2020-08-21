@@ -9,6 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener
@@ -17,6 +18,7 @@ import com.tb.library.base.TbConfig
 import com.tb.library.base.TbEventBusInfo
 import com.tb.library.model.TbBaseModel
 import com.tb.library.tbDialog.TbLoadingDialog
+import com.tb.library.tbExtend.getType
 import com.tb.library.tbExtend.isForeground
 import com.tb.library.tbExtend.tbIsMultiClick
 import com.tb.library.util.FontUtil
@@ -31,11 +33,11 @@ import org.greenrobot.eventbus.ThreadMode
  * @Description: TODO
  * @Author: TangBo
  */
-abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment(),
+abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment(),
     OnRefreshLoadMoreListener {
 
-    var mMode: T? = null
-    lateinit var mBinding: G
+    var mMode: M? = null
+    lateinit var mBinding: V
     var mRootView: View? = null
 
     lateinit var mLoadingDialog: TbLoadingDialog
@@ -83,9 +85,9 @@ abstract class TbBaseFragment<T : TbBaseModel, G : ViewDataBinding> : Fragment()
 
 
     /*获取mode*/
-    open fun getModel(): T? {
+    open fun getModel(): M? {
 
-        return null
+        return ViewModelProvider(this)[this::class.java.genericSuperclass!!.getType() as Class<M>]
     }
 
     /*配置SpringView*/
