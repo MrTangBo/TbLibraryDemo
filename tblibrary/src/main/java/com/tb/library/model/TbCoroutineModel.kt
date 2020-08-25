@@ -32,7 +32,7 @@ open class TbCoroutineModel : TbBaseModel() {
     @Suppress("UNCHECKED_CAST")
     suspend inline fun <reified T> startRequestCoroutine(
         taskId: Int,
-        noinline api: suspend T.() -> MutableList<BaseResultInfo<*>>
+        noinline  api: suspend T.() -> MutableList<BaseResultInfo<*>>
     ) {
         try {
             run {

@@ -303,6 +303,18 @@ fun Any.tbGetClipboardTx(): String {
 }
 
 
+/*检查手机上是否安装了指定的软件*/
+fun tbIsInstallApp(packageName: String): Boolean {
+    val packageNames = arrayListOf<String>()
+    TbApplication.mApplicationContext.packageManager?.apply {
+        getInstalledPackages(0).forEach {
+            packageNames.add(it.packageName)
+        }
+    }
+    return packageNames.contains(packageName)
+}
+
+
 
 
 
