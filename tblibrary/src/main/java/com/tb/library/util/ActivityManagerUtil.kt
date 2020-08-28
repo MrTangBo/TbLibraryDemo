@@ -52,7 +52,7 @@ class ActivityManagerUtil {
     //关闭掉指定的activity,activityName
     fun clearOther(activityName: String) {
         for (activity in mActivities) {
-            if (activity.javaClass.simpleName == activityName) {
+            if (activity.javaClass.simpleName != activityName) {
                 continue
             }
             activity.finish()
