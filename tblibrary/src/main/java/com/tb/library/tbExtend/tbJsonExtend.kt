@@ -1,6 +1,5 @@
 package com.tb.library.tbExtend
 
-import com.google.gson.reflect.TypeToken
 import com.tb.library.util.GsonUtil
 
 /**
