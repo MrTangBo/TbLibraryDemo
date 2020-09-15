@@ -32,7 +32,7 @@ open class TbCoroutineModel : TbBaseModel() {
     @Suppress("UNCHECKED_CAST")
     suspend inline fun <reified T> startRequestCoroutine(
         taskId: Int,
-        noinline  api: suspend T.() -> MutableList<BaseResultInfo<*>>
+        noinline api: suspend T.() -> MutableList<BaseResultInfo<*>>
     ) {
         try {
             run {
@@ -72,16 +72,16 @@ open class TbCoroutineModel : TbBaseModel() {
             mDialogDismiss.invoke(true, true, taskId)
             when (e) {
                 is ConnectException, is UnknownHostException -> {
-                    tbShowToast("${tbGetResString(R.string.connect_error)}:${e.message}")
+                    tbShowToast(tbGetResString(R.string.connect_error))
                 }
                 is TimeoutException, is SocketTimeoutException -> {
-                    tbShowToast("${tbGetResString(R.string.connect_time_out)}:${e.message}")
+                    tbShowToast(tbGetResString(R.string.connect_time_out))
                 }
                 is JsonSyntaxException -> {
                     tbShowToast(tbGetResString(R.string.json_error))
                 }
                 else -> {
-                    tbShowToast("${tbGetResString(R.string.other_error)}:${e.message}")
+                    tbShowToast(tbGetResString(R.string.other_error))
                 }
             }
             TbLogUtils.log("error---->${e.tb2Json()}")

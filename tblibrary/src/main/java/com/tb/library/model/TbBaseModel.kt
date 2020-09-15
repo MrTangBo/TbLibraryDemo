@@ -142,16 +142,16 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener {
         }
         when (t) {
             is ConnectException, is UnknownHostException -> {
-                tbShowToast("${tbGetResString(R.string.connect_error)}:${t.message}")
+                tbShowToast(tbGetResString(R.string.connect_error))
             }
             is TimeoutException, is SocketTimeoutException -> {
-                tbShowToast("${tbGetResString(R.string.connect_time_out)}:${t.message}")
+                tbShowToast(tbGetResString(R.string.connect_time_out))
             }
             is JsonSyntaxException -> {
                 tbShowToast(tbGetResString(R.string.json_error))
             }
             else -> {
-                tbShowToast("${tbGetResString(R.string.other_error)}:${t?.message}")
+                tbShowToast(tbGetResString(R.string.other_error))
             }
         }
         TbLogUtils.log("error---->${t.tb2Json()}")
