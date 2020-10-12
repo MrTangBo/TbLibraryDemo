@@ -2,16 +2,28 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <TextView
             android:id="@+id/tex"
+            android:onClick="onClick"
             android:text="asdsadadad"
             android:gravity="center"
+            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="0dp"/>
+
+        <TextView
+            android:id="@+id/tex1"
+            android:onClick="onClick"
+            android:text="mmmmm"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
 
 
     </LinearLayout>

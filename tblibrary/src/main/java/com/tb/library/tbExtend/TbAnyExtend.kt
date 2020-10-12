@@ -15,6 +15,7 @@ import android.provider.Settings
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -236,14 +237,21 @@ fun Any.tbGetPhoneSize(): IntArray {
 
 /*是否连点*/
 var lastClickTime = 0L
+var viewId = 0
 
-fun Any.tbIsMultiClick(spanTime: Long = TbConfig.getInstance().clickDelayTime): Boolean {
+fun View.tbIsMultiClick(spanTime: Long = TbConfig.getInstance().clickDelayTime): Boolean {
     val currentTime = System.currentTimeMillis()
-    return if (currentTime - lastClickTime > spanTime) {
+    return if (viewId != this.id) {
+        viewId = this.id
         lastClickTime = currentTime
         false
-    } else {
-        true
+    }else{
+        if (currentTime - lastClickTime > spanTime) {
+            lastClickTime = currentTime
+            false
+        } else {
+            true
+        }
     }
 }
 

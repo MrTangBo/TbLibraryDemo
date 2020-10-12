@@ -174,8 +174,8 @@ abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment()
     }
 
     open fun onClick(view: View?) {
-        if (tbIsMultiClick()) return
         view?.let {
+            if (it.tbIsMultiClick()) return
             singleClick(it)
         }
     }

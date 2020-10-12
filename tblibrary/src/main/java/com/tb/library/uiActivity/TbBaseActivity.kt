@@ -211,8 +211,8 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
     }
 
     open fun onClick(view: View?) {
-        if (tbIsMultiClick()) return
         view?.let {
+            if (it.tbIsMultiClick()) return
             singleClick(it)
         }
     }
