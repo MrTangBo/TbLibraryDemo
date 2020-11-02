@@ -6,13 +6,17 @@ import android.app.ActivityManager
 import android.app.PendingIntent
 import android.content.*
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
+import android.view.KeyEvent
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.ShortcutInfoCompat
@@ -22,10 +26,13 @@ import androidx.fragment.app.Fragment
 import com.tb.library.R
 import com.tb.library.base.TbApplication
 import com.tb.library.base.TbConfig
+import com.tb.library.databinding.TbSureDialogBinding
+import com.tb.library.tbDialog.TbSureDialog
 import com.tb.library.util.SystemBarUtil
 import com.tb.library.util.TbLogUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.Disposable
+import kotlinx.android.synthetic.main.tb_sure_dialog.*
 import java.io.Serializable
 
 /**
@@ -350,4 +357,39 @@ fun Activity?.isForeground(): Boolean {
         return true
     }
     return false
+}
+
+/*手机是否开启位置服务，如果没有开启那么所有app将不能使用定位功能*/
+fun AppCompatActivity.isLocServiceEnable(
+    setView: ((binding: TbSureDialogBinding) -> Unit) = {
+        it.cancel.visibility = View.GONE
+    }
+) {
+    getSystemService(Context.LOCATION_SERVICE).let {
+        it as LocationManager
+        val isOpen = it.isProviderEnabled(LocationManager.GPS_PROVIDER) && it.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+        if (!isOpen) {
+            TbSureDialog(messageTx = "为了更好的为您服务，请您打开您的GPS!", sureTx = "去设置").let { tbDialog ->
+                tbDialog.setTouchOutside(false)
+                tbDialog.setView = setView
+                tbDialog.dialog?.setOnKeyListener { _, keyCode, event ->
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        this.finishAfterTransition()
+                        return@setOnKeyListener true
+                    } else {
+                        return@setOnKeyListener false
+                    }
+                }
+                tbDialog.sureClick = {
+                    this.startActivityForResult(
+                        Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS),
+                        1000
+                    )
+                }
+                tbDialog.show(this.supportFragmentManager, "location")
+            }
+        }
+    }
 }
