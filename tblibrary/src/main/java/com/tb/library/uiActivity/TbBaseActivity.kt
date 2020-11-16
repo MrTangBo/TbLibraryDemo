@@ -101,7 +101,11 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
     open fun initModel() {
         mMode = getModel()
         mSpringView = getSpringView()
-        mTbLoadLayout = getTbLoadLayout()
+        mTbLoadLayout = getTbLoadLayout()?.apply {
+            mRepeatQuest = {
+                requestData()
+            }
+        }
         mMode?.let { model ->
             model.initLiveData(*initTaskId())
             lifecycle.addObserver(model)
