@@ -76,7 +76,7 @@ abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment()
 
     open fun init() {
         fActivity = activity!!
-        mBinding.lifecycleOwner =this// //databing的生命周期也是与Activity一致
+        mBinding.lifecycleOwner = this// //databing的生命周期也是与Activity一致
         initLoadingDialog()
         if (mIsOpenEventBus && !EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this)
@@ -229,7 +229,7 @@ abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment()
     /**
      * 使用kotlin协程请求需要联网重连必须子类实现
      */
-    open fun repeatCoroutine(){
+    open fun repeatCoroutine() {
 
     }
 

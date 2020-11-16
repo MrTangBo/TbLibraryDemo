@@ -32,7 +32,7 @@ import kotlin.system.exitProcess
 abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatActivity(),
     OnRefreshLoadMoreListener {
 
-    var mMode: M?=null
+    var mMode: M? = null
     lateinit var mBinding: V
 
     lateinit var mLoadingDialog: TbLoadingDialog
@@ -123,6 +123,11 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
     }
 
     open fun initData() {
+        requestData()
+    }
+
+    /*请求数据*/
+    open fun requestData() {
 
     }
 

@@ -41,6 +41,9 @@ class TbLoadLayout @JvmOverloads constructor(
 
     var mBindNoInternet: ViewDataBinding = setLayoutId(TbConfig.getInstance().noInternetLayoutId)
 
+
+    var mRepeatQuest: () -> Unit = {}
+
     var mCurrentShow = LOADING
 
     fun setEmptyLayoutId(@LayoutRes layoutId: Int): TbLoadLayout {
@@ -97,17 +100,28 @@ class TbLoadLayout @JvmOverloads constructor(
             LOADING -> {
                 if (mBindLoading.root in this) return
                 addView(mBindLoading.root)
+
             }
             NO_DATA -> {
                 if (mBindEmpty.root in this) return
+                mBindEmpty.root.setOnClickListener {
+                    mRepeatQuest.invoke()
+                }
                 addView(mBindEmpty.root)
+
             }
             ERROR -> {
                 if (mBindError.root in this) return
+                mBindError.root.setOnClickListener {
+                    mRepeatQuest.invoke()
+                }
                 addView(mBindError.root)
             }
             NO_INTERNET -> {
                 if (mBindNoInternet.root in this) return
+                mBindNoInternet.root.setOnClickListener {
+                    mRepeatQuest.invoke()
+                }
                 addView(mBindNoInternet.root)
             }
             else -> {
