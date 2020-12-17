@@ -299,7 +299,6 @@ fun Any.tbGetResColor(resId: Int): Int {
 
 /*复制文本到剪切板*/
 fun TextView.tbCopyTx2Clipboard(label: CharSequence = "tb_label") {
-    setTextIsSelectable(true)//允许复制到剪切板
     tbClipboardManager.setPrimaryClip(ClipData.newPlainText(label, text.toString()))
 }
 
