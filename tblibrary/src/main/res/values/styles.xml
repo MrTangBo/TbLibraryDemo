@@ -11,9 +11,10 @@
         <item name="android:configChanges">keyboardHidden|screenSize|orientation</item>
         <item name="android:statusBarColor">@color/tb_transparent</item>
         <item name="android:windowSoftInputMode">stateHidden|adjustPan</item>
-        <item name="android:windowAnimationStyle">@style/activityAnimation</item>//窗口动画
+        <item name="android:windowAnimationStyle">@null</item>//窗口动画
         <item name="android:listDivider">@drawable/tb_recycle_line</item>//recycle默认线条颜色
-        <item name="android:colorForeground">@color/line_background</item>//ListView的分割线，switch滑动区默认使用该颜色
+        <item name="android:colorForeground">@color/line_background</item>
+        //ListView的分割线，switch滑动区默认使用该颜色
         <item name="android:colorAccent">@color/tb_green</item>//一般控件的选种效果默认采用该颜色
         <item name="android:colorControlNormal">@color/tb_white</item>//控件的默认色调
         <item name="android:colorControlHighlight">@color/tb_transparent_half</item>//控件按压时的色调
@@ -27,7 +28,7 @@
 
 
     <!-- 类似微信的动画 -->
-    <style name="activityAnimation" parent="@android:style/Animation">
+    <style name="activityAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_right_in</item>
         <item name="android:activityOpenExitAnimation">@anim/slide_left_out</item>
         <item name="android:activityCloseEnterAnimation">@anim/slide_left_in</item>

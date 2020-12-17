@@ -2,12 +2,13 @@ package com.tb.tblibrarydemo
 
 import com.tb.library.base.TbApplication
 import com.tb.library.base.TbConfig
-import com.tb.tblibrarydemo.koin.*
 import com.tb.tblibrarydemo.koin.KoinModule.baseModule
+import okhttp3.Interceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import java.util.prefs.Preferences
 
 
 /**
@@ -21,11 +22,20 @@ class MyApplication : TbApplication() {
         super.onCreate()
 
         TbConfig.getInstance().statusColor = R.color.colorAccent
-        TbConfig.getInstance().baseUrl = "http://v.juhe.cn/"//测试服
-        TbConfig.getInstance().successCode = "Success"
-
+//        TbConfig.getInstance().baseUrl = "http://v.juhe.cn/"//测试服
+        TbConfig.getInstance().baseUrl = "https://epay.10010.com/"//测试服
+        TbConfig.getInstance().successCode = "200"
         TbConfig.getInstance().isDebug = true
-        TbConfig.getInstance().setOkHttpClient()
+        TbConfig.getInstance().setOkHttpClient(
+            interceptorList = arrayListOf(Interceptor { chain ->
+                val requestHeader = chain.request().newBuilder()
+                /*设置具体的header*/
+                requestHeader.addHeader("Content-Type", "application/json")
+//                requestHeader.addHeader("token", tbGetShared<String>("token"))
+                return@Interceptor chain.proceed(requestHeader.build())
+            }),
+            isHostnameVerifier = true
+        )
 
         startKoin {
             androidLogger()

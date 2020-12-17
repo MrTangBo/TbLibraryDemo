@@ -20,21 +20,14 @@ interface Api {
         @Query("key") key: String = "c9784b2d8e15eaae0798d3696de1cbd2"
     ): ResultInfo<TestBean>
 
-    @GET("/joke/content/list.php")
-    fun getData(
-        @Query("@Query") sort: String = "asc",
-        @Query("time") time: String = "1418745237",
-        @Query("key") key: String = "c9784b2d8e15eaae0798d3696de1cbd2"
-    ): Flowable<ResultInfo<TestBean>>
-
 
     @POST("storage/file_01")
     @Multipart
-    fun uploadBuyImage(@PartMap map: @JvmSuppressWildcards Map<String, RequestBody>): @JvmSuppressWildcards Flowable<*>
+    fun uploadBuyImage(@PartMap map: @JvmSuppressWildcards Map<String, RequestBody>): @JvmSuppressWildcards ResultInfo<Any>
 
 
     /*获取验证邮箱*/
-//    @POST("user/getUserInfo")
-//    fun getUserInfo(): Flowable<ResultInfo<PasswordChangeStepOneInfo>>
+    @POST("/cuIbasBusWeb/login")
+    suspend  fun getUserInfo(@Body map:Map<String,String>): ResultInfo<Any>
 
 }

@@ -2,6 +2,7 @@ package com.tb.library.uiActivity
 
 import android.content.Context
 import android.os.Bundle
+import android.transition.Fade
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
