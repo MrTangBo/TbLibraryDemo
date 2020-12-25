@@ -225,15 +225,6 @@ fun Any.tbNotifyEnabled(
     return false
 }
 
-/*获取手机分辨率*/
-fun Any.tbGetPhoneSize(): IntArray {
-    val intArray = IntArray(2)
-    val ds = TbApplication.mApplicationContext.resources.displayMetrics
-    intArray[0] = ds.widthPixels
-    intArray[1] = ds.heightPixels
-    TbLogUtils.log("width--->${ds.widthPixels},height--->${ds.heightPixels}")
-    return intArray
-}
 
 /*是否连点*/
 var lastClickTime = 0L
@@ -245,7 +236,7 @@ fun View.tbIsMultiClick(spanTime: Long = TbConfig.getInstance().clickDelayTime):
         viewId = this.id
         lastClickTime = currentTime
         false
-    }else{
+    } else {
         if (currentTime - lastClickTime > spanTime) {
             lastClickTime = currentTime
             false
@@ -260,12 +251,18 @@ fun Any.tbGetDimensValue(dimensionId: Int): Int {
     return TbApplication.mApplicationContext.resources.getDimension(dimensionId).toInt()
 }
 
-/*获取屏幕尺寸IntArray[0]为宽度 IntArray[1]为高度*/
-fun Any.tbGetScreenSize(): IntArray {
-    val wm =
-        TbApplication.mApplicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+/**
+ * @receiver Any
+ * @param physical Boolean  为true获取的为手机物理尺寸即分辨率  为false表示可用的屏幕宽高(具体表示是否包含顶部和底部状态栏)
+ * @return IntArray IntArray[0]为宽度 IntArray[1]为高度
+ */
+fun Any.tbGetScreenSize(physical: Boolean = true): IntArray {
     val outMetrics = DisplayMetrics()
-    wm.defaultDisplay.getMetrics(outMetrics)
+    if (physical) {
+        tbWindowManager.defaultDisplay.getRealMetrics(outMetrics)
+    } else {
+        tbWindowManager.defaultDisplay.getMetrics(outMetrics)
+    }
     return intArrayOf(outMetrics.widthPixels, outMetrics.heightPixels)
 }
 
