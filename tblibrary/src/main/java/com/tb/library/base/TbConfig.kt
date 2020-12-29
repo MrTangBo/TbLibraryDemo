@@ -113,6 +113,8 @@ class TbConfig {
         val okHttpClientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
         /*设置链接超时*/
         okHttpClientBuilder.connectTimeout(timeOut, TimeUnit.SECONDS)
+        okHttpClientBuilder.readTimeout(timeOut, TimeUnit.SECONDS)
+        okHttpClientBuilder.writeTimeout(timeOut, TimeUnit.SECONDS)
         /*设置打印等级*/
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.level = loggingLevel

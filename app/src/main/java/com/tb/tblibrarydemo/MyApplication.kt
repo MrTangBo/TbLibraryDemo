@@ -2,6 +2,8 @@ package com.tb.tblibrarydemo
 
 import com.tb.library.base.TbApplication
 import com.tb.library.base.TbConfig
+import com.tb.library.tbExtend.tb2Json
+import com.tb.library.util.TbLogUtils
 import com.tb.tblibrarydemo.koin.KoinModule.baseModule
 import okhttp3.Interceptor
 import org.koin.android.ext.koin.androidContext
@@ -33,6 +35,11 @@ class MyApplication : TbApplication() {
                 requestHeader.addHeader("Content-Type", "application/json")
 //                requestHeader.addHeader("token", tbGetShared<String>("token"))
                 return@Interceptor chain.proceed(requestHeader.build())
+            }, Interceptor { chain ->
+                return@Interceptor chain.proceed(chain.request()).apply {
+                    TbLogUtils.log("response--->${this.headers()}")
+                }
+
             }),
             isHostnameVerifier = true
         )
