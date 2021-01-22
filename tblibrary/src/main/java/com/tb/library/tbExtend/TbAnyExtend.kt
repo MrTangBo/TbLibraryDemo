@@ -12,6 +12,8 @@ import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.text.InputFilter
+import android.text.Spanned
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -318,9 +320,27 @@ fun tbIsInstallApp(packageName: String): Boolean {
     return packageNames.contains(packageName)
 }
 
-
-
-
+/*不能输入中文过滤器    使用edittext.filters = arrayOf(getEditZhFilter())*/
+fun Any.getEditZhFilter(): InputFilter {
+    return object : InputFilter {
+        override fun filter(
+            source: CharSequence?,
+            start: Int,
+            end: Int,
+            dest: Spanned?,
+            dstart: Int,
+            dend: Int
+        ): CharSequence? {
+            source?.let {
+                if (it.toString().tbStringCheckRegex("^[\\u4E00-\\u9FA5]+\$")) {
+                    tbShowToast(tbGetResString(R.string.no_use_zh))
+                    return ""
+                }
+            }
+            return source
+        }
+    }
+}
 
 
 
