@@ -135,7 +135,6 @@ class TbConfig {
                                 .scheme(scheme())////更换网络协议
                                 .host(host())//更换主机名
                                 .port(port())//更换端口
-                                .removePathSegment(0)//移除第一个参数
                                 .build()
                             return@Interceptor chain.proceed(builder.url(newUrl).build())
                         }
