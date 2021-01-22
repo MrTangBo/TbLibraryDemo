@@ -7,10 +7,8 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.tb.library.R
 import com.tb.library.tbExtend.tbShowToast
-import okhttp3.CertificatePinner
-import okhttp3.ConnectionSpec
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
+import com.tb.library.util.TbLogUtils
+import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import java.net.Proxy
 import java.security.KeyStore
@@ -87,6 +85,7 @@ class TbConfig {
     var repeatDelayTime: Long = 5 //重连间隔默认8秒
 
     var baseUrl: String = ""
+    val baseMultiUrl = mutableMapOf<String, String>()//多域名配置 header的Key必须和map的Key一样
 
     var okHttpClient: OkHttpClient.Builder = OkHttpClient.Builder()
 
@@ -122,6 +121,31 @@ class TbConfig {
         interceptorList.forEach {
             okHttpClientBuilder.addInterceptor(it)
         }
+        /*支持多域名设置*/
+        okHttpClientBuilder.addInterceptor(Interceptor { chain ->
+            val request = chain.request()
+            val oldUrl = request.url()
+            val builder = request.newBuilder()
+            if (baseMultiUrl.isNotEmpty()) {
+                baseMultiUrl.forEach { urlMap ->
+                    request.header(urlMap.key)?.let {
+                        builder.removeHeader(urlMap.key)
+                        HttpUrl.parse(urlMap.value)?.apply {
+                            val newUrl = oldUrl.newBuilder()
+                                .scheme(scheme())////更换网络协议
+                                .host(host())//更换主机名
+                                .port(port())//更换端口
+                                .removePathSegment(0)//移除第一个参数
+                                .build()
+                            return@Interceptor chain.proceed(builder.url(newUrl).build())
+                        }
+                    }
+                }
+            }
+
+            return@Interceptor chain.proceed(request)
+        })
+
 
         //信任所有服务器地址
         okHttpClientBuilder.hostnameVerifier { _, _ ->

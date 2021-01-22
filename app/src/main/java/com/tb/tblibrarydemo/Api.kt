@@ -13,6 +13,8 @@ interface Api {
     }
 
 
+
+    @Headers("url_name:asda")
     @GET("/joke/content/list.php")
     suspend fun getDataCoroutine(
         @Query("@Query") sort: String = "asc",
@@ -28,6 +30,6 @@ interface Api {
 
     /*获取验证邮箱*/
     @POST("/cuIbasBusWeb/login")
-    suspend  fun getUserInfo(@Body map:Map<String,String>): ResultInfo<Any>
+    suspend fun getUserInfo(@Body map: Map<String, String>): ResultInfo<Any>
 
 }

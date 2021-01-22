@@ -24,8 +24,8 @@ class MyApplication : TbApplication() {
         super.onCreate()
 
         TbConfig.getInstance().statusColor = R.color.colorAccent
-//        TbConfig.getInstance().baseUrl = "http://v.juhe.cn/"//测试服
-        TbConfig.getInstance().baseUrl = "https://epay.10010.com/"//测试服
+        TbConfig.getInstance().baseUrl = "http://v.juhe.cn/"//测试服
+        TbConfig.getInstance().baseMultiUrl["url_name"] = "https://epay.10010.com/"
         TbConfig.getInstance().successCode = "200"
         TbConfig.getInstance().isDebug = true
         TbConfig.getInstance().setOkHttpClient(
@@ -35,11 +35,6 @@ class MyApplication : TbApplication() {
                 requestHeader.addHeader("Content-Type", "application/json")
 //                requestHeader.addHeader("token", tbGetShared<String>("token"))
                 return@Interceptor chain.proceed(requestHeader.build())
-            }, Interceptor { chain ->
-                return@Interceptor chain.proceed(chain.request()).apply {
-                    TbLogUtils.log("response--->${this.headers()}")
-                }
-
             }),
             isHostnameVerifier = true
         )

@@ -10,6 +10,7 @@ import com.tb.library.tbExtend.tb2Json
 import com.tb.library.tbExtend.tbShowToast
 import com.tb.library.tbExtend.tbStartActivity
 import com.tb.library.uiActivity.TbBaseActivity
+import com.tb.library.util.AESSecurity
 import com.tb.library.util.TbLogUtils
 import com.tb.tblibrarydemo.databinding.ActivityTestBinding
 import com.tb.tblibrarydemo.koin.KoinBaseActivity
@@ -26,6 +27,7 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.named
+import java.math.BigDecimal
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
 
@@ -48,8 +50,9 @@ class TestActivity : TbBaseActivity<TestMode, ActivityTestBinding>() {
 
     override fun singleClick(view: View) {
         super.singleClick(view)
-        tbStartActivity<MainActivity>()
 
+        mMode?.getData()
+//        tbStartActivity<MainActivity>()
     }
 }
 

@@ -9,6 +9,7 @@ import android.graphics.Canvas
 import android.graphics.Matrix
 import android.media.MediaMetadataRetriever
 import android.media.ThumbnailUtils
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.util.Base64
@@ -65,25 +66,28 @@ fun Bitmap?.tbBitmapRotate(degress: Float): Bitmap? {
 }
 
 /*保存bitmap quality保存质量*/
-fun Bitmap?.tbBitmapSave(fileName: String, quality: Int = 100) {
-    if (this == null) return
+fun Bitmap?.tbBitmapSave(fileName: String, quality: Int = 100) :String{
+    if (this == null) return ""
     val file = File(TbApplication.mApplicationContext.cacheDir.path, "$fileName.png")
     if (!file.exists()) {
         file.createNewFile()
     }
-    try {
+    return try {
         val out = FileOutputStream(file)
         this.compress(Bitmap.CompressFormat.PNG, quality, out)
         out.flush()
         out.close()
+        file.absolutePath
     } catch (e: Exception) {
         e.printStackTrace()
+        ""
     }
 }
 
 /*保存bitmap quality保存质量*/
 fun Bitmap?.tbBitmapSaveSdCard(fileName: String, quality: Int = 100) {
     if (this == null) return
+
     val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "$fileName.png")
     if (!file.exists()) {
         file.createNewFile()
@@ -99,6 +103,9 @@ fun Bitmap?.tbBitmapSaveSdCard(fileName: String, quality: Int = 100) {
     val values = ContentValues()
     values.put(MediaStore.Images.Media.DATA, file.absolutePath)
     values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        values.put(MediaStore.Images.Media.RELATIVE_PATH, "DCIM/PerracoLabs")
+    }
     TbApplication.mApplicationContext.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
     // 最后通知图库更新
     TbApplication.mApplicationContext.sendBroadcast(
