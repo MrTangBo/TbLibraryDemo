@@ -170,7 +170,6 @@ abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment()
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
-        mTbLoadLayout?.showView(TbLoadLayout.ERROR)
     }
 
     open fun initLoadingDialog() {
