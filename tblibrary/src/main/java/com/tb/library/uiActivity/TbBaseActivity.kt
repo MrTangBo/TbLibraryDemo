@@ -169,7 +169,7 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
     }
 
     open fun <M> errorCodeEvent(code: M, msg: String, taskId: Int) {
-
+        mTbLoadLayout?.showView(TbLoadLayout.ERROR)
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
