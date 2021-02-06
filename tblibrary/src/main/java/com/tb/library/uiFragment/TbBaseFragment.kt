@@ -125,8 +125,8 @@ abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment()
             model.mErrorCodeEvent = { code, msg, taskId ->
                 errorCodeEvent(code, msg, taskId)
             }
-            model.mSuccessCodeEvent ={msg, taskId ->
-                successCodeEvent(msg,taskId)
+            model.mSuccessCodeEvent = { msg, taskId ->
+                successCodeEvent(msg, taskId)
             }
             model.mLiveDataMap.forEach { map ->
                 map.value.observe(this, Observer {
@@ -176,7 +176,7 @@ abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment()
 
     }
 
-    open fun successCodeEvent(msg: String, taskId: Int) {
+    open fun successCodeEvent(msg: String?, taskId: Int) {
 
     }
 

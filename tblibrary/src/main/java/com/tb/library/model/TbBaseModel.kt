@@ -54,7 +54,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener {
         { _, _ -> Unit }
     var mErrorCodeEvent: (code: Any, msg: String, taskId: Int) -> Unit = { _, _, _ -> Unit }
 
-    var mSuccessCodeEvent: (msg: String, taskId: Int) -> Unit = { _, _ -> Unit }
+    var mSuccessCodeEvent: (msg: String?, taskId: Int) -> Unit = { _, _ -> Unit }
 
 
     /**
@@ -124,7 +124,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener {
                 mLiveDataMap[taskId]?.value = info.mData
                 mSuccessCodeEvent.invoke(info.mMessage, taskId)
             } else {
-                mErrorCodeEvent.invoke(code, info.mMessage, taskId)
+                mErrorCodeEvent.invoke(code, info.mMessage.toString(), taskId)
             }
         }
         TbLogUtils.log("taskId-$taskId--->${info.mData.tb2Json()}")
