@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import com.tb.library.base.RegexConfig
 import com.tb.library.base.TbApplication
+import com.tb.library.util.TbLogUtils
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -149,9 +150,14 @@ fun String?.tb2PhoneMsm(msmConten: String?) {
 }
 
 /*验证正则表达式*/
-fun String?.tbStringCheckRegex(regexStr:String=RegexConfig.REGEX_PRICE): Boolean {
+fun String?.tbStringCheckRegex(regexStr: String = RegexConfig.REGEX_PRICE): Boolean {
     if (this.isNullOrEmpty()) return false
     val pattern = Pattern.compile(regexStr) //将给定的正则表达式编译到模式中。
     val isNum = pattern.matcher(this)//创建匹配给定输入与此模式的匹配器。
     return isNum.matches() //如果匹配成功，则可以通过 start、end 和 group 方法获取更多信息.
+}
+
+/*打印日志*/
+fun String?.tbLog() {
+    TbLogUtils.log(this)
 }

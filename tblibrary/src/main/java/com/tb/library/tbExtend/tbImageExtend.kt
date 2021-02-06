@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Rect
 import android.view.GestureDetector
 import android.view.Gravity
 import android.view.MotionEvent
@@ -25,6 +26,7 @@ import com.tb.library.databinding.TbPopSaveImageBinding
 import com.tb.library.tbZxingUtil.TbRGBLuminanceSource
 import com.tb.library.tbZxingUtil.encode.CodeCreator
 import com.tb.library.util.GlideUtil
+import com.tb.library.util.ImageWaterUtil
 import com.tb.library.view.TbPopupWindow
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -117,6 +119,7 @@ inline fun List<String>?.tbUpLoadImage(
 }
 
 //长按，通过zxing读取图片，判断是否有二维码
+@SuppressLint("ClickableViewAccessibility")
 inline fun ImageView?.tbImageLongPress(
     activity: AppCompatActivity,
     crossinline readQRCode: (readStr: String) -> Unit = { _ -> Unit },
@@ -212,4 +215,151 @@ fun Any.tbCreateQRCode(
         logoImage = BitmapFactory.decodeResource(TbApplication.mApplicationContext.resources, logo)
     }
     return CodeCreator.createQRCode(contents, width, height, logoImage)
+}
+
+/**
+ * 添加水印(图片或者文字)
+ * @receiver ImageView
+ * @param currentBm Bitmap
+ * @param water T 水印
+ * @param targetWidth Int
+ * @param targeHeight Int
+ * @param gravity Int
+ * @param rect Rect
+ */
+
+fun <T> ImageView.tbAddWater(
+    currentBm: Bitmap?,
+    water: T,
+    targetWidth: Int = tbGetDimensValue(R.dimen.x150),
+    targeHeight: Int = tbGetDimensValue(R.dimen.x150),
+    gravity: Int = Gravity.BOTTOM or Gravity.START,
+    rect: Rect = Rect(),
+    textSize: Int = 14,
+    textColor: Int = tbGetResColor(R.color.tb_text_black)
+): ImageView {
+    if (currentBm == null) return this
+    var targetBm: Bitmap? = null
+    when (gravity) {
+        Gravity.BOTTOM or Gravity.END -> {//右下角
+            when (water) {
+                is Bitmap -> {
+                    targetBm = ImageWaterUtil.createWaterMaskRightBottom(
+                        this.context,
+                        currentBm,
+                        water.tbBitmapCompress(targetWidth, targeHeight),
+                        rect.right,
+                        rect.bottom
+                    )
+                }
+                is String -> {
+                    targetBm = ImageWaterUtil.drawTextToLeftBottom(
+                        context,
+                        currentBm,
+                        water,
+                        textSize,
+                        textColor,
+                        rect.left,
+                        rect.bottom
+                    )
+                }
+            }
+        }
+        Gravity.TOP or Gravity.END -> {//右上角
+            when (water) {
+                is Bitmap -> {
+                    targetBm = ImageWaterUtil.createWaterMaskRightTop(
+                        this.context,
+                        currentBm,
+                        water.tbBitmapCompress(targetWidth, targeHeight),
+                        rect.right,
+                        rect.top
+                    )
+                }
+                is String -> {
+                    targetBm = ImageWaterUtil.drawTextToRightTop(
+                        context,
+                        currentBm,
+                        water,
+                        textSize,
+                        textColor,
+                        rect.right,
+                        rect.top
+                    )
+                }
+            }
+        }
+
+        Gravity.TOP or Gravity.START -> {//左上角
+            when (water) {
+                is Bitmap -> {
+                    targetBm = ImageWaterUtil.createWaterMaskLeftTop(
+                        this.context,
+                        currentBm,
+                        water.tbBitmapCompress(targetWidth, targeHeight),
+                        rect.left,
+                        rect.top
+                    )
+                }
+                is String -> {
+                    targetBm = ImageWaterUtil.drawTextToLeftTop(
+                        context,
+                        currentBm,
+                        water,
+                        textSize,
+                        textColor,
+                        rect.left,
+                        rect.top
+                    )
+                }
+            }
+        }
+
+        Gravity.BOTTOM or Gravity.START -> {//左下角
+            when (water) {
+                is Bitmap -> {
+                    targetBm = ImageWaterUtil.createWaterMaskLeftBottom(
+                        this.context,
+                        currentBm,
+                        water.tbBitmapCompress(targetWidth, targeHeight),
+                        rect.left,
+                        rect.bottom
+                    )
+                }
+                is String -> {
+                    targetBm = ImageWaterUtil.drawTextToLeftBottom(
+                        context,
+                        currentBm,
+                        water,
+                        textSize,
+                        textColor,
+                        rect.left,
+                        rect.bottom
+                    )
+                }
+            }
+        }
+        Gravity.CENTER -> {//中间
+            when (water) {
+                is Bitmap -> {
+                    targetBm = ImageWaterUtil.createWaterMaskCenter(
+                        currentBm,
+                        water.tbBitmapCompress(targetWidth, targeHeight)
+                    )
+                }
+                is String -> {
+                    targetBm = ImageWaterUtil.drawTextToCenter(
+                        context,
+                        currentBm,
+                        water,
+                        textSize,
+                        textColor
+                    )
+                }
+            }
+        }
+    }
+    setImageBitmap(targetBm)
+
+    return this
 }

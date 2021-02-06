@@ -13,17 +13,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.*
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.view.forEach
 import androidx.core.view.forEachIndexed
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.GridLayoutManager
@@ -48,6 +47,7 @@ import com.tb.library.tbAdapter.TbRecyclerAdapter
 import com.tb.library.tbInterface.WebViewListener
 import com.tb.library.util.TbLogUtils
 import com.tb.library.view.*
+import io.reactivex.Single
 import q.rorbin.badgeview.Badge
 import q.rorbin.badgeview.QBadgeView
 import kotlin.math.abs
@@ -727,7 +727,7 @@ inline fun WebView.init(
 }
 
 /*SpringView初始化*/
-fun SmartRefreshLayout.init(
+inline fun SmartRefreshLayout.init(
     listener: OnRefreshLoadMoreListener,
     header: ClassicsHeader = ClassicsHeader(this.context),
     footer: ClassicsFooter = ClassicsFooter(this.context),
@@ -771,3 +771,24 @@ fun SmartRefreshLayout.init(
     return this
 }
 
+
+/*检测布局里面的EditText是否填写了内容,这种情况针对于按钮在全部内容填写完成后才能点击的情况*/
+fun ViewGroup.tbCheckAllEditText(arrayEditTexts:ArrayList<TextView> = arrayListOf(),check: (Boolean) -> Unit): ArrayList<TextView> {
+
+    forEach {
+        if (it is ViewGroup) {
+            arrayEditTexts.addAll(it.tbCheckAllEditText(arrayEditTexts,check))
+        } else {
+            if (it is TextView) {
+                arrayEditTexts.add(it)
+                it.addTextChangedListener(afterTextChanged = {
+                    val emptyEditTexts = arrayEditTexts.filter {editText->
+                        editText.text.toString().isEmpty()
+                    }
+                    check.invoke(emptyEditTexts.isEmpty())
+                })
+            }
+        }
+    }
+    return arrayEditTexts
+}

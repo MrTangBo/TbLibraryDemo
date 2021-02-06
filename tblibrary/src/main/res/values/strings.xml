@@ -67,4 +67,8 @@
 
 
     <string name="no_use_zh">不能输入中文</string>
+
+    <string name="tb_keyboard_tx">上下文必须是Activity或者Fragment</string>
+    <string name="tb_local_tips">为了更好的为您服务，请您打开您的GPS!</string>
+    <string name="tb_go_set">去设置</string>
 </resources>

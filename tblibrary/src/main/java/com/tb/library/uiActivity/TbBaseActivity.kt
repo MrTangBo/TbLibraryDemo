@@ -52,7 +52,7 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
         super.onCreate(savedInstanceState)
         requestedOrientation = TbConfig.getInstance().screenOrientation
         window.decorView.background = ContextCompat.getDrawable(this, R.color.tb_white)
-        tbStatusBarInit()
+       /* tbStatusBarInit()*/
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         mBinding = DataBindingUtil.setContentView(this, mLayoutId)
         mBinding.lifecycleOwner = this// //databing的生命周期也是与Activity一致

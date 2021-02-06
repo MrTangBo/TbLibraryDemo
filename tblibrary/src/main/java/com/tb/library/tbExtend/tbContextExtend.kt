@@ -6,6 +6,7 @@ import android.app.ActivityManager
 import android.app.PendingIntent
 import android.content.*
 import android.content.pm.PackageManager
+import android.graphics.Rect
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
@@ -14,6 +15,7 @@ import android.os.Handler
 import android.provider.Settings
 import android.view.KeyEvent
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
@@ -60,6 +62,35 @@ fun Context.tbKeyboard(isOpen: Boolean = false) {
         }
     }
 }
+
+
+/*软件盘弹出和收起的监听*/
+fun Context.tbKeyboardListener(openListener: (Boolean) -> Unit) {
+    var currentActivity: Activity = when (this) {
+        is Activity -> {
+            this
+        }
+        is Fragment -> {
+            this.activity!!
+        }
+        else -> {
+            tbShowToast(getString(R.string.tb_keyboard_tx))
+            return
+        }
+    }
+    currentActivity.window.decorView.apply {
+        viewTreeObserver.addOnGlobalLayoutListener {
+            val rect = Rect()
+            getWindowVisibleDisplayFrame(rect)
+            if (height - rect.bottom >= height / 3) {
+                openListener.invoke(true)
+            } else {
+                openListener.invoke(false)
+            }
+        }
+    }
+}
+
 
 /*跳转界面*/
 inline fun <reified T> Any.tbStartActivity(
@@ -371,7 +402,10 @@ fun AppCompatActivity.isLocServiceEnable(
             LocationManager.NETWORK_PROVIDER
         )
         if (!isOpen) {
-            TbSureDialog(messageTx = "为了更好的为您服务，请您打开您的GPS!", sureTx = "去设置").let { tbDialog ->
+            TbSureDialog(
+                messageTx = getString(R.string.tb_local_tips),
+                sureTx = getString(R.string.tb_go_set)
+            ).let { tbDialog ->
                 tbDialog.setTouchOutside(false)
                 tbDialog.setView = setView
                 tbDialog.dialog?.setOnKeyListener { _, keyCode, event ->

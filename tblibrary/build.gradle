@@ -39,7 +39,7 @@ android {
             mavenDeployer {
                 pom.groupId = "com.tb.library"
                 pom.artifactId = "library"
-                pom.version = "7.0.8"
+                pom.version = "7.0.9"
                 repository(url: "file://localhost/" + "D:/repository")
 //                   {authentication(userName: "admin", password: "admin123")}
             }
@@ -132,5 +132,7 @@ dependencies {
 
     //时间选择器
     api 'com.contrarywind:Android-PickerView:4.1.9'
+
+    api 'com.google.android:flexbox:1.0.0'
 
 }

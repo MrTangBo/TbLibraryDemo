@@ -3,10 +3,9 @@ package com.tb.library.tbExtend
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Matrix
+import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
 import android.media.ThumbnailUtils
 import android.os.Build
@@ -52,7 +51,12 @@ fun Bitmap?.tbBitmap2String(): String {
 /*把Bitmap缩放为新的尺寸*/
 fun Bitmap?.tbBitmapScale(newWidth: Int, newHeight: Int): Bitmap? {
     if (this == null) return null
-    return ThumbnailUtils.extractThumbnail(this, newWidth, newHeight, ThumbnailUtils.OPTIONS_RECYCLE_INPUT)
+    return ThumbnailUtils.extractThumbnail(
+        this,
+        newWidth,
+        newHeight,
+        ThumbnailUtils.OPTIONS_RECYCLE_INPUT
+    )
 }
 
 /*Bitmap旋转 degress旋转角度*/
@@ -66,7 +70,7 @@ fun Bitmap?.tbBitmapRotate(degress: Float): Bitmap? {
 }
 
 /*保存bitmap quality保存质量*/
-fun Bitmap?.tbBitmapSave(fileName: String, quality: Int = 100) :String{
+fun Bitmap?.tbBitmapSave(fileName: String, quality: Int = 100): String {
     if (this == null) return ""
     val file = File(TbApplication.mApplicationContext.cacheDir.path, "$fileName.png")
     if (!file.exists()) {
@@ -88,7 +92,10 @@ fun Bitmap?.tbBitmapSave(fileName: String, quality: Int = 100) :String{
 fun Bitmap?.tbBitmapSaveSdCard(fileName: String, quality: Int = 100) {
     if (this == null) return
 
-    val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "$fileName.png")
+    val file = File(
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+        "$fileName.png"
+    )
     if (!file.exists()) {
         file.createNewFile()
     }
@@ -106,7 +113,10 @@ fun Bitmap?.tbBitmapSaveSdCard(fileName: String, quality: Int = 100) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         values.put(MediaStore.Images.Media.RELATIVE_PATH, "DCIM/PerracoLabs")
     }
-    TbApplication.mApplicationContext.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+    TbApplication.mApplicationContext.contentResolver.insert(
+        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+        values
+    )
     // 最后通知图库更新
     TbApplication.mApplicationContext.sendBroadcast(
         Intent(
@@ -138,8 +148,13 @@ fun Any.tbBitmapFromInternet(url: String): Bitmap? {
 /*从资源文件获取图片转化为Bitmap*/
 @SuppressLint("RestrictedApi")
 fun Any.tbBitmapFromResource(resId: Int): Bitmap? {
-    val drawable = AppCompatDrawableManager.get().getDrawable(TbApplication.mApplicationContext, resId)
-    return drawable.toBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+    val drawable =
+        AppCompatDrawableManager.get().getDrawable(TbApplication.mApplicationContext, resId)
+    return drawable.toBitmap(
+        drawable.intrinsicWidth,
+        drawable.intrinsicHeight,
+        Bitmap.Config.ARGB_8888
+    )
 }
 
 /*获取网络视频和本地视频第一帧*/
@@ -174,11 +189,20 @@ fun Any.tbBitmapThumbnail(url: String, newWidth: Int, newHeight: Int): Bitmap? {
         }
     }
     if (bitmap == null) return null
-    return ThumbnailUtils.extractThumbnail(bitmap, newWidth, newHeight, ThumbnailUtils.OPTIONS_RECYCLE_INPUT)
+    return ThumbnailUtils.extractThumbnail(
+        bitmap,
+        newWidth,
+        newHeight,
+        ThumbnailUtils.OPTIONS_RECYCLE_INPUT
+    )
 }
 
 /*创建图片平铺*/
-fun Bitmap?.tbBitmapRepeater(width: Int = this!!.width, height: Int = this!!.width, xy: String = "x"): Bitmap? {
+fun Bitmap?.tbBitmapRepeater(
+    width: Int = this!!.width,
+    height: Int = this!!.width,
+    xy: String = "x"
+): Bitmap? {
     if (this == null) return null
     var bitmap: Bitmap?
     return when (xy) {
@@ -208,7 +232,12 @@ fun Bitmap?.tbBitmapRepeater(width: Int = this!!.width, height: Int = this!!.wid
             for (idx in 0 until countX) {
                 canvas.drawBitmap(this, (idx * this.width).toFloat(), 0f, null)
                 for (idy in 0 until countY) {
-                    canvas.drawBitmap(this, (idx * this.width).toFloat(), ((idy + 1) * this.height).toFloat(), null)
+                    canvas.drawBitmap(
+                        this,
+                        (idx * this.width).toFloat(),
+                        ((idy + 1) * this.height).toFloat(),
+                        null
+                    )
                 }
             }
             bitmap
@@ -218,14 +247,19 @@ fun Bitmap?.tbBitmapRepeater(width: Int = this!!.width, height: Int = this!!.wid
 }
 
 /*图片压缩  压缩顺序为 等比压缩->质量压缩  maxSize 单位为KB*/
-fun Bitmap?.tbBitmapCompress(targetWidth: Int = 0, targeHeight: Int = 0, maxSize: Int = 100): Bitmap? {
+fun Bitmap?.tbBitmapCompress(
+    targetWidth: Int = 0,
+    targeHeight: Int = 0,
+    maxSize: Int = 100
+): Bitmap? {
     if (this == null) return null
     val baos = ByteArrayOutputStream()
-    var bitmap1 = if (targetWidth == 0 || (targetWidth == this.width && targeHeight == this.height)) {
-        this
-    } else {
-        this.tbBitmapScale(targetWidth, targeHeight)
-    }
+    var bitmap1 =
+        if (targetWidth == 0 || (targetWidth == this.width && targeHeight == this.height)) {
+            this
+        } else {
+            this.tbBitmapScale(targetWidth, targeHeight)
+        }
     bitmap1?.compress(Bitmap.CompressFormat.PNG, 100, baos)
     var options = 100
     while (baos.toByteArray().size / 1024 > maxSize) {
