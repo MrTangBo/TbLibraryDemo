@@ -2,7 +2,6 @@ package com.tb.library.uiActivity
 
 import android.content.Context
 import android.os.Bundle
-import android.transition.Fade
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -52,7 +51,7 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
         super.onCreate(savedInstanceState)
         requestedOrientation = TbConfig.getInstance().screenOrientation
         window.decorView.background = ContextCompat.getDrawable(this, R.color.tb_white)
-       /* tbStatusBarInit()*/
+        /* tbStatusBarInit()*/
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         mBinding = DataBindingUtil.setContentView(this, mLayoutId)
         mBinding.lifecycleOwner = this// //databing的生命周期也是与Activity一致
@@ -119,6 +118,9 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
             model.mErrorCodeEvent = { code, msg, taskId ->
                 errorCodeEvent(code, msg, taskId)
             }
+            model.mSuccessCodeEvent ={msg, taskId ->
+                successCodeEvent(msg,taskId)
+            }
             model.mLiveDataMap.forEach { map ->
                 map.value.observe(this, Observer {
                     resultData(map.key, it)
@@ -171,6 +173,10 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
         mTbLoadLayout?.showView(TbLoadLayout.ERROR)
     }
 
+    open fun successCodeEvent(msg: String, taskId: Int) {
+
+    }
+
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         mMode?.apply {
             mPage++
@@ -211,6 +217,7 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
             }
         }
     }
+
 
     /**
      * 使用kotlin协程请求需要联网重连必须子类实现

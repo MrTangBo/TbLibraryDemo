@@ -7,8 +7,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
-import com.tb.library.tbExtend.tbAddWater
-import com.tb.library.tbExtend.tbBitmapFromResource
+import com.tb.library.tbExtend.*
 import com.tb.library.uiActivity.TbBaseActivity
 import com.tb.tblibrarydemo.databinding.ActivityTestBinding
 import kotlinx.android.synthetic.main.activity_main.*
@@ -39,6 +38,9 @@ class TestActivity : TbBaseActivity<TestMode, ActivityTestBinding>() {
 
     override fun singleClick(view: View) {
         super.singleClick(view)
+
+//        mImg.tbAnimatorSingle(TbAnimatorProperty.alpha)
+
 //        mMode?.getData()
 //        tbStartActivity<MainActivity>()
     }

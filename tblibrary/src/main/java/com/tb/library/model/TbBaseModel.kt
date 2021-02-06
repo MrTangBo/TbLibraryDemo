@@ -54,6 +54,9 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener {
         { _, _ -> Unit }
     var mErrorCodeEvent: (code: Any, msg: String, taskId: Int) -> Unit = { _, _, _ -> Unit }
 
+    var mSuccessCodeEvent: (msg: String, taskId: Int) -> Unit = { _, _ -> Unit }
+
+
     /**
      * 通过taskId数量来创建数据管理MutableLiveData的个数
      */
@@ -119,6 +122,7 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener {
         info.mCode?.let { code ->
             if (code == TbConfig.getInstance().successCode) {
                 mLiveDataMap[taskId]?.value = info.mData
+                mSuccessCodeEvent.invoke(info.mMessage, taskId)
             } else {
                 mErrorCodeEvent.invoke(code, info.mMessage, taskId)
             }

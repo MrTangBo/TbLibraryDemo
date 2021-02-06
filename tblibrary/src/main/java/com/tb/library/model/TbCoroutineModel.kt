@@ -3,7 +3,6 @@ package com.tb.library.model
 import androidx.lifecycle.viewModelScope
 import com.google.gson.JsonSyntaxException
 import com.tb.library.R
-import com.tb.library.base.TbApplication
 import com.tb.library.base.TbConfig
 import com.tb.library.http.BaseResultInfo
 import com.tb.library.http.RetrofitApi
@@ -48,6 +47,7 @@ open class TbCoroutineModel : TbBaseModel() {
                     info.mCode?.let { code ->
                         if (code == TbConfig.getInstance().successCode) {
                             mLiveDataMap[taskId]?.value = info.mData
+                            mSuccessCodeEvent.invoke(info.mMessage, taskId)
                         } else {
                             mErrorCodeEvent.invoke(code, info.mMessage, taskId)
                         }
