@@ -195,7 +195,19 @@ fun Context.tbStatusBarInit(
                     isLightMode
                 ) == 0
             ) {
-                window.statusBarColor = ContextCompat.getColor(this, R.color.tb_text_black)
+                if (isFitWindowStatusBar) {
+                    window.decorView.systemUiVisibility =
+                        View.SYSTEM_UI_FLAG_VISIBLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+
+                } else {
+                    window.decorView.systemUiVisibility =
+                        View.SYSTEM_UI_FLAG_VISIBLE
+                }
+                if (statusColorId != R.color.tb_white) {
+                    window.statusBarColor = ContextCompat.getColor(this, statusColorId)
+                } else {
+                    window.statusBarColor = ContextCompat.getColor(this, R.color.tb_text_black)
+                }
             }
         }
     }
