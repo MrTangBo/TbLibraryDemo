@@ -16,11 +16,14 @@ import com.tb.library.util.FontUtil
  * @Author: TangBo
  */
 
-abstract class TbRecyclerAdapter<T, G : ViewDataBinding>(var listData: ArrayList<T>, @LayoutRes var layoutId: Int) :
+@Suppress("UNCHECKED_CAST")
+abstract class TbRecyclerAdapter<T, G : ViewDataBinding>(
+    var listData: ArrayList<T>,
+    @LayoutRes var layoutId: Int
+) :
     RecyclerView.Adapter<TbRecyclerAdapter.MyHolder<G>>() {
 
     var tbItemClick: TbItemClick = { _ -> Unit }//item点击事件
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder<G> {
@@ -41,16 +44,19 @@ abstract class TbRecyclerAdapter<T, G : ViewDataBinding>(var listData: ArrayList
             tbItemClick.invoke(position)
         }
         onBind(holder.itemBinding, listData[position], position)
+        onBind(holder,holder.itemBinding, listData[position], position)
         holder.itemBinding.executePendingBindings()
     }
 
     abstract fun onBind(itemBinding: G, info: T, position: Int)
+
+    /*holder便于拖拽变化位置*/
+    open fun onBind(holder: MyHolder<G>, itemBinding: G, info: T, position: Int) {}
 
 
     class MyHolder<G : ViewDataBinding>(mItemBinding: G) :
         RecyclerView.ViewHolder(mItemBinding.root) {
         var itemBinding: G = mItemBinding
     }
-
 
 }

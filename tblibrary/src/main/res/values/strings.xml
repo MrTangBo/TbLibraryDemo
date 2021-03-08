@@ -71,4 +71,6 @@
     <string name="tb_keyboard_tx">上下文必须是Activity或者Fragment</string>
     <string name="tb_local_tips">为了更好的为您服务，请您打开您的GPS!</string>
     <string name="tb_go_set">去设置</string>
+    <string name="float_window_permission_title">权限申请</string>
+    <string name="float_window_permission_tips">应用需要悬浮窗口权限,是否立即去设置?</string>
 </resources>

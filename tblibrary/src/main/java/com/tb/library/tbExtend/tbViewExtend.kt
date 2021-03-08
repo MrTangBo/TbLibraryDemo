@@ -75,7 +75,6 @@ fun TextView.tbCountDownTime(
     view.setTextColor(ContextCompat.getColor(mContext, unableTxColor))
     mHander.post(object : Runnable {
         override fun run() {
-            view.text = context?.getString(R.string.wait_second, totalTime)
             if (mContext is Activity) {
                 if (mContext.isDestroyed) {
 
@@ -83,7 +82,7 @@ fun TextView.tbCountDownTime(
                     return
                 }
             }
-            if (totalTime == 0) {
+            if (totalTime <= 0) {
                 mHander.removeCallbacksAndMessages(null)
                 view.isEnabled = true
                 view.background =
@@ -91,6 +90,8 @@ fun TextView.tbCountDownTime(
                 view.setTextColor(ContextCompat.getColor(mContext, enableTxColor))
                 view.text = context?.resources?.getString(R.string.reGetCodeDescribe)
                 return
+            }else{
+                   view.text = context?.getString(R.string.wait_second, totalTime)
             }
             totalTime--
             mHander.postDelayed(this, 1000)
