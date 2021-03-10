@@ -338,6 +338,12 @@ inline fun <reified F : Fragment> Activity.newFragment(vararg args: Pair<String,
     return fg
 }
 
+inline fun <reified F : Fragment> Activity.newFragment(bundle:Bundle): F {
+    val fg = F::class.java.newInstance()
+    fg.arguments = bundle
+    return fg
+}
+
 /*判断快捷方式是否存在*/
 @SuppressLint("ObsoleteSdkInt")
 private fun tbCheckShortCutExist(mContent: Context, name: String): Boolean {
