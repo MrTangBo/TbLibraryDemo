@@ -42,6 +42,7 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
     open val mIsOpenARouter = false//是否开启ARouter
     open val mIsOpenEventBus = true//是否开启EventBus
 
+
     abstract val mLayoutId: Int
 
     var mTbLoadLayout: TbLoadLayout? = null

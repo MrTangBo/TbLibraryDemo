@@ -56,6 +56,8 @@ open class TbBaseModel : ViewModel(), LifecycleObserver, RequestListener {
 
     var mSuccessCodeEvent: (msg: String?, taskId: Int) -> Unit = { _, _ -> Unit }
 
+    /*支持后台请求*/
+    var resultData: (taskId: Int, info: Any?) -> Unit = { _, _ -> Unit }
 
     /**
      * 通过taskId数量来创建数据管理MutableLiveData的个数

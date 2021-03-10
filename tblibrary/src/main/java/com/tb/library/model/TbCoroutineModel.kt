@@ -28,6 +28,8 @@ open class TbCoroutineModel : TbBaseModel() {
 
     var mm = mutableMapOf<Int, suspend Any.() -> MutableList<BaseResultInfo<*>>>()
 
+
+
     @Suppress("UNCHECKED_CAST")
     suspend inline fun <reified T> startRequestCoroutine(
         taskId: Int,
@@ -48,6 +50,7 @@ open class TbCoroutineModel : TbBaseModel() {
                         if (code == TbConfig.getInstance().successCode) {
                             mLiveDataMap[taskId]?.value = info.mData
                             mSuccessCodeEvent.invoke(info.mMessage, taskId)
+                            resultData.invoke(taskId, info.mData)
                         } else {
                             mErrorCodeEvent.invoke(code, info.mMessage, taskId)
                         }
