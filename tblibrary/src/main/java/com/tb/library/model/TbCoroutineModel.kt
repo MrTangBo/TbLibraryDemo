@@ -63,6 +63,7 @@ open class TbCoroutineModel : TbBaseModel() {
                 mDialogDismiss.invoke(true, false, taskId)
             } else {
                 mDialogDismiss.invoke(false, false, taskId)
+                mErrorCodeEvent.invoke(TbConfig.ERROR_NO_INTERNET, tbGetResString(R.string.internet_no_use), taskId)
                 TbBaseReceiver.isFirst = false
             }
         } catch (e: Exception) {
@@ -75,16 +76,16 @@ open class TbCoroutineModel : TbBaseModel() {
             mDialogDismiss.invoke(true, true, taskId)
             when (e) {
                 is ConnectException, is UnknownHostException -> {
-                    tbShowToast(tbGetResString(R.string.connect_error))
+                    mErrorCodeEvent.invoke(TbConfig.ERROR_CONNECT, tbGetResString(R.string.connect_error), taskId)
                 }
                 is TimeoutException, is SocketTimeoutException -> {
-                    tbShowToast(tbGetResString(R.string.connect_time_out))
+                    mErrorCodeEvent.invoke(TbConfig.ERROR_TIME_OUT, tbGetResString(R.string.connect_time_out), taskId)
                 }
                 is JsonSyntaxException -> {
-                    tbShowToast(tbGetResString(R.string.json_error))
+                    mErrorCodeEvent.invoke(TbConfig.ERROR_JSON, tbGetResString(R.string.json_error), taskId)
                 }
                 else -> {
-                    tbShowToast(tbGetResString(R.string.other_error))
+                    mErrorCodeEvent.invoke(TbConfig.ERROR_UNKNOWN, tbGetResString(R.string.other_error), taskId)
                 }
             }
             TbLogUtils.log("error---->${e.tb2Json()}")

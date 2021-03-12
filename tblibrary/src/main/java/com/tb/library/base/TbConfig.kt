@@ -40,6 +40,14 @@ class TbConfig {
         //水平+垂直
         const val BOTH_SET = 2
 
+
+        /*网络请求出错统一状态码*/
+        const val ERROR_TIME_OUT = 4570
+        const val ERROR_CONNECT = 4560
+        const val ERROR_JSON = 4550
+        const val ERROR_UNKNOWN = 4540
+        const val ERROR_NO_INTERNET = 4530
+
     }
 
     private object Holder {
