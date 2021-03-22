@@ -10,6 +10,7 @@ import com.tb.library.R
 import com.tb.library.base.TbApplication
 import com.tb.library.tbDialog.TbSureDialog
 import com.tb.library.tbService.FloatWindowService
+import ezy.assist.compat.SettingsCompat
 
 /**
  * Created by Tb on 2021/3/2.
@@ -23,16 +24,15 @@ fun tbShowFloatWindowTips(
         messageTx = TbApplication.mApplicationContext.resources.getString(R.string.float_window_permission_tips)
     )
 ): Boolean {
-    if (!Settings.canDrawOverlays(mContext)) {
-
+    if (!SettingsCompat.canDrawOverlays(mContext)) {
         mSureDialog.show(mContext.supportFragmentManager, "pop")
         mSureDialog.sureClick = {
             mContext.startActivityForResult(
                 Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION),
                 FloatWindowService.REQUEST_CODE, ActivityOptionsCompat.makeCustomAnimation(
                     TbApplication.mApplicationContext,
-                    com.tb.library.R.anim.slide_right_in,
-                    com.tb.library.R.anim.slide_left_out
+                    R.anim.slide_right_in,
+                    R.anim.slide_left_out
                 ).toBundle()
             )
 
