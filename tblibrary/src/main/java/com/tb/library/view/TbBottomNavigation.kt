@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEachIndexed
 import androidx.viewpager.widget.ViewPager
@@ -133,7 +134,7 @@ class TbBottomNavigation : RadioGroup {
 
         titles.forEachIndexed { index, s ->
             val radioButton: RadioButton =
-                LayoutInflater.from(context).inflate(
+                (context as AppCompatActivity).layoutInflater.inflate(
                     R.layout.item_radio_button,
                     this,
                     false
@@ -145,7 +146,7 @@ class TbBottomNavigation : RadioGroup {
                 params.height = mCenterHeight
             }
             radioButton.text = s
-            radioButton.typeface= Typeface.defaultFromStyle(mUnSelectTypeFace)
+            radioButton.setTypeface(radioButton.typeface,mUnSelectTypeFace)
             radioButton.setTextColor(ContextCompat.getColor(context, mUnSelectTxColor))
             if (unSelectList.isEmpty() || selectList.isEmpty()) {
                 radioButton.gravity = Gravity.CENTER
@@ -161,7 +162,7 @@ class TbBottomNavigation : RadioGroup {
                     if (it is RadioButton) {
                         it.isChecked = false
                         it.setTextColor(ContextCompat.getColor(context, mUnSelectTxColor))
-                        it.typeface= Typeface.defaultFromStyle(mUnSelectTypeFace)
+                        it.setTypeface(it.typeface,mUnSelectTypeFace)
                         it.setTextSize(TypedValue.COMPLEX_UNIT_PX, mUnSelectTxSize.toFloat())
                         if (unSelectList.isNotEmpty()) {
                             it.setCompoundDrawables(null, unSelectList[i], null, null)
@@ -172,7 +173,7 @@ class TbBottomNavigation : RadioGroup {
                             if (view is RadioButton) {
                                 view.isChecked = false
                                 view.setTextColor(ContextCompat.getColor(context, mUnSelectTxColor))
-                                view.typeface= Typeface.defaultFromStyle(mUnSelectTypeFace)
+                                view.setTypeface(view.typeface,mUnSelectTypeFace)
                                 view.setTextSize(
                                     TypedValue.COMPLEX_UNIT_PX,
                                     mUnSelectTxSize.toFloat()
@@ -186,7 +187,7 @@ class TbBottomNavigation : RadioGroup {
                 }
                 radioButton.isChecked = true
                 radioButton.setTextColor(ContextCompat.getColor(context, mSelectTxColor))
-                radioButton.typeface= Typeface.defaultFromStyle(mUnSelectTypeFace)
+                radioButton.setTypeface(radioButton.typeface,mSelectTypeFace)
                 radioButton.setTextSize(TypedValue.COMPLEX_UNIT_PX, mSelectTxSize.toFloat())
                 if (selectList.isNotEmpty()) {
                     radioButton.setCompoundDrawables(null, selectList[index], null, null)

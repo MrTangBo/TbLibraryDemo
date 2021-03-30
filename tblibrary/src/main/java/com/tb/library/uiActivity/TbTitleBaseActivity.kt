@@ -106,7 +106,7 @@ abstract class TbTitleBaseActivity<T : TbBaseModel,G:ViewDataBinding> : TbBaseAc
         mCenterTextView.text = title
         mCenterTextView.setTextColor(ContextCompat.getColor(mContext, color))
         mCenterTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, tbGetDimensValue(size).toFloat())
-        mCenterTextView.typeface = Typeface.defaultFromStyle(style)
+        mCenterTextView.setTypeface(mCenterTextView.typeface,style)
     }
 
     open fun initMenu(

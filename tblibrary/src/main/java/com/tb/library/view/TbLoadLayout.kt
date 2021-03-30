@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.contains
 import androidx.core.view.forEachIndexed
@@ -15,6 +16,7 @@ import androidx.databinding.ViewDataBinding
 import com.flyco.roundview.RoundFrameLayout
 import com.tb.library.R
 import com.tb.library.base.TbConfig
+import com.tb.library.util.FontUtil
 
 /**
  * @CreateDate: 2020/3/11 23:47
@@ -80,11 +82,14 @@ class TbLoadLayout @JvmOverloads constructor(
 
     private fun setLayoutId(@LayoutRes layoutId: Int): ViewDataBinding {
         val b: ViewDataBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
+            (context as AppCompatActivity).layoutInflater,
             layoutId,
             this,
             false
         )
+        if (TbConfig.getInstance().fontType.isNotEmpty()) {
+            FontUtil.replaceFont(b.root, TbConfig.getInstance().fontType)
+        }
         return b
     }
 

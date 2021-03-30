@@ -336,14 +336,14 @@ inline fun TabLayout.init(
                     itemPadding.right,
                     itemPadding.bottom
                 )
-                view.typeface = Typeface.defaultFromStyle(textStyleUnSelect)
+                view.setTypeface(view.typeface,textStyleUnSelect)
                 if (index == 0) {
                     view.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
                         tbGetDimensValue(selectSize).toFloat()
                     )
                     view.setTextColor(ContextCompat.getColor(context, selectColor))
-                    view.typeface = Typeface.defaultFromStyle(textStyleSelect)
+                    view.setTypeface(view.typeface,textStyleSelect)
                     view.background = ContextCompat.getDrawable(context, selectItemBg)
                 }
             }
@@ -366,7 +366,7 @@ inline fun TabLayout.init(
         override fun onTabUnselected(p0: TabLayout.Tab?) {
             p0?.view?.forEachIndexed { _, view ->
                 if (view is TextView) {
-                    view.typeface = Typeface.defaultFromStyle(textStyleUnSelect)
+                    view.setTypeface(view.typeface,textStyleUnSelect)
                     view.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
                         tbGetDimensValue(unSelectSize).toFloat()
@@ -386,7 +386,7 @@ inline fun TabLayout.init(
             }
             p0?.view?.forEachIndexed { _, view ->
                 if (view is TextView) {
-                    view.typeface = Typeface.defaultFromStyle(textStyleSelect)
+                    view.setTypeface(view.typeface,textStyleSelect)
                     view.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
                         tbGetDimensValue(selectSize).toFloat()

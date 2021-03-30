@@ -6,14 +6,13 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.tb.library.R
-import com.tb.library.tbExtend.tbShowToast
-import com.tb.library.util.TbLogUtils
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import java.net.Proxy
 import java.security.KeyStore
 import java.security.SecureRandom
 import java.security.cert.CertificateFactory
+import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLSocketFactory
@@ -99,6 +98,12 @@ class TbConfig {
 
 
     var clickDelayTime: Long = 800 //连点间隔
+
+    var supportLanguages = mutableMapOf<String, Locale>().apply {
+        this["en"] =Locale.ENGLISH
+        this["zh"] =Locale.SIMPLIFIED_CHINESE
+        this["ja"] =Locale.ENGLISH
+    }
 
     /**
      * 设置OkHttpClient拦截器
