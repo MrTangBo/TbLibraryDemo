@@ -306,7 +306,8 @@ inline fun TabLayout.init(
     textStyleSelect: Int = Typeface.NORMAL,
     textStyleUnSelect: Int = Typeface.NORMAL,
     viewPager: ViewPager? = null,
-    viewPager2: ViewPager2? = null
+    viewPager2: ViewPager2? = null,
+    isPagerSmooth:Boolean =false
 ) {
     val lp = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -380,8 +381,8 @@ inline fun TabLayout.init(
 
         override fun onTabSelected(p0: TabLayout.Tab?) {
             p0?.let {
-                viewPager?.currentItem = it.position
-                viewPager2?.currentItem = it.position
+                viewPager?.setCurrentItem(it.position,isPagerSmooth)
+                viewPager2?.setCurrentItem(it.position,isPagerSmooth)
                 mOnTabSelected.invoke(it.position)
             }
             p0?.view?.forEachIndexed { _, view ->

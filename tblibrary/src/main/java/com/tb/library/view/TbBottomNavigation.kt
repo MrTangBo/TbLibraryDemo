@@ -107,7 +107,8 @@ class TbBottomNavigation : RadioGroup {
         mViewPager2: ViewPager2? = null,
         mDefaultCheckPosition: Int = 0,//默认选中
         pageSelect: TbItemClick = { _ -> Unit },
-        clickPosition: TbItemClick = { _ -> Unit }
+        clickPosition: TbItemClick = { _ -> Unit },
+        isPagerSmooth:Boolean =false
     ): TbBottomNavigation {
 
         val unSelectList = arrayListOf<Drawable>()
@@ -192,8 +193,8 @@ class TbBottomNavigation : RadioGroup {
                 if (selectList.isNotEmpty()) {
                     radioButton.setCompoundDrawables(null, selectList[index], null, null)
                 }
-                mViewPager?.currentItem = index
-                mViewPager2?.currentItem = index
+                mViewPager?.setCurrentItem(index,isPagerSmooth)
+                mViewPager2?.setCurrentItem(index,isPagerSmooth)
             }
             addView(radioButton, params)
         }
