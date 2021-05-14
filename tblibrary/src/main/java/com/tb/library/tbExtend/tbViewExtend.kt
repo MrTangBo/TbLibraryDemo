@@ -90,8 +90,8 @@ fun TextView.tbCountDownTime(
                 view.setTextColor(ContextCompat.getColor(mContext, enableTxColor))
                 view.text = context?.resources?.getString(R.string.reGetCodeDescribe)
                 return
-            }else{
-                   view.text = context?.getString(R.string.wait_second, totalTime)
+            } else {
+                view.text = context?.getString(R.string.wait_second, totalTime)
             }
             totalTime--
             mHander.postDelayed(this, 1000)
@@ -197,7 +197,10 @@ inline fun <T, G : ViewDataBinding> RecyclerView?.init(
     dividerSize: Int = this!!.tbGetDimensValue(R.dimen.x1),//分割线的宽度或者高度
     headerViews: ArrayList<Int> = arrayListOf(),//添加头部
     footerViews: ArrayList<Int> = arrayListOf(),//添加尾部
-    floatTitleDecoration: FloatingItemDecoration? = null//是否吸附title
+    floatTitleDecoration: FloatingItemDecoration? = null,//是否吸附title
+    includeEdge: Boolean = false,//距屏幕周围是否也有间距
+    startFromSize: Int = 0,//头部 不显示间距的item个数
+    endFromSize: Int = 0//尾部 不显示间距的item个数 默认不处理最后一个item的间距
 ): ArrayList<ViewDataBinding> {
     val b: ArrayList<ViewDataBinding> = arrayListOf()
     if (this == null) {
@@ -246,17 +249,20 @@ inline fun <T, G : ViewDataBinding> RecyclerView?.init(
         }
         "GridLayoutManager" -> {
             layoutManager = GridLayoutManager(this.context, mSpanCount)
+
             addItemDecoration(
-                TbDividerItemDecoration(
-                    context,
-                    TbConfig.BOTH_SET,
-                    dividerSize,
-                    ContextCompat.getColor(context, dividerColor)
-                )
+                GridSpaceItemDecoration(dividerSize, includeEdge).apply {
+                    setNoShowSpace(startFromSize, endFromSize)
+                }
             )
         }
         "StaggeredGridLayoutManager" -> {
             layoutManager = StaggeredGridLayoutManager(mSpanCount, orientation)
+            addItemDecoration(
+                GridSpaceItemDecoration(dividerSize, includeEdge).apply {
+                    setNoShowSpace(startFromSize, endFromSize)
+                }
+            )
         }
 
         "TbFlowLayoutManager" -> {
@@ -307,7 +313,7 @@ inline fun TabLayout.init(
     textStyleUnSelect: Int = Typeface.NORMAL,
     viewPager: ViewPager? = null,
     viewPager2: ViewPager2? = null,
-    isPagerSmooth:Boolean =false
+    isPagerSmooth: Boolean = false
 ) {
     val lp = LinearLayout.LayoutParams(
         LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -337,14 +343,14 @@ inline fun TabLayout.init(
                     itemPadding.right,
                     itemPadding.bottom
                 )
-                view.setTypeface(view.typeface,textStyleUnSelect)
+                view.setTypeface(view.typeface, textStyleUnSelect)
                 if (index == 0) {
                     view.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
                         tbGetDimensValue(selectSize).toFloat()
                     )
                     view.setTextColor(ContextCompat.getColor(context, selectColor))
-                    view.setTypeface(view.typeface,textStyleSelect)
+                    view.setTypeface(view.typeface, textStyleSelect)
                     view.background = ContextCompat.getDrawable(context, selectItemBg)
                 }
             }
@@ -367,7 +373,7 @@ inline fun TabLayout.init(
         override fun onTabUnselected(p0: TabLayout.Tab?) {
             p0?.view?.forEachIndexed { _, view ->
                 if (view is TextView) {
-                    view.setTypeface(view.typeface,textStyleUnSelect)
+                    view.setTypeface(view.typeface, textStyleUnSelect)
                     view.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
                         tbGetDimensValue(unSelectSize).toFloat()
@@ -381,13 +387,13 @@ inline fun TabLayout.init(
 
         override fun onTabSelected(p0: TabLayout.Tab?) {
             p0?.let {
-                viewPager?.setCurrentItem(it.position,isPagerSmooth)
-                viewPager2?.setCurrentItem(it.position,isPagerSmooth)
+                viewPager?.setCurrentItem(it.position, isPagerSmooth)
+                viewPager2?.setCurrentItem(it.position, isPagerSmooth)
                 mOnTabSelected.invoke(it.position)
             }
             p0?.view?.forEachIndexed { _, view ->
                 if (view is TextView) {
-                    view.setTypeface(view.typeface,textStyleSelect)
+                    view.setTypeface(view.typeface, textStyleSelect)
                     view.setTextSize(
                         TypedValue.COMPLEX_UNIT_PX,
                         tbGetDimensValue(selectSize).toFloat()
@@ -775,16 +781,19 @@ inline fun SmartRefreshLayout.init(
 
 
 /*检测布局里面的EditText是否填写了内容,这种情况针对于按钮在全部内容填写完成后才能点击的情况*/
-fun ViewGroup.tbCheckAllEditText(arrayEditTexts:ArrayList<TextView> = arrayListOf(),check: (Boolean) -> Unit): ArrayList<TextView> {
+fun ViewGroup.tbCheckAllEditText(
+    arrayEditTexts: ArrayList<TextView> = arrayListOf(),
+    check: (Boolean) -> Unit
+): ArrayList<TextView> {
 
     forEach {
         if (it is ViewGroup) {
-            arrayEditTexts.addAll(it.tbCheckAllEditText(arrayEditTexts,check))
+            arrayEditTexts.addAll(it.tbCheckAllEditText(arrayEditTexts, check))
         } else {
             if (it is TextView) {
                 arrayEditTexts.add(it)
                 it.addTextChangedListener(afterTextChanged = {
-                    val emptyEditTexts = arrayEditTexts.filter {editText->
+                    val emptyEditTexts = arrayEditTexts.filter { editText ->
                         editText.text.toString().isEmpty()
                     }
                     check.invoke(emptyEditTexts.isEmpty())

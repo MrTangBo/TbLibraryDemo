@@ -12,7 +12,7 @@ task androidSourcesJar(type: Jar) {
 ext {
     PUBLISH_GROUP_ID = 'io.github.MrTangBo'
     PUBLISH_ARTIFACT_ID = 'library'
-    PUBLISH_VERSION = '7.1.5'
+    PUBLISH_VERSION = '7.1.6'
 }
 
 ext["signing.keyId"] = ''

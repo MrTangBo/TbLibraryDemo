@@ -128,8 +128,6 @@ class MainActivity : TbTitleBaseActivity<TestMode, ActivityMainBinding>() {
     }
 
 
-
-
     override fun onDestroy() {
         super.onDestroy()
     }
