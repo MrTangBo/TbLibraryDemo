@@ -1,5 +1,6 @@
 package com.tb.tblibrarydemo
 
+import android.app.Application
 import com.tb.library.base.TbApplication
 import com.tb.library.base.TbConfig
 import com.tb.library.tbExtend.tb2Json
@@ -18,10 +19,12 @@ import java.util.prefs.Preferences
  * @Description: TODO
  * @Author: TangBo
  */
-class MyApplication : TbApplication() {
+class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        TbApplication.init(this)
 
         TbConfig.getInstance().statusColor = R.color.colorAccent
         TbConfig.getInstance().baseUrl = "http://v.juhe.cn/"//测试服
@@ -39,11 +42,5 @@ class MyApplication : TbApplication() {
             isHostnameVerifier = true
         )
 
-        startKoin {
-            androidLogger()
-            androidContext(this@MyApplication)
-            androidFileProperties()
-            modules(baseModule)
-        }
     }
 }

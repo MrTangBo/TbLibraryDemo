@@ -119,8 +119,8 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
             model.mErrorCodeEvent = { code, msg, taskId ->
                 errorCodeEvent(code, msg, taskId)
             }
-            model.mSuccessCodeEvent ={msg, taskId ->
-                successCodeEvent(msg,taskId)
+            model.mSuccessCodeEvent = { msg, taskId ->
+                successCodeEvent(msg, taskId)
             }
             model.mLiveDataMap.forEach { map ->
                 map.value.observe(this, Observer {
@@ -249,13 +249,17 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
 
     override fun onDestroy() {
         super.onDestroy()
-        mMode?.dropView()
+        mMode?.apply {
+            dropView()
+            lifecycle.removeObserver(this)
+        }
 
         tbKeyboard(false)
         if (mIsOpenEventBus) {
             EventBus.getDefault().unregister(this)
         }
         ActivityManagerUtil.getInstance().removeActivity(this)
+
 
     }
 

@@ -260,7 +260,10 @@ abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment()
 
     override fun onDestroy() {
         super.onDestroy()
-        mMode?.dropView()
+        mMode?.apply {
+            dropView()
+            lifecycle.removeObserver(this)
+        }
         if (mIsOpenEventBus) {
             EventBus.getDefault().unregister(this)
         }

@@ -12,27 +12,22 @@ import com.tencent.mmkv.MMKV
  * @Description: TODO
  * @Author: TangBo
  */
-open class TbApplication : Application() {
+object TbApplication {
+    lateinit var mApplicationContext: Context
 
-    companion object {
-        lateinit var mApplicationContext: Context
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        mApplicationContext = applicationContext
+    fun init(context: Application) {
+        mApplicationContext = context.applicationContext
         ARouter.openDebug()
-        ARouter.init(this);
-        MMKV.initialize(this)
+        ARouter.init(context);
+        MMKV.initialize(context)
         initInternetReceiver()
     }
 
-
-    open fun initInternetReceiver() {
+    private fun initInternetReceiver() {
         val receiver = TbBaseReceiver()
         val intentFilter = IntentFilter()
         intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE")//<!--网络状态改变广播-->
-        registerReceiver(receiver, intentFilter)
+        mApplicationContext.registerReceiver(receiver, intentFilter)
     }
 
 }
