@@ -23,6 +23,9 @@ import com.tb.library.tbExtend.isForeground
 import com.tb.library.tbExtend.tbIsMultiClick
 import com.tb.library.util.FontUtil
 import com.tb.library.view.TbLoadLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -34,7 +37,7 @@ import org.greenrobot.eventbus.ThreadMode
  * @Author: TangBo
  */
 abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment(),
-    OnRefreshLoadMoreListener {
+    OnRefreshLoadMoreListener, CoroutineScope by MainScope() {
 
     var mMode: M? = null
     lateinit var mBinding: V
@@ -75,7 +78,7 @@ abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment()
     }
 
     open fun init() {
-        fActivity = activity!!
+        fActivity = requireActivity()
         mBinding.lifecycleOwner = this// //databing的生命周期也是与Activity一致
         initLoadingDialog()
         if (mIsOpenEventBus && !EventBus.getDefault().isRegistered(this)) {
@@ -129,7 +132,7 @@ abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment()
                 successCodeEvent(msg, taskId)
             }
             model.mLiveDataMap.forEach { map ->
-                map.value.observe(this, Observer {
+                map.value.observe(viewLifecycleOwner, Observer {
                     resultData(map.key, it)
                 })
             }
@@ -260,6 +263,7 @@ abstract class TbBaseFragment<M : TbBaseModel, V : ViewDataBinding> : Fragment()
 
     override fun onDestroy() {
         super.onDestroy()
+        cancel()
         mMode?.apply {
             dropView()
             lifecycle.removeObserver(this)

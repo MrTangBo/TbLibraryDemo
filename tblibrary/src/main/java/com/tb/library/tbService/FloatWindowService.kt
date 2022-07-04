@@ -126,29 +126,29 @@ class FloatWindowService : Service() {
         private var tranX = 0f//悬浮窗移动位置的相对值
         private var tranY = 0f
 
-        override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
+        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
             view?.let {
                 click.invoke(it)
             }
             return true
         }
 
-        override fun onDown(e: MotionEvent?): Boolean {
+        override fun onDown(e: MotionEvent): Boolean {
             // 获取按下时的X，Y坐标
-            lastX = e?.rawX ?: 0f
-            lastY = e?.rawY ?: 0f
+            lastX = e.rawX
+            lastY = e.rawY
             return true
         }
 
         override fun onScroll(
-            e1: MotionEvent?,
-            event: MotionEvent?,
+            e1: MotionEvent,
+            event: MotionEvent,
             distanceX: Float,
             distanceY: Float
         ): Boolean {
             // 获取移动时的X，Y坐标
-            nowX = event?.rawX ?: 0f
-            nowY = event?.rawY ?: 0f
+            nowX = event.rawX
+            nowY = event.rawY
             // 计算XY坐标偏移量
             tranX = nowX - lastX
             tranY = nowY - lastY

@@ -1,2 +1,28 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven {
+            url 'https://jitpack.io'
+            allowInsecureProtocol true
+        }
+        jcenter()
+        maven {url "D:/repository"}
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url 'https://jitpack.io'
+            allowInsecureProtocol true
+        }
+        jcenter()
+        maven {url "D:/repository"}
+    }
+}
 include ':app', ':tblibrary'
-rootProject.name='TbLibraryDemo'
+rootProject.name = 'TbLibraryDemo'

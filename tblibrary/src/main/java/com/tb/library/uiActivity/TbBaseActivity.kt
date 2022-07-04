@@ -24,13 +24,16 @@ import com.tb.library.tbExtend.*
 import com.tb.library.util.ActivityManagerUtil
 import com.tb.library.util.FontUtil
 import com.tb.library.view.TbLoadLayout
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import kotlin.system.exitProcess
 
 abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatActivity(),
-    OnRefreshLoadMoreListener {
+    OnRefreshLoadMoreListener,CoroutineScope by MainScope() {
 
     var mMode: M? = null
     lateinit var mBinding: V
@@ -249,6 +252,7 @@ abstract class TbBaseActivity<M : TbBaseModel, V : ViewDataBinding> : AppCompatA
 
     override fun onDestroy() {
         super.onDestroy()
+        cancel()
         mMode?.apply {
             dropView()
             lifecycle.removeObserver(this)

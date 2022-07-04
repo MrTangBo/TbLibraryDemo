@@ -130,7 +130,7 @@ inline fun ImageView?.tbImageLongPress(
     val act: WeakReference<AppCompatActivity> = WeakReference(activity)
     val mGestureDetector =
         GestureDetector(activity, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onLongPress(e: MotionEvent?) {
+            override fun onLongPress(e: MotionEvent) {
                 val pop = TbPopupWindow(activity, R.layout.tb_pop_save_image)
                 val bind: TbPopSaveImageBinding = pop.popBaseBind as TbPopSaveImageBinding
                 bind.saveImage.setOnClickListener {
@@ -174,7 +174,7 @@ inline fun ImageView?.tbImageLongPress(
             }
 
             /*单击*/
-            override fun onSingleTapUp(e: MotionEvent?): Boolean {
+            override fun onSingleTapUp(e: MotionEvent): Boolean {
                 clickImg.invoke()
                 return super.onSingleTapUp(e)
             }
