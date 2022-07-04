@@ -3,15 +3,7 @@ package com.tb.tblibrarydemo
 import android.app.Application
 import com.tb.library.base.TbApplication
 import com.tb.library.base.TbConfig
-import com.tb.library.tbExtend.tb2Json
-import com.tb.library.util.TbLogUtils
-import com.tb.tblibrarydemo.koin.KoinModule.baseModule
 import okhttp3.Interceptor
-import org.koin.android.ext.koin.androidContext
-import org.koin.android.ext.koin.androidFileProperties
-import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
-import java.util.prefs.Preferences
 
 
 /**
