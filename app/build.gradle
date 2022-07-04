@@ -70,9 +70,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    implementation project(":tblibrary")
+//    implementation project(":tblibrary")
 
-//    implementation 'com.tb.library:library:3.5.0'
+    implementation 'com.github.MrTangBo:TbLibraryDemo:v1.0.0'
 
 
     implementation "org.koin:koin-core:2.1.5"
