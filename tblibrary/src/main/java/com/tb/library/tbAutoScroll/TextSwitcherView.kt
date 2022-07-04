@@ -68,7 +68,7 @@ class TextSwitcherView(context: Context, attrs: AttributeSet?) : ViewSwitcher(co
         private class SwitchHandler(view: TextSwitcherView) : Handler() {
             val view: WeakReference<TextSwitcherView> = WeakReference(view)
 
-            override fun handleMessage(msg: Message?) {
+            override fun handleMessage(msg: Message) {
                 super.handleMessage(msg)
                 view.get()?.showNextView()
             }

@@ -12,13 +12,29 @@ import com.tencent.mmkv.MMKV
  * @Description: TODO
  * @Author: TangBo
  */
+
 object TbApplication {
     lateinit var mApplicationContext: Context
 
-    fun init(context: Application) {
+    /**
+     *
+     * @param context Application
+     * @param isOpenARouterDebug Boolean 是否开启ARouter的Debug模式
+     * @param isEnableARouter Boolean 是否开启ARouter
+     */
+
+    fun init(
+        context: Application,
+        isOpenARouterDebug: Boolean = true,
+        isEnableARouter: Boolean = false
+    ) {
         mApplicationContext = context.applicationContext
-        ARouter.openDebug()
-        ARouter.init(context);
+        if (isEnableARouter) {
+            ARouter.init(context)
+            if (isOpenARouterDebug) {
+                ARouter.openDebug()
+            }
+        }
         MMKV.initialize(context)
         initInternetReceiver()
     }

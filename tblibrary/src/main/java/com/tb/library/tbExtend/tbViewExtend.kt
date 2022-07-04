@@ -680,7 +680,10 @@ inline fun WebView.init(
 
     /*js调用Android*/
     js2AndroidNames.forEach {
-        addJavascriptInterface(js2Android, it)
+        js2Android?.apply {
+            addJavascriptInterface(this, it)
+        }
+
     }
     /*Android调用js*/
     if (android2Js.isNotEmpty()) {
