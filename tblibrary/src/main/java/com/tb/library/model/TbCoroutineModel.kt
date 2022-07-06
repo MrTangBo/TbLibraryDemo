@@ -85,7 +85,7 @@ open class TbCoroutineModel : TbBaseModel() {
                     mErrorCodeEvent.invoke(TbConfig.ERROR_JSON, tbGetResString(R.string.json_error), taskId)
                 }
                 else -> {
-                    mErrorCodeEvent.invoke(TbConfig.ERROR_UNKNOWN, tbGetResString(R.string.other_error), taskId)
+                    mErrorCodeEvent.invoke(TbConfig.ERROR_UNKNOWN,e.message ?: tbGetResString(R.string.other_error), taskId)
                 }
             }
             TbLogUtils.log("error---->${e.tb2Json()}")
