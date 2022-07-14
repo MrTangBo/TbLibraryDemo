@@ -74,32 +74,35 @@ fun Any.tbCleanShared() {
     tBMMKV_C.clear()
 }
 
-private var mToast: Toast? = null
+private var mToastTime: Long = 0
+private var mOldMsg: String = ""
 
 /*扩展Toast土司*/
 fun Any.tbShowToast(
     msg: CharSequence,
     gravity: Int = Gravity.BOTTOM,
     @DrawableRes background: Int = TbConfig.getInstance().toastBg,
-    @LayoutRes layoutId: Int = TbConfig.getInstance().toastLayoutId
+    @LayoutRes layoutId: Int = TbConfig.getInstance().toastLayoutId,
+    duration: Int = Toast.LENGTH_SHORT,
+    interval: Int = 2000
 ) {
-    if (mToast == null) {
-        mToast = Toast(TbApplication.mApplicationContext)
-        val view = LayoutInflater.from(TbApplication.mApplicationContext).inflate(layoutId, null)
-        val toastBackground = view.findViewById<LinearLayout>(R.id.toastLinear)
-        toastBackground.background =
-            ContextCompat.getDrawable(TbApplication.mApplicationContext, background)
-        val textView = view.findViewById<TextView>(R.id.toast_text)
-        textView.text = msg
-        mToast?.duration = Toast.LENGTH_SHORT
-        mToast?.setGravity(gravity, 0, tbGetDimensValue(R.dimen.x80))
-        mToast?.view = view
-    } else {
-        val textView = mToast?.view?.findViewById<TextView>(R.id.toast_text)
-        textView?.text = msg
+    if ((System.currentTimeMillis() - mToastTime) < interval && mOldMsg == msg.toString()) {
+        mToastTime = System.currentTimeMillis()
+        return
     }
-    mToast?.show()
-
+    val mToast = Toast(TbApplication.mApplicationContext)
+    val view = LayoutInflater.from(TbApplication.mApplicationContext).inflate(layoutId, null)
+    val toastBackground = view.findViewById<LinearLayout>(R.id.toastLinear)
+    toastBackground.background =
+        ContextCompat.getDrawable(TbApplication.mApplicationContext, background)
+    val textView = view.findViewById<TextView>(R.id.toast_text)
+    textView.text = msg
+    mToast.duration = duration
+    mToast.setGravity(gravity, 0, tbGetDimensValue(R.dimen.x80))
+    mToast.view = view
+    mToast.show()
+    mToastTime = System.currentTimeMillis()
+    mOldMsg = msg.toString()
 }
 
 /* 添加activity*/
