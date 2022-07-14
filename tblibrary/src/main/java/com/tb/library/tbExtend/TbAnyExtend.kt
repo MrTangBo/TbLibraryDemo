@@ -74,6 +74,8 @@ fun Any.tbCleanShared() {
     tBMMKV_C.clear()
 }
 
+private var mToast: Toast? = null
+
 /*扩展Toast土司*/
 fun Any.tbShowToast(
     msg: CharSequence,
@@ -81,17 +83,23 @@ fun Any.tbShowToast(
     @DrawableRes background: Int = TbConfig.getInstance().toastBg,
     @LayoutRes layoutId: Int = TbConfig.getInstance().toastLayoutId
 ) {
-    val mToast = Toast(TbApplication.mApplicationContext)
-    val view = LayoutInflater.from(TbApplication.mApplicationContext).inflate(layoutId, null)
-    val toastBackground = view.findViewById<LinearLayout>(R.id.toastLinear)
-    toastBackground.background =
-        ContextCompat.getDrawable(TbApplication.mApplicationContext, background)
-    val textView = view.findViewById<TextView>(R.id.toast_text)
-    textView.text = msg
-    mToast.duration = Toast.LENGTH_SHORT
-    mToast.setGravity(gravity, 0, tbGetDimensValue(R.dimen.x80))
-    mToast.view = view
-    mToast.show()
+    if (mToast == null) {
+        mToast = Toast(TbApplication.mApplicationContext)
+        val view = LayoutInflater.from(TbApplication.mApplicationContext).inflate(layoutId, null)
+        val toastBackground = view.findViewById<LinearLayout>(R.id.toastLinear)
+        toastBackground.background =
+            ContextCompat.getDrawable(TbApplication.mApplicationContext, background)
+        val textView = view.findViewById<TextView>(R.id.toast_text)
+        textView.text = msg
+        mToast?.duration = Toast.LENGTH_SHORT
+        mToast?.setGravity(gravity, 0, tbGetDimensValue(R.dimen.x80))
+        mToast?.view = view
+    } else {
+        val textView = mToast?.view?.findViewById<TextView>(R.id.toast_text)
+        textView?.text = msg
+    }
+    mToast?.show()
+
 }
 
 /* 添加activity*/
