@@ -18,6 +18,9 @@ import retrofit2.converter.gson.GsonConverterFactory
  */
 class RetrofitApi {
 
+    var  mRetrofit :Any?=null
+    var  mBaseUrl:String =""
+
     companion object {
         fun getInstance() = Holder.instance
     }
@@ -30,12 +33,16 @@ class RetrofitApi {
         converterFactory: Converter.Factory = GsonConverterFactory.create(GsonUtil.getInstance().mGson),
         baseUrl: String = TbConfig.getInstance().baseUrl
     ): T {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .client(TbConfig.getInstance().okHttpClient.build())
-            .addConverterFactory(converterFactory)
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-        return retrofit.create(T::class.java)
+        if (mRetrofit==null||mBaseUrl!=baseUrl){
+            mBaseUrl =baseUrl
+            val retrofit = Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(TbConfig.getInstance().okHttpClient.build())
+                .addConverterFactory(converterFactory)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+            mRetrofit =retrofit.create(T::class.java)
+        }
+        return mRetrofit as T
     }
 }
