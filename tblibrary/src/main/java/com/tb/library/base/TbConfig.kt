@@ -6,6 +6,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.tb.library.R
+import com.tb.library.util.TbLogUtils
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import java.net.Proxy
@@ -100,9 +101,9 @@ class TbConfig {
     var clickDelayTime: Long = 800 //连点间隔
 
     var supportLanguages = mutableMapOf<String, Locale>().apply {
-        this["en"] =Locale.ENGLISH
-        this["zh"] =Locale.SIMPLIFIED_CHINESE
-        this["ja"] =Locale.ENGLISH
+        this["en"] = Locale.ENGLISH
+        this["zh"] = Locale.SIMPLIFIED_CHINESE
+        this["ja"] = Locale.ENGLISH
     }
 
     /**
@@ -143,14 +144,12 @@ class TbConfig {
                 baseMultiUrl.forEach { urlMap ->
                     request.header(urlMap.key)?.let {
                         builder.removeHeader(urlMap.key)
-                        HttpUrl.parse(urlMap.value)?.apply {
-                            val newUrl = oldUrl.newBuilder()
-                                .scheme(scheme())////更换网络协议
-                                .host(host())//更换主机名
-                                .port(port())//更换端口
-                                .build()
-                            return@Interceptor chain.proceed(builder.url(newUrl).build())
+                        val newUrl: HttpUrl? = if (urlMap.value.endsWith("/")) {
+                            HttpUrl.parse("${urlMap.value}${oldUrl.encodedPathSegments().joinToString("/")}")
+                        } else {
+                            HttpUrl.parse("${urlMap.value}/${oldUrl.encodedPathSegments().joinToString("/")}")
                         }
+                        return@Interceptor chain.proceed(builder.url(newUrl!!).build())
                     }
                 }
             }
