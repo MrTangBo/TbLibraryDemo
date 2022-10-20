@@ -144,10 +144,17 @@ class TbConfig {
                 baseMultiUrl.forEach { urlMap ->
                     request.header(urlMap.key)?.let {
                         builder.removeHeader(urlMap.key)
+                        val tempBaseUrl = HttpUrl.parse(baseUrl)!!
+                        val  count =tempBaseUrl.encodedPathSegments().size
+                        val newPathSegments =if(count>1){
+                            oldUrl.encodedPathSegments().subList(count-1,oldUrl.encodedPathSegments().size)
+                        }else{
+                            oldUrl.encodedPathSegments()
+                        }
                         val newUrl: HttpUrl? = if (urlMap.value.endsWith("/")) {
-                            HttpUrl.parse("${urlMap.value}${oldUrl.encodedPathSegments().joinToString("/")}")
+                            HttpUrl.parse("${urlMap.value}${newPathSegments.joinToString("/")}")
                         } else {
-                            HttpUrl.parse("${urlMap.value}/${oldUrl.encodedPathSegments().joinToString("/")}")
+                            HttpUrl.parse("${urlMap.value}/${newPathSegments.joinToString("/")}")
                         }
                         return@Interceptor chain.proceed(builder.url(newUrl!!).build())
                     }
