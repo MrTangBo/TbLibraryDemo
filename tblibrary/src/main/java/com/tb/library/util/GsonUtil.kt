@@ -48,8 +48,7 @@ class GsonUtil {
                         //获取底层实例
                         val tokenType: Type = type.type
                         //获取此集合内的元素类型
-                        val elementType: Type =
-                            `$Gson$Types`.getCollectionElementType(tokenType, type.rawType)
+                        val elementType: Type = `$Gson$Types`.getCollectionElementType(tokenType, type.rawType)
                         //生成该元素类型的TypeAdapter
                         val elementTypeAdapter = gson.getAdapter(TypeToken.get(elementType))
                         CollectionTypeAdapter(elementTypeAdapter, type) as TypeAdapter<T>
@@ -74,13 +73,7 @@ class GsonUtil {
 class CustomTypeAdapter<T>(var clazz: Class<T>) : TypeAdapter<T>() {
     override fun write(writer: JsonWriter, value: T?) {
         if (value == null || value == "null") {
-            when (clazz) {
-                String::class.java -> writer.value("")
-                Int::class.java -> writer.value(0)
-                Float::class.java -> writer.value(0f)
-                Long::class.java -> writer.value(0L)
-                Boolean::class.java -> writer.value(false)
-            }
+            writer.nullValue()
         } else {
             when (clazz) {
                 String::class.java -> writer.value(value.toString())
@@ -102,7 +95,7 @@ class CustomTypeAdapter<T>(var clazz: Class<T>) : TypeAdapter<T>() {
                     Float::class.java -> 0F as T
                     Long::class.java -> 0L as T
                     Boolean::class.java -> false as T
-                    else -> null as T
+                    else -> Any() as T
                 }
             }
             else -> {
